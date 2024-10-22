@@ -1,0 +1,3 @@
+table:
+  name: pacsfiles_pacsfile
+  schema: public
