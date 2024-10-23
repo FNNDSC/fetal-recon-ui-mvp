@@ -15,7 +15,7 @@
     "minichris:down": "cd testing/miniChRIS && ./unmake.sh",
     "minichris:full": "cd testing/miniChRIS && ./minichris.sh && docker compose --profile hasura --profile pacs up -d",
     "setup": "bun run minichris:up && bun run setup:scripts",
-    "setup:scripts": "bun run download-dicoms && bun run add-pipeline",
+    "setup:scripts": "bun run setup:download-dicoms && bun run setup:add-pipeline",
     "setup:add-pipeline": "bun run testing/addPipeline.mjs",
     "setup:download-dicoms": "bun run testing/downloadData.mjs",
     "setup:hasura": "hasura metadata apply --project testing/hasura"
