@@ -4,7 +4,7 @@ import TilingWm from "$lib/TilingWm.svelte";
 import Scaffold from "$lib/Scaffold.svelte";
 import TopBar from "$lib/TopBar.svelte";
 
-let bigTile: "niivue" | "datatable" = $state("niivue");
+let bigTile: "niivue" | "datatable" = $state("datatable");
 
 function toggleBigTile() {
   if (bigTile === "niivue") {
@@ -20,15 +20,15 @@ function toggleBigTile() {
     <TopBar bigTile={bigTile} toggleBig={toggleBigTile} ctrlHotkey="0" />
   {/snippet}
   {#snippet main()}
-    <TilingWm big={bigTile === "niivue" ? "a" : "b"}>
+    <TilingWm order={bigTile === "niivue" ? ['a', 'b', 'c'] : ['c', 'b', 'a']}>
       {#snippet a()}
-        NiiVue component
+        Recon NiiVue
       {/snippet}
       {#snippet b()}
-        Data table
+        Stacks NiiVue
       {/snippet}
       {#snippet c()}
-        Fun statistics
+        Data table
       {/snippet}
     </TilingWm>
   {/snippet}
