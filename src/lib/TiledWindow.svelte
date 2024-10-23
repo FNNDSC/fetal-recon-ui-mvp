@@ -41,11 +41,12 @@ function toggleMaximize() {
   <div class="relative">
     {@render children()}
     {#if onMaximize}
-      {@const color = `bg-${maximized ? 'yellow-400' : 'green-500'}`}
+      {@const color = maximized ? 'bg-yellow-400' : 'bg-green-500'}
+      {@const hoverColor = maximized ? 'hover:bg-yellow-400 dark:hover:bg-yellow-400' : 'hover:bg-green-500 dark:hover:bg-green-500'}
       {@const grey = 'bg-gray-200 dark:bg-zinc-800'}
       <button
         onclick={toggleMaximize}
-        class="size-3 rounded-full absolute top-2 right-2 {ctrlKeyDown ? color : grey} dark:hover:{color}"
+        class="size-3 rounded-full absolute top-2 right-2 {ctrlKeyDown ? color : grey} {hoverColor}"
         aria-label="maximize"
       ></button>
     {/if}
