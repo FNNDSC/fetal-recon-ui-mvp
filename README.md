@@ -1,5 +1,8 @@
 # Fetal Reconstruction UI MVP
 
+An experimental GUI for the
+[DSC fetal brain MRI reconstruction pipeline](https://github.com/FNNDSC/Fetal_Brain_MRI_Reconstruction_Pipeline).
+
 ## Development
 
 ### Prerequisites
