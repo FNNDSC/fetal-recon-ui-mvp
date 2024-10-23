@@ -22,27 +22,27 @@ const URL = "http://localhost:8000/api/v1/";
 
 const headers = {
   Authorization: `Basic ${Buffer.from("chris:chris1234").toString("base64")}`,
-  Accept: "application/json"
+  Accept: "application/json",
 };
 
 const qs = new URLSearchParams(SEARCH).toString();
-const pipelinesReq = await fetch(`${URL}pipelines/search/?${qs}`, {headers});
+const pipelinesReq = await fetch(`${URL}pipelines/search/?${qs}`, { headers });
 if (!pipelinesReq.ok) {
   throw new Error(pipelinesReq.statusText);
 }
 const pipelines = await pipelinesReq.json();
 if (pipelines.count === 0) {
   const formData = new FormData();
-  const blob = new Blob([PIPELINE_CONTENT], {type: "application/yaml"});
+  const blob = new Blob([PIPELINE_CONTENT], { type: "application/yaml" });
   formData.set("fname", blob, "DummyPipeline.yaml");
   formData.set("type", "yaml");
   const res = await fetch(`${URL}pipelines/sourcefiles/`, {
-    method: 'POST',
+    method: "POST",
     body: formData,
-    headers
+    headers,
   });
   const pipeline = await res.json();
   console.log(pipeline.url);
 } else {
-  console.log('already exists');
+  console.log("already exists");
 }
