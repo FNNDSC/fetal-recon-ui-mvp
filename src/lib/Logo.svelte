@@ -1,16 +1,8 @@
 <div>
-  <span class="self-center whitespace-nowrap text-xl text-zinc-800 dark:text-zinc-100">
+  <span class="self-center whitespace-nowrap text-xl text-zinc-800 dark:text-zinc-100 relative">
     Fetal Reconstruction
-  </span>
-  <span class="font-light text-xs subtitle">
-    Powered by <em class="font-semibold">ChRIS</em>
+    <div class="font-light text-xs absolute top-7 right-0">
+      Powered by <em class="font-semibold">ChRIS</em>
+    </div>
   </span>
 </div>
-
-<style>
-.subtitle {
-  position: relative;
-  right: 8em;
-  top: 1.5em;
-}
-</style>
