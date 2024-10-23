@@ -13,6 +13,7 @@
     "wipe": "./testing/miniChRIS/scripts/clear_pacsfiles.sh",
     "minichris:up": "cd testing/miniChRIS && ./minichris.sh chris db oxidicom graphql-engine",
     "minichris:down": "cd testing/miniChRIS && ./unmake.sh",
+    "minichris:full": "cd testing/miniChRIS && ./minichris.sh && docker compose --profile hasura --profile pacs up -d",
     "setup": "bun run minichris:up && bun run setup:scripts",
     "setup:scripts": "bun run download-dicoms && bun run add-pipeline",
     "setup:add-pipeline": "bun run testing/addPipeline.mjs",
