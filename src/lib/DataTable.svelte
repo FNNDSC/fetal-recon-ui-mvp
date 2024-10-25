@@ -61,7 +61,7 @@ $effect(() => {
       paddingDefault="p-2"
       bind:open={state.open}
     >
-      <div slot="header" class="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-1">
+      <div slot="header" class="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-1 size-full">
         {@render studyInfo("MRN", study.PatientID)}
         {@render studyInfo("AccessionNumber", study.AccessionNumber || "unknown")}
         {@render studyInfo("Study Date", study.StudyDate ? format(study.StudyDate, "yyyy MMM dd") : "unknown")}
