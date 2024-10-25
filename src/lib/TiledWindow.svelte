@@ -39,7 +39,6 @@ function toggleMaximize() {
   class={`outline outline-2 outline-gray-200 dark:outline-gray-700 rounded-md shadow ${klass}`}
 >
   <div class="relative">
-    {@render children()}
     {#if onMaximize}
       {@const color = maximized ? 'bg-yellow-400' : 'bg-green-500'}
       {@const hoverColor = maximized ? 'hover:bg-yellow-400 dark:hover:bg-yellow-400' : 'hover:bg-green-500 dark:hover:bg-green-500'}
@@ -60,4 +59,5 @@ function toggleMaximize() {
       </div>
     {/if}
   </div>
+  {@render children()}
 </div>
