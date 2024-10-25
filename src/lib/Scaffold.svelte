@@ -9,7 +9,7 @@ const { topBar, main }: { [key: string]: Snippet } = $props();
     {@render topBar()}
   </div>
   <div class="flex-2 h-full">
-    <main class="p-3 h-full">
+    <main class="h-full">
       {@render main()}
     </main>
   </div>

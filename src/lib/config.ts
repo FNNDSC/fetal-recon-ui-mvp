@@ -13,6 +13,7 @@ const CONTACT_MATRIX =
   env.CHRIS_CONTACT_MATRIX ?? "https://matrix.to/#/#chris-general:fedora.im";
 
 // WARNING! THIS PROJECT IS JUST A MVP, SO WE WILL HAVE SECRETS IN CLIENT-SIDE CODE!!!
+const CHRIS_URL = getRequired("CHRIS_URL");
 const CHRIS_USERNAME = getRequired("CHRIS_USERNAME");
 const CHRIS_PASSWORD = getRequired("CHRIS_PASSWORD");
 const CHRIS_GRAPHQL = getRequired("CHRIS_GRAPHQL");
@@ -29,6 +30,7 @@ function getRequired(name: keyof typeof env): string {
 
 export {
   CHRIS_UI,
+  CHRIS_URL,
   CONTACT_NAME,
   CONTACT_EMAIL,
   CONTACT_MATRIX,

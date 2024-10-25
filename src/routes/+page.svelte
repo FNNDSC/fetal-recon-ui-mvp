@@ -22,17 +22,19 @@ function toggleBigTile() {
     <TopBar bigTile={bigTile} toggleBig={toggleBigTile} ctrlHotkey="0" />
   {/snippet}
   {#snippet main()}
-    <TilingWm order={bigTile === "niivue" ? ['a', 'b', 'c'] : ['c', 'b', 'a']}>
-      {#snippet a()}
-        <ReconPanel />
-      {/snippet}
-      {#snippet b()}
-        Stacks NiiVue
-      {/snippet}
-      {#snippet c()}
-        <DataPanel />
-      {/snippet}
-    </TilingWm>
+    <div class="p-2 size-full">
+      <TilingWm order={bigTile === "niivue" ? ['a', 'b', 'c'] : ['c', 'b', 'a']} class="p-2">
+        {#snippet a()}
+          <ReconPanel />
+        {/snippet}
+        {#snippet b()}
+          Stacks NiiVue
+        {/snippet}
+        {#snippet c()}
+          <DataPanel />
+        {/snippet}
+      </TilingWm>
+    </div>
   {/snippet}
 </Scaffold>
 

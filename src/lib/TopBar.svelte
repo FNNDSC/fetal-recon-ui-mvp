@@ -14,6 +14,7 @@ import { CHRIS_UI } from "$lib/config";
 import About from "$lib/About.svelte";
 import { BrainSolid, TableColumnOutline } from "flowbite-svelte-icons";
 import hotkeys from "$lib/ctrlHotkey.svelte";
+import { feed } from "$lib/feedState.svelte";
 
 let showAbout = $state(false);
 
@@ -27,6 +28,13 @@ let { bigTile, toggleBig, ctrlHotkey }: Props = $props();
 let hk = hotkeys(ctrlHotkey, toggleBig);
 let { onkeydown, onkeyup } = hk;
 let ctrlKeyDown = $derived(hk.ctrlKeyDown);
+
+let url = $derived.by(() => {
+  if (feed.current !== null && typeof feed.current === "object") {
+    return `${CHRIS_UI}/feeds/${feed.current.id}?type=public`;
+  }
+  return CHRIS_UI;
+});
 </script>
 
 <svelte:window {onkeydown} {onkeyup} />
@@ -48,7 +56,7 @@ let ctrlKeyDown = $derived(hk.ctrlKeyDown);
     >
       About
     </NavLi>
-    <NavLi href={CHRIS_UI}>
+    <NavLi href={url}>
       Back to <em>ChRIS</em>
     </NavLi>
     <NavLi>

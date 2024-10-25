@@ -3,7 +3,7 @@ import TiledWindow from "$lib/TiledWindow.svelte";
 import type { Snippet } from "svelte";
 
 type OrderList = ["a" | "b" | "c", "a" | "b" | "c", "a" | "b" | "c"];
-type Props = {
+type Props = {[key: string]: string} & {
   a: Snippet;
   b: Snippet;
   c: Snippet;

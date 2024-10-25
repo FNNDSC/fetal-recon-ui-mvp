@@ -15,6 +15,11 @@ const config = {
         return val ? new Date(val) : null;
       },
     },
+    bigint: {
+      type: "number",
+      unmarshal: parseInt,
+      // marshal: (i) => i
+    },
   },
 };
 

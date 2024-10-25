@@ -1,4 +1,4 @@
-query NeuroFetalMrStudies @load {
+query NeuroFetalMrStudies {
   pacsfiles_pacsfile(
     limit: 100
     distinct_on: StudyInstanceUID
@@ -17,5 +17,6 @@ query NeuroFetalMrStudies @load {
     StudyDate
     StudyInstanceUID
     StudyDescription
+    pacs_id
   }
 }
