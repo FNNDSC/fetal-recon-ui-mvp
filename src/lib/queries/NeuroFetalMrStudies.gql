@@ -1,0 +1,21 @@
+query NeuroFetalMrStudies @load {
+  pacsfiles_pacsfile(
+    limit: 100
+    distinct_on: StudyInstanceUID
+    where: {
+      _and: [
+        { Modality: { _eq: "MR" } }
+        { SeriesDescription: { _ilike: "%T2%" } }
+        { SeriesDescription: { _iregex: "(cervix)|(uterus)" } }
+        { StudyDescription: { _ilike: "%Neuro%" } }
+      ]
+    }
+  ) @paginate {
+    PatientID
+    PatientName
+    AccessionNumber
+    StudyDate
+    StudyInstanceUID
+    StudyDescription
+  }
+}

@@ -1,0 +1,786 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+
+  """measured in seconds"""
+  ttl: Int! = 60
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
+"""ordering argument of a cursor"""
+enum cursor_ordering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
+scalar date
+
+"""
+Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'.
+"""
+input date_comparison_exp {
+  _eq: date
+  _gt: date
+  _gte: date
+  _in: [date!]
+  _is_null: Boolean
+  _lt: date
+  _lte: date
+  _neq: date
+  _nin: [date!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "pacsfiles_pacsfile"
+  """
+  delete_pacsfiles_pacsfile(
+    """filter the rows which have to be deleted"""
+    where: pacsfiles_pacsfile_bool_exp!
+  ): pacsfiles_pacsfile_mutation_response
+
+  """
+  delete single row from the table: "pacsfiles_pacsfile"
+  """
+  delete_pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
+
+  """
+  insert data into the table: "pacsfiles_pacsfile"
+  """
+  insert_pacsfiles_pacsfile(
+    """the rows to be inserted"""
+    objects: [pacsfiles_pacsfile_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: pacsfiles_pacsfile_on_conflict
+  ): pacsfiles_pacsfile_mutation_response
+
+  """
+  insert a single row into the table: "pacsfiles_pacsfile"
+  """
+  insert_pacsfiles_pacsfile_one(
+    """the row to be inserted"""
+    object: pacsfiles_pacsfile_insert_input!
+
+    """upsert condition"""
+    on_conflict: pacsfiles_pacsfile_on_conflict
+  ): pacsfiles_pacsfile
+
+  """
+  update data of the table: "pacsfiles_pacsfile"
+  """
+  update_pacsfiles_pacsfile(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pacsfiles_pacsfile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pacsfiles_pacsfile_set_input
+
+    """filter the rows which have to be updated"""
+    where: pacsfiles_pacsfile_bool_exp!
+  ): pacsfiles_pacsfile_mutation_response
+
+  """
+  update single row of the table: "pacsfiles_pacsfile"
+  """
+  update_pacsfiles_pacsfile_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pacsfiles_pacsfile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pacsfiles_pacsfile_set_input
+    pk_columns: pacsfiles_pacsfile_pk_columns_input!
+  ): pacsfiles_pacsfile
+
+  """
+  update multiples rows of table: "pacsfiles_pacsfile"
+  """
+  update_pacsfiles_pacsfile_many(
+    """updates to execute, in order"""
+    updates: [pacsfiles_pacsfile_updates!]!
+  ): [pacsfiles_pacsfile_mutation_response]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "pacsfiles_pacsfile"
+"""
+type pacsfiles_pacsfile {
+  AccessionNumber: String!
+  Modality: String!
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String!
+  PatientName: String!
+  PatientSex: String!
+  ProtocolName: String!
+  SeriesDescription: String!
+  SeriesInstanceUID: String!
+  StudyDate: date!
+  StudyDescription: String!
+  StudyInstanceUID: String!
+  creation_date: timestamptz!
+  fname: String!
+  id: bigint!
+  pacs_id: bigint!
+}
+
+"""
+aggregated selection of "pacsfiles_pacsfile"
+"""
+type pacsfiles_pacsfile_aggregate {
+  aggregate: pacsfiles_pacsfile_aggregate_fields
+  nodes: [pacsfiles_pacsfile!]!
+}
+
+"""
+aggregate fields of "pacsfiles_pacsfile"
+"""
+type pacsfiles_pacsfile_aggregate_fields {
+  avg: pacsfiles_pacsfile_avg_fields
+  count(columns: [pacsfiles_pacsfile_select_column!], distinct: Boolean): Int!
+  max: pacsfiles_pacsfile_max_fields
+  min: pacsfiles_pacsfile_min_fields
+  stddev: pacsfiles_pacsfile_stddev_fields
+  stddev_pop: pacsfiles_pacsfile_stddev_pop_fields
+  stddev_samp: pacsfiles_pacsfile_stddev_samp_fields
+  sum: pacsfiles_pacsfile_sum_fields
+  var_pop: pacsfiles_pacsfile_var_pop_fields
+  var_samp: pacsfiles_pacsfile_var_samp_fields
+  variance: pacsfiles_pacsfile_variance_fields
+}
+
+"""aggregate avg on columns"""
+type pacsfiles_pacsfile_avg_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "pacsfiles_pacsfile". All fields are combined with a logical 'AND'.
+"""
+input pacsfiles_pacsfile_bool_exp {
+  AccessionNumber: String_comparison_exp
+  Modality: String_comparison_exp
+  PatientAge: Int_comparison_exp
+  PatientBirthDate: date_comparison_exp
+  PatientID: String_comparison_exp
+  PatientName: String_comparison_exp
+  PatientSex: String_comparison_exp
+  ProtocolName: String_comparison_exp
+  SeriesDescription: String_comparison_exp
+  SeriesInstanceUID: String_comparison_exp
+  StudyDate: date_comparison_exp
+  StudyDescription: String_comparison_exp
+  StudyInstanceUID: String_comparison_exp
+  _and: [pacsfiles_pacsfile_bool_exp!]
+  _not: pacsfiles_pacsfile_bool_exp
+  _or: [pacsfiles_pacsfile_bool_exp!]
+  creation_date: timestamptz_comparison_exp
+  fname: String_comparison_exp
+  id: bigint_comparison_exp
+  pacs_id: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "pacsfiles_pacsfile"
+"""
+enum pacsfiles_pacsfile_constraint {
+  """
+  unique or primary key constraint on columns "fname"
+  """
+  pacsfiles_pacsfile_fname_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  pacsfiles_pacsfile_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "pacsfiles_pacsfile"
+"""
+input pacsfiles_pacsfile_inc_input {
+  PatientAge: Int
+  id: bigint
+  pacs_id: bigint
+}
+
+"""
+input type for inserting data into table "pacsfiles_pacsfile"
+"""
+input pacsfiles_pacsfile_insert_input {
+  AccessionNumber: String
+  Modality: String
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String
+  PatientName: String
+  PatientSex: String
+  ProtocolName: String
+  SeriesDescription: String
+  SeriesInstanceUID: String
+  StudyDate: date
+  StudyDescription: String
+  StudyInstanceUID: String
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  pacs_id: bigint
+}
+
+"""aggregate max on columns"""
+type pacsfiles_pacsfile_max_fields {
+  AccessionNumber: String
+  Modality: String
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String
+  PatientName: String
+  PatientSex: String
+  ProtocolName: String
+  SeriesDescription: String
+  SeriesInstanceUID: String
+  StudyDate: date
+  StudyDescription: String
+  StudyInstanceUID: String
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  pacs_id: bigint
+}
+
+"""aggregate min on columns"""
+type pacsfiles_pacsfile_min_fields {
+  AccessionNumber: String
+  Modality: String
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String
+  PatientName: String
+  PatientSex: String
+  ProtocolName: String
+  SeriesDescription: String
+  SeriesInstanceUID: String
+  StudyDate: date
+  StudyDescription: String
+  StudyInstanceUID: String
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  pacs_id: bigint
+}
+
+"""
+response of any mutation on the table "pacsfiles_pacsfile"
+"""
+type pacsfiles_pacsfile_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [pacsfiles_pacsfile!]!
+}
+
+"""
+on_conflict condition type for table "pacsfiles_pacsfile"
+"""
+input pacsfiles_pacsfile_on_conflict {
+  constraint: pacsfiles_pacsfile_constraint!
+  update_columns: [pacsfiles_pacsfile_update_column!]! = []
+  where: pacsfiles_pacsfile_bool_exp
+}
+
+"""Ordering options when selecting data from "pacsfiles_pacsfile"."""
+input pacsfiles_pacsfile_order_by {
+  AccessionNumber: order_by
+  Modality: order_by
+  PatientAge: order_by
+  PatientBirthDate: order_by
+  PatientID: order_by
+  PatientName: order_by
+  PatientSex: order_by
+  ProtocolName: order_by
+  SeriesDescription: order_by
+  SeriesInstanceUID: order_by
+  StudyDate: order_by
+  StudyDescription: order_by
+  StudyInstanceUID: order_by
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  pacs_id: order_by
+}
+
+"""primary key columns input for table: pacsfiles_pacsfile"""
+input pacsfiles_pacsfile_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "pacsfiles_pacsfile"
+"""
+enum pacsfiles_pacsfile_select_column {
+  """column name"""
+  AccessionNumber
+
+  """column name"""
+  Modality
+
+  """column name"""
+  PatientAge
+
+  """column name"""
+  PatientBirthDate
+
+  """column name"""
+  PatientID
+
+  """column name"""
+  PatientName
+
+  """column name"""
+  PatientSex
+
+  """column name"""
+  ProtocolName
+
+  """column name"""
+  SeriesDescription
+
+  """column name"""
+  SeriesInstanceUID
+
+  """column name"""
+  StudyDate
+
+  """column name"""
+  StudyDescription
+
+  """column name"""
+  StudyInstanceUID
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  fname
+
+  """column name"""
+  id
+
+  """column name"""
+  pacs_id
+}
+
+"""
+input type for updating data in table "pacsfiles_pacsfile"
+"""
+input pacsfiles_pacsfile_set_input {
+  AccessionNumber: String
+  Modality: String
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String
+  PatientName: String
+  PatientSex: String
+  ProtocolName: String
+  SeriesDescription: String
+  SeriesInstanceUID: String
+  StudyDate: date
+  StudyDescription: String
+  StudyInstanceUID: String
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  pacs_id: bigint
+}
+
+"""aggregate stddev on columns"""
+type pacsfiles_pacsfile_stddev_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type pacsfiles_pacsfile_stddev_pop_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type pacsfiles_pacsfile_stddev_samp_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""
+Streaming cursor of the table "pacsfiles_pacsfile"
+"""
+input pacsfiles_pacsfile_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: pacsfiles_pacsfile_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input pacsfiles_pacsfile_stream_cursor_value_input {
+  AccessionNumber: String
+  Modality: String
+  PatientAge: Int
+  PatientBirthDate: date
+  PatientID: String
+  PatientName: String
+  PatientSex: String
+  ProtocolName: String
+  SeriesDescription: String
+  SeriesInstanceUID: String
+  StudyDate: date
+  StudyDescription: String
+  StudyInstanceUID: String
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  pacs_id: bigint
+}
+
+"""aggregate sum on columns"""
+type pacsfiles_pacsfile_sum_fields {
+  PatientAge: Int
+  id: bigint
+  pacs_id: bigint
+}
+
+"""
+update columns of table "pacsfiles_pacsfile"
+"""
+enum pacsfiles_pacsfile_update_column {
+  """column name"""
+  AccessionNumber
+
+  """column name"""
+  Modality
+
+  """column name"""
+  PatientAge
+
+  """column name"""
+  PatientBirthDate
+
+  """column name"""
+  PatientID
+
+  """column name"""
+  PatientName
+
+  """column name"""
+  PatientSex
+
+  """column name"""
+  ProtocolName
+
+  """column name"""
+  SeriesDescription
+
+  """column name"""
+  SeriesInstanceUID
+
+  """column name"""
+  StudyDate
+
+  """column name"""
+  StudyDescription
+
+  """column name"""
+  StudyInstanceUID
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  fname
+
+  """column name"""
+  id
+
+  """column name"""
+  pacs_id
+}
+
+input pacsfiles_pacsfile_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: pacsfiles_pacsfile_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: pacsfiles_pacsfile_set_input
+
+  """filter the rows which have to be updated"""
+  where: pacsfiles_pacsfile_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type pacsfiles_pacsfile_var_pop_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""aggregate var_samp on columns"""
+type pacsfiles_pacsfile_var_samp_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+"""aggregate variance on columns"""
+type pacsfiles_pacsfile_variance_fields {
+  PatientAge: Float
+  id: Float
+  pacs_id: Float
+}
+
+type query_root {
+  """
+  fetch data from the table: "pacsfiles_pacsfile"
+  """
+  pacsfiles_pacsfile(
+    """distinct select on columns"""
+    distinct_on: [pacsfiles_pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfiles_pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfiles_pacsfile_bool_exp
+  ): [pacsfiles_pacsfile!]!
+
+  """
+  fetch aggregated fields from the table: "pacsfiles_pacsfile"
+  """
+  pacsfiles_pacsfile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pacsfiles_pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfiles_pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfiles_pacsfile_bool_exp
+  ): pacsfiles_pacsfile_aggregate!
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
+  """
+  pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "pacsfiles_pacsfile"
+  """
+  pacsfiles_pacsfile(
+    """distinct select on columns"""
+    distinct_on: [pacsfiles_pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfiles_pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfiles_pacsfile_bool_exp
+  ): [pacsfiles_pacsfile!]!
+
+  """
+  fetch aggregated fields from the table: "pacsfiles_pacsfile"
+  """
+  pacsfiles_pacsfile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pacsfiles_pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfiles_pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfiles_pacsfile_bool_exp
+  ): pacsfiles_pacsfile_aggregate!
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
+  """
+  pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
+
+  """
+  fetch data from the table in a streaming manner: "pacsfiles_pacsfile"
+  """
+  pacsfiles_pacsfile_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [pacsfiles_pacsfile_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: pacsfiles_pacsfile_bool_exp
+  ): [pacsfiles_pacsfile!]!
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}

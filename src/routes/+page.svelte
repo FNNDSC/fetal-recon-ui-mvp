@@ -3,7 +3,7 @@ import "../app.css";
 import TilingWm from "$lib/TilingWm.svelte";
 import Scaffold from "$lib/Scaffold.svelte";
 import TopBar from "$lib/TopBar.svelte";
-import DataTable from "$lib/DataTable.svelte";
+import DataPanel from "$lib/DataPanel.svelte";
 
 let bigTile: "niivue" | "datatable" = $state("datatable");
 
@@ -29,7 +29,7 @@ function toggleBigTile() {
         Stacks NiiVue
       {/snippet}
       {#snippet c()}
-        <DataTable />
+        <DataPanel />
       {/snippet}
     </TilingWm>
   {/snippet}
