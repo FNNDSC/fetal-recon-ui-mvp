@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["testing/miniChRIS", "$houdini"]
+    "ignore": ["testing/miniChRIS", "$houdini", "schema.graphql"]
   },
   "formatter": {
     "enabled": true,
