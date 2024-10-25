@@ -1,3 +1,6 @@
 [submodule "testing/miniChRIS"]
 	path = testing/miniChRIS
 	url = https://github.com/FNNDSC/miniChRIS-docker.git
+[submodule "testing/Fetal_Brain_MRI_Reconstruction_Pipeline"]
+	path = testing/Fetal_Brain_MRI_Reconstruction_Pipeline
+	url = https://github.com/FNNDSC/Fetal_Brain_MRI_Reconstruction_Pipeline.git

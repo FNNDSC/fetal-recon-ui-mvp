@@ -1,6 +1,6 @@
-type ViewerState = {
-  stack?: string;
-  recon?: string;
-};
+import type { NeuroFetalMrStudies$result } from "$houdini";
 
-export type { ViewerState };
+type Studies = NeuroFetalMrStudies$result["pacsfiles_pacsfile"];
+type Study = Studies[0];
+
+export type { Study };

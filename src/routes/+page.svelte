@@ -4,6 +4,7 @@ import TilingWm from "$lib/TilingWm.svelte";
 import Scaffold from "$lib/Scaffold.svelte";
 import TopBar from "$lib/TopBar.svelte";
 import DataPanel from "$lib/DataPanel.svelte";
+import ReconPanel from "$lib/ReconPanel.svelte";
 
 let bigTile: "niivue" | "datatable" = $state("datatable");
 
@@ -23,7 +24,7 @@ function toggleBigTile() {
   {#snippet main()}
     <TilingWm order={bigTile === "niivue" ? ['a', 'b', 'c'] : ['c', 'b', 'a']}>
       {#snippet a()}
-        Recon NiiVue
+        <ReconPanel />
       {/snippet}
       {#snippet b()}
         Stacks NiiVue

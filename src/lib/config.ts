@@ -1,6 +1,10 @@
 import { env } from "$env/dynamic/public";
 import { dev } from "$app/environment";
 
+const PIPELINE_NAME =
+  env.CHRIS_PIPELINE_NAME ??
+  "Automatic Fetal Brain Reconstruction Pipeline v1.2.3";
+
 const CHRIS_UI = getRequired("CHRIS_UI");
 
 const CONTACT_NAME = env.CHRIS_CONTACT_NAME ?? "FNNDSC Dev Team";
@@ -32,4 +36,5 @@ export {
   CHRIS_PASSWORD,
   CHRIS_GRAPHQL,
   HASURA_AUTH,
+  PIPELINE_NAME,
 };
