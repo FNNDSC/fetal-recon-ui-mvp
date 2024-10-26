@@ -12,6 +12,7 @@ import type { Series, Study } from "$lib/types";
 import Scaffold from "$lib/Scaffold.svelte";
 import { CHRIS_URL, PIPELINE_NAME } from "$lib/config";
 import { format } from "date-fns";
+import { feed } from "$lib/feedState.svelte";
 
 const study = $derived(selected.study);
 
@@ -52,12 +53,22 @@ $effect(() => {
   })();
 });
 
-function fetchWorkflow(study: Study) {
+async function fetchWorkflow(study: Study) {
   const variables = {
     title: titleFor(study),
     pipeline: PIPELINE_NAME,
   };
-  return workflowStore.fetch({ variables, policy: "NetworkOnly" });
+  const workflows = await workflowStore.fetch({
+    variables,
+    policy: "NetworkOnly",
+  });
+  // SMELL: global state syncing
+  const feedId = workflows.data?.workflows.flatMap((w) => w.plugininstances)[0]
+    ?.feed_id;
+  if (feedId) {
+    feed.id = feedId;
+  }
+  return workflows;
 }
 
 function fetchSeries(study: Study) {
