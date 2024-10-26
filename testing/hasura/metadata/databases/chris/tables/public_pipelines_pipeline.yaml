@@ -1,0 +1,11 @@
+table:
+  name: pipelines_pipeline
+  schema: public
+array_relationships:
+  - name: workflows_workflows
+    using:
+      foreign_key_constraint_on:
+        column: pipeline_id
+        table:
+          name: workflows_workflow
+          schema: public

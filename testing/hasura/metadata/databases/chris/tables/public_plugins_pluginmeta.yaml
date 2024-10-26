@@ -1,0 +1,11 @@
+table:
+  name: plugins_pluginmeta
+  schema: public
+array_relationships:
+  - name: plugins_plugins
+    using:
+      foreign_key_constraint_on:
+        column: meta_id
+        table:
+          name: plugins_plugin
+          schema: public

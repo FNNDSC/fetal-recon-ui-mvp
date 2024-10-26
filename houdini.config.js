@@ -15,6 +15,12 @@ const config = {
         return val ? new Date(val) : null;
       },
     },
+    timestamptz: {
+      type: "Date",
+      unmarshal(val) {
+        return val ? new Date(val) : null;
+      },
+    },
     bigint: {
       type: "number",
       unmarshal: parseInt,

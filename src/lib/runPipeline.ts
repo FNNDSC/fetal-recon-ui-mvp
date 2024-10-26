@@ -29,4 +29,4 @@ function titleFor({ pacs_id, StudyInstanceUID }: Study) {
   return `fetal-recon-${pacs_id}-${StudyInstanceUID}`;
 }
 
-export default runPipeline;
+export { runPipeline, titleFor };

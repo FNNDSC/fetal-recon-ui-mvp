@@ -1,0 +1,29 @@
+query WorkflowState($title: String!) {
+  workflows: workflows_workflow(
+    limit: 1
+    where: {
+      title: {
+        _eq: $title
+      }
+    }
+  ) {
+    plugininstances: plugininstances_plugininstances {
+      files: plugininstances_plugininstancefiles(
+        where: { fname: { _ilike: "/.+\\\\/recon\\\\.nii(\\\\.gz)?$/" } }
+        limit: 1
+      ) {
+        id
+        fname
+      }
+      plugin: plugins_plugin {
+        meta: plugins_pluginmetum {
+          name
+        }
+        version
+      }
+      start_date
+      status
+      feed_id
+    }
+  }
+}

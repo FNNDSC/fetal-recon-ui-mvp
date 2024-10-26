@@ -1,0 +1,15 @@
+table:
+  name: workflows_workflow
+  schema: public
+object_relationships:
+  - name: pipelines_pipeline
+    using:
+      foreign_key_constraint_on: pipeline_id
+array_relationships:
+  - name: plugininstances_plugininstances
+    using:
+      foreign_key_constraint_on:
+        column: workflow_id
+        table:
+          name: plugininstances_plugininstance
+          schema: public

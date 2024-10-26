@@ -1,0 +1,7 @@
+table:
+  name: feeds_note
+  schema: public
+object_relationships:
+  - name: feeds_feed
+    using:
+      foreign_key_constraint_on: feed_id

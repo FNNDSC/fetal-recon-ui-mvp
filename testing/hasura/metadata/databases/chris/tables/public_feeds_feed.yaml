@@ -1,0 +1,19 @@
+table:
+  name: feeds_feed
+  schema: public
+object_relationships:
+  - name: feeds_note
+    using:
+      foreign_key_constraint_on:
+        column: feed_id
+        table:
+          name: feeds_note
+          schema: public
+array_relationships:
+  - name: plugininstances_plugininstances
+    using:
+      foreign_key_constraint_on:
+        column: feed_id
+        table:
+          name: plugininstances_plugininstance
+          schema: public

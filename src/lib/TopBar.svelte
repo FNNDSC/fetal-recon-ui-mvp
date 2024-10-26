@@ -14,7 +14,7 @@ import { CHRIS_UI } from "$lib/config";
 import About from "$lib/About.svelte";
 import { BrainSolid, TableColumnOutline } from "flowbite-svelte-icons";
 import hotkeys from "$lib/ctrlHotkey.svelte";
-import { feed } from "$lib/feedState.svelte";
+import {WorkflowStateStore} from "$houdini";
 
 let showAbout = $state(false);
 
@@ -29,11 +29,11 @@ let hk = hotkeys(ctrlHotkey, toggleBig);
 let { onkeydown, onkeyup } = hk;
 let ctrlKeyDown = $derived(hk.ctrlKeyDown);
 
+const workflowStore = new WorkflowStateStore();
+
 let url = $derived.by(() => {
-  if (feed.current !== null && typeof feed.current === "object") {
-    return `${CHRIS_UI}/feeds/${feed.current.id}?type=public`;
-  }
-  return CHRIS_UI;
+  const id = $workflowStore.data?.workflows[0]?.plugininstances[0]?.feed_id;
+  return id ? `${CHRIS_UI}/feeds/${id}?type=public` : CHRIS_UI;
 });
 </script>
 

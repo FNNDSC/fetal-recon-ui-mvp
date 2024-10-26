@@ -14,6 +14,21 @@ directive @cached(
 ) on QUERY
 
 """
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
 input Int_comparison_exp {
@@ -124,8 +139,636 @@ input date_comparison_exp {
   _nin: [date!]
 }
 
+"""
+columns and relationships of "feeds_feed"
+"""
+type feeds_feed {
+  creation_date: timestamptz!
+
+  """An object relationship"""
+  feeds_note: feeds_note
+  id: bigint!
+  modification_date: timestamptz!
+  name: String!
+
+  """An array relationship"""
+  plugininstances_plugininstances(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """An aggregate relationship"""
+  plugininstances_plugininstances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+  public: Boolean!
+}
+
+"""
+aggregated selection of "feeds_feed"
+"""
+type feeds_feed_aggregate {
+  aggregate: feeds_feed_aggregate_fields
+  nodes: [feeds_feed!]!
+}
+
+"""
+aggregate fields of "feeds_feed"
+"""
+type feeds_feed_aggregate_fields {
+  avg: feeds_feed_avg_fields
+  count(columns: [feeds_feed_select_column!], distinct: Boolean): Int!
+  max: feeds_feed_max_fields
+  min: feeds_feed_min_fields
+  stddev: feeds_feed_stddev_fields
+  stddev_pop: feeds_feed_stddev_pop_fields
+  stddev_samp: feeds_feed_stddev_samp_fields
+  sum: feeds_feed_sum_fields
+  var_pop: feeds_feed_var_pop_fields
+  var_samp: feeds_feed_var_samp_fields
+  variance: feeds_feed_variance_fields
+}
+
+"""aggregate avg on columns"""
+type feeds_feed_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "feeds_feed". All fields are combined with a logical 'AND'.
+"""
+input feeds_feed_bool_exp {
+  _and: [feeds_feed_bool_exp!]
+  _not: feeds_feed_bool_exp
+  _or: [feeds_feed_bool_exp!]
+  creation_date: timestamptz_comparison_exp
+  feeds_note: feeds_note_bool_exp
+  id: bigint_comparison_exp
+  modification_date: timestamptz_comparison_exp
+  name: String_comparison_exp
+  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  public: Boolean_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "feeds_feed"
+"""
+enum feeds_feed_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  feeds_feed_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "feeds_feed"
+"""
+input feeds_feed_inc_input {
+  id: bigint
+}
+
+"""
+input type for inserting data into table "feeds_feed"
+"""
+input feeds_feed_insert_input {
+  creation_date: timestamptz
+  feeds_note: feeds_note_obj_rel_insert_input
+  id: bigint
+  modification_date: timestamptz
+  name: String
+  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  public: Boolean
+}
+
+"""aggregate max on columns"""
+type feeds_feed_max_fields {
+  creation_date: timestamptz
+  id: bigint
+  modification_date: timestamptz
+  name: String
+}
+
+"""aggregate min on columns"""
+type feeds_feed_min_fields {
+  creation_date: timestamptz
+  id: bigint
+  modification_date: timestamptz
+  name: String
+}
+
+"""
+response of any mutation on the table "feeds_feed"
+"""
+type feeds_feed_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [feeds_feed!]!
+}
+
+"""
+input type for inserting object relation for remote table "feeds_feed"
+"""
+input feeds_feed_obj_rel_insert_input {
+  data: feeds_feed_insert_input!
+
+  """upsert condition"""
+  on_conflict: feeds_feed_on_conflict
+}
+
+"""
+on_conflict condition type for table "feeds_feed"
+"""
+input feeds_feed_on_conflict {
+  constraint: feeds_feed_constraint!
+  update_columns: [feeds_feed_update_column!]! = []
+  where: feeds_feed_bool_exp
+}
+
+"""Ordering options when selecting data from "feeds_feed"."""
+input feeds_feed_order_by {
+  creation_date: order_by
+  feeds_note: feeds_note_order_by
+  id: order_by
+  modification_date: order_by
+  name: order_by
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  public: order_by
+}
+
+"""primary key columns input for table: feeds_feed"""
+input feeds_feed_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "feeds_feed"
+"""
+enum feeds_feed_select_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  public
+}
+
+"""
+input type for updating data in table "feeds_feed"
+"""
+input feeds_feed_set_input {
+  creation_date: timestamptz
+  id: bigint
+  modification_date: timestamptz
+  name: String
+  public: Boolean
+}
+
+"""aggregate stddev on columns"""
+type feeds_feed_stddev_fields {
+  id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type feeds_feed_stddev_pop_fields {
+  id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type feeds_feed_stddev_samp_fields {
+  id: Float
+}
+
+"""
+Streaming cursor of the table "feeds_feed"
+"""
+input feeds_feed_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: feeds_feed_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input feeds_feed_stream_cursor_value_input {
+  creation_date: timestamptz
+  id: bigint
+  modification_date: timestamptz
+  name: String
+  public: Boolean
+}
+
+"""aggregate sum on columns"""
+type feeds_feed_sum_fields {
+  id: bigint
+}
+
+"""
+update columns of table "feeds_feed"
+"""
+enum feeds_feed_update_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  public
+}
+
+input feeds_feed_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: feeds_feed_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: feeds_feed_set_input
+
+  """filter the rows which have to be updated"""
+  where: feeds_feed_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type feeds_feed_var_pop_fields {
+  id: Float
+}
+
+"""aggregate var_samp on columns"""
+type feeds_feed_var_samp_fields {
+  id: Float
+}
+
+"""aggregate variance on columns"""
+type feeds_feed_variance_fields {
+  id: Float
+}
+
+"""
+columns and relationships of "feeds_note"
+"""
+type feeds_note {
+  content: String!
+  creation_date: timestamptz!
+  feed_id: bigint!
+
+  """An object relationship"""
+  feeds_feed: feeds_feed!
+  id: bigint!
+  modification_date: timestamptz!
+  title: String!
+}
+
+"""
+aggregated selection of "feeds_note"
+"""
+type feeds_note_aggregate {
+  aggregate: feeds_note_aggregate_fields
+  nodes: [feeds_note!]!
+}
+
+"""
+aggregate fields of "feeds_note"
+"""
+type feeds_note_aggregate_fields {
+  avg: feeds_note_avg_fields
+  count(columns: [feeds_note_select_column!], distinct: Boolean): Int!
+  max: feeds_note_max_fields
+  min: feeds_note_min_fields
+  stddev: feeds_note_stddev_fields
+  stddev_pop: feeds_note_stddev_pop_fields
+  stddev_samp: feeds_note_stddev_samp_fields
+  sum: feeds_note_sum_fields
+  var_pop: feeds_note_var_pop_fields
+  var_samp: feeds_note_var_samp_fields
+  variance: feeds_note_variance_fields
+}
+
+"""aggregate avg on columns"""
+type feeds_note_avg_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "feeds_note". All fields are combined with a logical 'AND'.
+"""
+input feeds_note_bool_exp {
+  _and: [feeds_note_bool_exp!]
+  _not: feeds_note_bool_exp
+  _or: [feeds_note_bool_exp!]
+  content: String_comparison_exp
+  creation_date: timestamptz_comparison_exp
+  feed_id: bigint_comparison_exp
+  feeds_feed: feeds_feed_bool_exp
+  id: bigint_comparison_exp
+  modification_date: timestamptz_comparison_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "feeds_note"
+"""
+enum feeds_note_constraint {
+  """
+  unique or primary key constraint on columns "feed_id"
+  """
+  feeds_note_feed_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  feeds_note_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "feeds_note"
+"""
+input feeds_note_inc_input {
+  feed_id: bigint
+  id: bigint
+}
+
+"""
+input type for inserting data into table "feeds_note"
+"""
+input feeds_note_insert_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  feeds_feed: feeds_feed_obj_rel_insert_input
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate max on columns"""
+type feeds_note_max_fields {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate min on columns"""
+type feeds_note_min_fields {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""
+response of any mutation on the table "feeds_note"
+"""
+type feeds_note_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [feeds_note!]!
+}
+
+"""
+input type for inserting object relation for remote table "feeds_note"
+"""
+input feeds_note_obj_rel_insert_input {
+  data: feeds_note_insert_input!
+
+  """upsert condition"""
+  on_conflict: feeds_note_on_conflict
+}
+
+"""
+on_conflict condition type for table "feeds_note"
+"""
+input feeds_note_on_conflict {
+  constraint: feeds_note_constraint!
+  update_columns: [feeds_note_update_column!]! = []
+  where: feeds_note_bool_exp
+}
+
+"""Ordering options when selecting data from "feeds_note"."""
+input feeds_note_order_by {
+  content: order_by
+  creation_date: order_by
+  feed_id: order_by
+  feeds_feed: feeds_feed_order_by
+  id: order_by
+  modification_date: order_by
+  title: order_by
+}
+
+"""primary key columns input for table: feeds_note"""
+input feeds_note_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "feeds_note"
+"""
+enum feeds_note_select_column {
+  """column name"""
+  content
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "feeds_note"
+"""
+input feeds_note_set_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate stddev on columns"""
+type feeds_note_stddev_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type feeds_note_stddev_pop_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type feeds_note_stddev_samp_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "feeds_note"
+"""
+input feeds_note_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: feeds_note_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input feeds_note_stream_cursor_value_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate sum on columns"""
+type feeds_note_sum_fields {
+  feed_id: bigint
+  id: bigint
+}
+
+"""
+update columns of table "feeds_note"
+"""
+enum feeds_note_update_column {
+  """column name"""
+  content
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  title
+}
+
+input feeds_note_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: feeds_note_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: feeds_note_set_input
+
+  """filter the rows which have to be updated"""
+  where: feeds_note_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type feeds_note_var_pop_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate var_samp on columns"""
+type feeds_note_var_samp_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate variance on columns"""
+type feeds_note_variance_fields {
+  feed_id: Float
+  id: Float
+}
+
 """mutation root"""
 type mutation_root {
+  """
+  delete data from the table: "feeds_feed"
+  """
+  delete_feeds_feed(
+    """filter the rows which have to be deleted"""
+    where: feeds_feed_bool_exp!
+  ): feeds_feed_mutation_response
+
+  """
+  delete single row from the table: "feeds_feed"
+  """
+  delete_feeds_feed_by_pk(id: bigint!): feeds_feed
+
+  """
+  delete data from the table: "feeds_note"
+  """
+  delete_feeds_note(
+    """filter the rows which have to be deleted"""
+    where: feeds_note_bool_exp!
+  ): feeds_note_mutation_response
+
+  """
+  delete single row from the table: "feeds_note"
+  """
+  delete_feeds_note_by_pk(id: bigint!): feeds_note
+
   """
   delete data from the table: "pacsfiles_pacsfile"
   """
@@ -138,6 +781,128 @@ type mutation_root {
   delete single row from the table: "pacsfiles_pacsfile"
   """
   delete_pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
+
+  """
+  delete data from the table: "pipelines_pipeline"
+  """
+  delete_pipelines_pipeline(
+    """filter the rows which have to be deleted"""
+    where: pipelines_pipeline_bool_exp!
+  ): pipelines_pipeline_mutation_response
+
+  """
+  delete single row from the table: "pipelines_pipeline"
+  """
+  delete_pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
+
+  """
+  delete data from the table: "plugininstances_plugininstance"
+  """
+  delete_plugininstances_plugininstance(
+    """filter the rows which have to be deleted"""
+    where: plugininstances_plugininstance_bool_exp!
+  ): plugininstances_plugininstance_mutation_response
+
+  """
+  delete single row from the table: "plugininstances_plugininstance"
+  """
+  delete_plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
+
+  """
+  delete data from the table: "plugininstances_plugininstancefile"
+  """
+  delete_plugininstances_plugininstancefile(
+    """filter the rows which have to be deleted"""
+    where: plugininstances_plugininstancefile_bool_exp!
+  ): plugininstances_plugininstancefile_mutation_response
+
+  """
+  delete single row from the table: "plugininstances_plugininstancefile"
+  """
+  delete_plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+
+  """
+  delete data from the table: "plugins_plugin"
+  """
+  delete_plugins_plugin(
+    """filter the rows which have to be deleted"""
+    where: plugins_plugin_bool_exp!
+  ): plugins_plugin_mutation_response
+
+  """
+  delete single row from the table: "plugins_plugin"
+  """
+  delete_plugins_plugin_by_pk(id: bigint!): plugins_plugin
+
+  """
+  delete data from the table: "plugins_pluginmeta"
+  """
+  delete_plugins_pluginmeta(
+    """filter the rows which have to be deleted"""
+    where: plugins_pluginmeta_bool_exp!
+  ): plugins_pluginmeta_mutation_response
+
+  """
+  delete single row from the table: "plugins_pluginmeta"
+  """
+  delete_plugins_pluginmeta_by_pk(id: bigint!): plugins_pluginmeta
+
+  """
+  delete data from the table: "workflows_workflow"
+  """
+  delete_workflows_workflow(
+    """filter the rows which have to be deleted"""
+    where: workflows_workflow_bool_exp!
+  ): workflows_workflow_mutation_response
+
+  """
+  delete single row from the table: "workflows_workflow"
+  """
+  delete_workflows_workflow_by_pk(id: bigint!): workflows_workflow
+
+  """
+  insert data into the table: "feeds_feed"
+  """
+  insert_feeds_feed(
+    """the rows to be inserted"""
+    objects: [feeds_feed_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: feeds_feed_on_conflict
+  ): feeds_feed_mutation_response
+
+  """
+  insert a single row into the table: "feeds_feed"
+  """
+  insert_feeds_feed_one(
+    """the row to be inserted"""
+    object: feeds_feed_insert_input!
+
+    """upsert condition"""
+    on_conflict: feeds_feed_on_conflict
+  ): feeds_feed
+
+  """
+  insert data into the table: "feeds_note"
+  """
+  insert_feeds_note(
+    """the rows to be inserted"""
+    objects: [feeds_note_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: feeds_note_on_conflict
+  ): feeds_note_mutation_response
+
+  """
+  insert a single row into the table: "feeds_note"
+  """
+  insert_feeds_note_one(
+    """the row to be inserted"""
+    object: feeds_note_insert_input!
+
+    """upsert condition"""
+    on_conflict: feeds_note_on_conflict
+  ): feeds_note
 
   """
   insert data into the table: "pacsfiles_pacsfile"
@@ -160,6 +925,206 @@ type mutation_root {
     """upsert condition"""
     on_conflict: pacsfiles_pacsfile_on_conflict
   ): pacsfiles_pacsfile
+
+  """
+  insert data into the table: "pipelines_pipeline"
+  """
+  insert_pipelines_pipeline(
+    """the rows to be inserted"""
+    objects: [pipelines_pipeline_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: pipelines_pipeline_on_conflict
+  ): pipelines_pipeline_mutation_response
+
+  """
+  insert a single row into the table: "pipelines_pipeline"
+  """
+  insert_pipelines_pipeline_one(
+    """the row to be inserted"""
+    object: pipelines_pipeline_insert_input!
+
+    """upsert condition"""
+    on_conflict: pipelines_pipeline_on_conflict
+  ): pipelines_pipeline
+
+  """
+  insert data into the table: "plugininstances_plugininstance"
+  """
+  insert_plugininstances_plugininstance(
+    """the rows to be inserted"""
+    objects: [plugininstances_plugininstance_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: plugininstances_plugininstance_on_conflict
+  ): plugininstances_plugininstance_mutation_response
+
+  """
+  insert a single row into the table: "plugininstances_plugininstance"
+  """
+  insert_plugininstances_plugininstance_one(
+    """the row to be inserted"""
+    object: plugininstances_plugininstance_insert_input!
+
+    """upsert condition"""
+    on_conflict: plugininstances_plugininstance_on_conflict
+  ): plugininstances_plugininstance
+
+  """
+  insert data into the table: "plugininstances_plugininstancefile"
+  """
+  insert_plugininstances_plugininstancefile(
+    """the rows to be inserted"""
+    objects: [plugininstances_plugininstancefile_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: plugininstances_plugininstancefile_on_conflict
+  ): plugininstances_plugininstancefile_mutation_response
+
+  """
+  insert a single row into the table: "plugininstances_plugininstancefile"
+  """
+  insert_plugininstances_plugininstancefile_one(
+    """the row to be inserted"""
+    object: plugininstances_plugininstancefile_insert_input!
+
+    """upsert condition"""
+    on_conflict: plugininstances_plugininstancefile_on_conflict
+  ): plugininstances_plugininstancefile
+
+  """
+  insert data into the table: "plugins_plugin"
+  """
+  insert_plugins_plugin(
+    """the rows to be inserted"""
+    objects: [plugins_plugin_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: plugins_plugin_on_conflict
+  ): plugins_plugin_mutation_response
+
+  """
+  insert a single row into the table: "plugins_plugin"
+  """
+  insert_plugins_plugin_one(
+    """the row to be inserted"""
+    object: plugins_plugin_insert_input!
+
+    """upsert condition"""
+    on_conflict: plugins_plugin_on_conflict
+  ): plugins_plugin
+
+  """
+  insert data into the table: "plugins_pluginmeta"
+  """
+  insert_plugins_pluginmeta(
+    """the rows to be inserted"""
+    objects: [plugins_pluginmeta_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: plugins_pluginmeta_on_conflict
+  ): plugins_pluginmeta_mutation_response
+
+  """
+  insert a single row into the table: "plugins_pluginmeta"
+  """
+  insert_plugins_pluginmeta_one(
+    """the row to be inserted"""
+    object: plugins_pluginmeta_insert_input!
+
+    """upsert condition"""
+    on_conflict: plugins_pluginmeta_on_conflict
+  ): plugins_pluginmeta
+
+  """
+  insert data into the table: "workflows_workflow"
+  """
+  insert_workflows_workflow(
+    """the rows to be inserted"""
+    objects: [workflows_workflow_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: workflows_workflow_on_conflict
+  ): workflows_workflow_mutation_response
+
+  """
+  insert a single row into the table: "workflows_workflow"
+  """
+  insert_workflows_workflow_one(
+    """the row to be inserted"""
+    object: workflows_workflow_insert_input!
+
+    """upsert condition"""
+    on_conflict: workflows_workflow_on_conflict
+  ): workflows_workflow
+
+  """
+  update data of the table: "feeds_feed"
+  """
+  update_feeds_feed(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: feeds_feed_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: feeds_feed_set_input
+
+    """filter the rows which have to be updated"""
+    where: feeds_feed_bool_exp!
+  ): feeds_feed_mutation_response
+
+  """
+  update single row of the table: "feeds_feed"
+  """
+  update_feeds_feed_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: feeds_feed_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: feeds_feed_set_input
+    pk_columns: feeds_feed_pk_columns_input!
+  ): feeds_feed
+
+  """
+  update multiples rows of table: "feeds_feed"
+  """
+  update_feeds_feed_many(
+    """updates to execute, in order"""
+    updates: [feeds_feed_updates!]!
+  ): [feeds_feed_mutation_response]
+
+  """
+  update data of the table: "feeds_note"
+  """
+  update_feeds_note(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: feeds_note_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: feeds_note_set_input
+
+    """filter the rows which have to be updated"""
+    where: feeds_note_bool_exp!
+  ): feeds_note_mutation_response
+
+  """
+  update single row of the table: "feeds_note"
+  """
+  update_feeds_note_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: feeds_note_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: feeds_note_set_input
+    pk_columns: feeds_note_pk_columns_input!
+  ): feeds_note
+
+  """
+  update multiples rows of table: "feeds_note"
+  """
+  update_feeds_note_many(
+    """updates to execute, in order"""
+    updates: [feeds_note_updates!]!
+  ): [feeds_note_mutation_response]
 
   """
   update data of the table: "pacsfiles_pacsfile"
@@ -194,6 +1159,210 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [pacsfiles_pacsfile_updates!]!
   ): [pacsfiles_pacsfile_mutation_response]
+
+  """
+  update data of the table: "pipelines_pipeline"
+  """
+  update_pipelines_pipeline(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pipelines_pipeline_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pipelines_pipeline_set_input
+
+    """filter the rows which have to be updated"""
+    where: pipelines_pipeline_bool_exp!
+  ): pipelines_pipeline_mutation_response
+
+  """
+  update single row of the table: "pipelines_pipeline"
+  """
+  update_pipelines_pipeline_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pipelines_pipeline_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pipelines_pipeline_set_input
+    pk_columns: pipelines_pipeline_pk_columns_input!
+  ): pipelines_pipeline
+
+  """
+  update multiples rows of table: "pipelines_pipeline"
+  """
+  update_pipelines_pipeline_many(
+    """updates to execute, in order"""
+    updates: [pipelines_pipeline_updates!]!
+  ): [pipelines_pipeline_mutation_response]
+
+  """
+  update data of the table: "plugininstances_plugininstance"
+  """
+  update_plugininstances_plugininstance(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugininstances_plugininstance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugininstances_plugininstance_set_input
+
+    """filter the rows which have to be updated"""
+    where: plugininstances_plugininstance_bool_exp!
+  ): plugininstances_plugininstance_mutation_response
+
+  """
+  update single row of the table: "plugininstances_plugininstance"
+  """
+  update_plugininstances_plugininstance_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugininstances_plugininstance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugininstances_plugininstance_set_input
+    pk_columns: plugininstances_plugininstance_pk_columns_input!
+  ): plugininstances_plugininstance
+
+  """
+  update multiples rows of table: "plugininstances_plugininstance"
+  """
+  update_plugininstances_plugininstance_many(
+    """updates to execute, in order"""
+    updates: [plugininstances_plugininstance_updates!]!
+  ): [plugininstances_plugininstance_mutation_response]
+
+  """
+  update data of the table: "plugininstances_plugininstancefile"
+  """
+  update_plugininstances_plugininstancefile(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugininstances_plugininstancefile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugininstances_plugininstancefile_set_input
+
+    """filter the rows which have to be updated"""
+    where: plugininstances_plugininstancefile_bool_exp!
+  ): plugininstances_plugininstancefile_mutation_response
+
+  """
+  update single row of the table: "plugininstances_plugininstancefile"
+  """
+  update_plugininstances_plugininstancefile_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugininstances_plugininstancefile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugininstances_plugininstancefile_set_input
+    pk_columns: plugininstances_plugininstancefile_pk_columns_input!
+  ): plugininstances_plugininstancefile
+
+  """
+  update multiples rows of table: "plugininstances_plugininstancefile"
+  """
+  update_plugininstances_plugininstancefile_many(
+    """updates to execute, in order"""
+    updates: [plugininstances_plugininstancefile_updates!]!
+  ): [plugininstances_plugininstancefile_mutation_response]
+
+  """
+  update data of the table: "plugins_plugin"
+  """
+  update_plugins_plugin(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugins_plugin_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugins_plugin_set_input
+
+    """filter the rows which have to be updated"""
+    where: plugins_plugin_bool_exp!
+  ): plugins_plugin_mutation_response
+
+  """
+  update single row of the table: "plugins_plugin"
+  """
+  update_plugins_plugin_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugins_plugin_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugins_plugin_set_input
+    pk_columns: plugins_plugin_pk_columns_input!
+  ): plugins_plugin
+
+  """
+  update multiples rows of table: "plugins_plugin"
+  """
+  update_plugins_plugin_many(
+    """updates to execute, in order"""
+    updates: [plugins_plugin_updates!]!
+  ): [plugins_plugin_mutation_response]
+
+  """
+  update data of the table: "plugins_pluginmeta"
+  """
+  update_plugins_pluginmeta(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugins_pluginmeta_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugins_pluginmeta_set_input
+
+    """filter the rows which have to be updated"""
+    where: plugins_pluginmeta_bool_exp!
+  ): plugins_pluginmeta_mutation_response
+
+  """
+  update single row of the table: "plugins_pluginmeta"
+  """
+  update_plugins_pluginmeta_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugins_pluginmeta_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugins_pluginmeta_set_input
+    pk_columns: plugins_pluginmeta_pk_columns_input!
+  ): plugins_pluginmeta
+
+  """
+  update multiples rows of table: "plugins_pluginmeta"
+  """
+  update_plugins_pluginmeta_many(
+    """updates to execute, in order"""
+    updates: [plugins_pluginmeta_updates!]!
+  ): [plugins_pluginmeta_mutation_response]
+
+  """
+  update data of the table: "workflows_workflow"
+  """
+  update_workflows_workflow(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: workflows_workflow_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: workflows_workflow_set_input
+
+    """filter the rows which have to be updated"""
+    where: workflows_workflow_bool_exp!
+  ): workflows_workflow_mutation_response
+
+  """
+  update single row of the table: "workflows_workflow"
+  """
+  update_workflows_workflow_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: workflows_workflow_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: workflows_workflow_set_input
+    pk_columns: workflows_workflow_pk_columns_input!
+  ): workflows_workflow
+
+  """
+  update multiples rows of table: "workflows_workflow"
+  """
+  update_workflows_workflow_many(
+    """updates to execute, in order"""
+    updates: [workflows_workflow_updates!]!
+  ): [workflows_workflow_mutation_response]
 }
 
 """column ordering options"""
@@ -660,7 +1829,2982 @@ type pacsfiles_pacsfile_variance_fields {
   pacs_id: Float
 }
 
+"""
+columns and relationships of "pipelines_pipeline"
+"""
+type pipelines_pipeline {
+  authors: String!
+  category: String!
+  creation_date: timestamptz!
+  description: String!
+  id: bigint!
+  locked: Boolean!
+  modification_date: timestamptz!
+  name: String!
+  owner_id: Int
+
+  """An array relationship"""
+  workflows_workflows(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): [workflows_workflow!]!
+
+  """An aggregate relationship"""
+  workflows_workflows_aggregate(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): workflows_workflow_aggregate!
+}
+
+"""
+aggregated selection of "pipelines_pipeline"
+"""
+type pipelines_pipeline_aggregate {
+  aggregate: pipelines_pipeline_aggregate_fields
+  nodes: [pipelines_pipeline!]!
+}
+
+"""
+aggregate fields of "pipelines_pipeline"
+"""
+type pipelines_pipeline_aggregate_fields {
+  avg: pipelines_pipeline_avg_fields
+  count(columns: [pipelines_pipeline_select_column!], distinct: Boolean): Int!
+  max: pipelines_pipeline_max_fields
+  min: pipelines_pipeline_min_fields
+  stddev: pipelines_pipeline_stddev_fields
+  stddev_pop: pipelines_pipeline_stddev_pop_fields
+  stddev_samp: pipelines_pipeline_stddev_samp_fields
+  sum: pipelines_pipeline_sum_fields
+  var_pop: pipelines_pipeline_var_pop_fields
+  var_samp: pipelines_pipeline_var_samp_fields
+  variance: pipelines_pipeline_variance_fields
+}
+
+"""aggregate avg on columns"""
+type pipelines_pipeline_avg_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "pipelines_pipeline". All fields are combined with a logical 'AND'.
+"""
+input pipelines_pipeline_bool_exp {
+  _and: [pipelines_pipeline_bool_exp!]
+  _not: pipelines_pipeline_bool_exp
+  _or: [pipelines_pipeline_bool_exp!]
+  authors: String_comparison_exp
+  category: String_comparison_exp
+  creation_date: timestamptz_comparison_exp
+  description: String_comparison_exp
+  id: bigint_comparison_exp
+  locked: Boolean_comparison_exp
+  modification_date: timestamptz_comparison_exp
+  name: String_comparison_exp
+  owner_id: Int_comparison_exp
+  workflows_workflows: workflows_workflow_bool_exp
+  workflows_workflows_aggregate: workflows_workflow_aggregate_bool_exp
+}
+
+"""
+unique or primary key constraints on table "pipelines_pipeline"
+"""
+enum pipelines_pipeline_constraint {
+  """
+  unique or primary key constraint on columns "name"
+  """
+  pipelines_pipeline_name_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  pipelines_pipeline_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "pipelines_pipeline"
+"""
+input pipelines_pipeline_inc_input {
+  id: bigint
+  owner_id: Int
+}
+
+"""
+input type for inserting data into table "pipelines_pipeline"
+"""
+input pipelines_pipeline_insert_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  description: String
+  id: bigint
+  locked: Boolean
+  modification_date: timestamptz
+  name: String
+  owner_id: Int
+  workflows_workflows: workflows_workflow_arr_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type pipelines_pipeline_max_fields {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  description: String
+  id: bigint
+  modification_date: timestamptz
+  name: String
+  owner_id: Int
+}
+
+"""aggregate min on columns"""
+type pipelines_pipeline_min_fields {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  description: String
+  id: bigint
+  modification_date: timestamptz
+  name: String
+  owner_id: Int
+}
+
+"""
+response of any mutation on the table "pipelines_pipeline"
+"""
+type pipelines_pipeline_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [pipelines_pipeline!]!
+}
+
+"""
+input type for inserting object relation for remote table "pipelines_pipeline"
+"""
+input pipelines_pipeline_obj_rel_insert_input {
+  data: pipelines_pipeline_insert_input!
+
+  """upsert condition"""
+  on_conflict: pipelines_pipeline_on_conflict
+}
+
+"""
+on_conflict condition type for table "pipelines_pipeline"
+"""
+input pipelines_pipeline_on_conflict {
+  constraint: pipelines_pipeline_constraint!
+  update_columns: [pipelines_pipeline_update_column!]! = []
+  where: pipelines_pipeline_bool_exp
+}
+
+"""Ordering options when selecting data from "pipelines_pipeline"."""
+input pipelines_pipeline_order_by {
+  authors: order_by
+  category: order_by
+  creation_date: order_by
+  description: order_by
+  id: order_by
+  locked: order_by
+  modification_date: order_by
+  name: order_by
+  owner_id: order_by
+  workflows_workflows_aggregate: workflows_workflow_aggregate_order_by
+}
+
+"""primary key columns input for table: pipelines_pipeline"""
+input pipelines_pipeline_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "pipelines_pipeline"
+"""
+enum pipelines_pipeline_select_column {
+  """column name"""
+  authors
+
+  """column name"""
+  category
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  locked
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  owner_id
+}
+
+"""
+input type for updating data in table "pipelines_pipeline"
+"""
+input pipelines_pipeline_set_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  description: String
+  id: bigint
+  locked: Boolean
+  modification_date: timestamptz
+  name: String
+  owner_id: Int
+}
+
+"""aggregate stddev on columns"""
+type pipelines_pipeline_stddev_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type pipelines_pipeline_stddev_pop_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type pipelines_pipeline_stddev_samp_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""
+Streaming cursor of the table "pipelines_pipeline"
+"""
+input pipelines_pipeline_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: pipelines_pipeline_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input pipelines_pipeline_stream_cursor_value_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  description: String
+  id: bigint
+  locked: Boolean
+  modification_date: timestamptz
+  name: String
+  owner_id: Int
+}
+
+"""aggregate sum on columns"""
+type pipelines_pipeline_sum_fields {
+  id: bigint
+  owner_id: Int
+}
+
+"""
+update columns of table "pipelines_pipeline"
+"""
+enum pipelines_pipeline_update_column {
+  """column name"""
+  authors
+
+  """column name"""
+  category
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  locked
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  owner_id
+}
+
+input pipelines_pipeline_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: pipelines_pipeline_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: pipelines_pipeline_set_input
+
+  """filter the rows which have to be updated"""
+  where: pipelines_pipeline_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type pipelines_pipeline_var_pop_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""aggregate var_samp on columns"""
+type pipelines_pipeline_var_samp_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""aggregate variance on columns"""
+type pipelines_pipeline_variance_fields {
+  id: Float
+  owner_id: Float
+}
+
+"""
+columns and relationships of "plugininstances_plugininstance"
+"""
+type plugininstances_plugininstance {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz!
+  error_code: String!
+  feed_id: bigint!
+
+  """An object relationship"""
+  feeds_feed: feeds_feed!
+  gpu_limit: Int
+  id: bigint!
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int!
+  pipeline_inst_id: bigint
+  plugin_id: bigint!
+
+  """An object relationship"""
+  plugininstances_plugininstance: plugininstances_plugininstance
+
+  """An array relationship"""
+  plugininstances_plugininstancefiles(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): [plugininstances_plugininstancefile!]!
+
+  """An aggregate relationship"""
+  plugininstances_plugininstancefiles_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): plugininstances_plugininstancefile_aggregate!
+
+  """An array relationship"""
+  plugininstances_plugininstances(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """An aggregate relationship"""
+  plugininstances_plugininstances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+
+  """An object relationship"""
+  plugins_plugin: plugins_plugin!
+  previous_id: bigint
+  raw: String!
+  size: bigint!
+  start_date: timestamptz!
+  status: String!
+  summary: String!
+  title: String!
+  workflow_id: bigint
+
+  """An object relationship"""
+  workflows_workflow: workflows_workflow
+}
+
+"""
+aggregated selection of "plugininstances_plugininstance"
+"""
+type plugininstances_plugininstance_aggregate {
+  aggregate: plugininstances_plugininstance_aggregate_fields
+  nodes: [plugininstances_plugininstance!]!
+}
+
+input plugininstances_plugininstance_aggregate_bool_exp {
+  count: plugininstances_plugininstance_aggregate_bool_exp_count
+}
+
+input plugininstances_plugininstance_aggregate_bool_exp_count {
+  arguments: [plugininstances_plugininstance_select_column!]
+  distinct: Boolean
+  filter: plugininstances_plugininstance_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "plugininstances_plugininstance"
+"""
+type plugininstances_plugininstance_aggregate_fields {
+  avg: plugininstances_plugininstance_avg_fields
+  count(columns: [plugininstances_plugininstance_select_column!], distinct: Boolean): Int!
+  max: plugininstances_plugininstance_max_fields
+  min: plugininstances_plugininstance_min_fields
+  stddev: plugininstances_plugininstance_stddev_fields
+  stddev_pop: plugininstances_plugininstance_stddev_pop_fields
+  stddev_samp: plugininstances_plugininstance_stddev_samp_fields
+  sum: plugininstances_plugininstance_sum_fields
+  var_pop: plugininstances_plugininstance_var_pop_fields
+  var_samp: plugininstances_plugininstance_var_samp_fields
+  variance: plugininstances_plugininstance_variance_fields
+}
+
+"""
+order by aggregate values of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_aggregate_order_by {
+  avg: plugininstances_plugininstance_avg_order_by
+  count: order_by
+  max: plugininstances_plugininstance_max_order_by
+  min: plugininstances_plugininstance_min_order_by
+  stddev: plugininstances_plugininstance_stddev_order_by
+  stddev_pop: plugininstances_plugininstance_stddev_pop_order_by
+  stddev_samp: plugininstances_plugininstance_stddev_samp_order_by
+  sum: plugininstances_plugininstance_sum_order_by
+  var_pop: plugininstances_plugininstance_var_pop_order_by
+  var_samp: plugininstances_plugininstance_var_samp_order_by
+  variance: plugininstances_plugininstance_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_arr_rel_insert_input {
+  data: [plugininstances_plugininstance_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: plugininstances_plugininstance_on_conflict
+}
+
+"""aggregate avg on columns"""
+type plugininstances_plugininstance_avg_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by avg() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_avg_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "plugininstances_plugininstance". All fields are combined with a logical 'AND'.
+"""
+input plugininstances_plugininstance_bool_exp {
+  _and: [plugininstances_plugininstance_bool_exp!]
+  _not: plugininstances_plugininstance_bool_exp
+  _or: [plugininstances_plugininstance_bool_exp!]
+  compute_resource_id: bigint_comparison_exp
+  cpu_limit: Int_comparison_exp
+  end_date: timestamptz_comparison_exp
+  error_code: String_comparison_exp
+  feed_id: bigint_comparison_exp
+  feeds_feed: feeds_feed_bool_exp
+  gpu_limit: Int_comparison_exp
+  id: bigint_comparison_exp
+  memory_limit: Int_comparison_exp
+  number_of_workers: Int_comparison_exp
+  owner_id: Int_comparison_exp
+  pipeline_inst_id: bigint_comparison_exp
+  plugin_id: bigint_comparison_exp
+  plugininstances_plugininstance: plugininstances_plugininstance_bool_exp
+  plugininstances_plugininstancefiles: plugininstances_plugininstancefile_bool_exp
+  plugininstances_plugininstancefiles_aggregate: plugininstances_plugininstancefile_aggregate_bool_exp
+  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  plugins_plugin: plugins_plugin_bool_exp
+  previous_id: bigint_comparison_exp
+  raw: String_comparison_exp
+  size: bigint_comparison_exp
+  start_date: timestamptz_comparison_exp
+  status: String_comparison_exp
+  summary: String_comparison_exp
+  title: String_comparison_exp
+  workflow_id: bigint_comparison_exp
+  workflows_workflow: workflows_workflow_bool_exp
+}
+
+"""
+unique or primary key constraints on table "plugininstances_plugininstance"
+"""
+enum plugininstances_plugininstance_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  plugininstances_plugininstance_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_inc_input {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  size: bigint
+  workflow_id: bigint
+}
+
+"""
+input type for inserting data into table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_insert_input {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz
+  error_code: String
+  feed_id: bigint
+  feeds_feed: feeds_feed_obj_rel_insert_input
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  plugininstances_plugininstance: plugininstances_plugininstance_obj_rel_insert_input
+  plugininstances_plugininstancefiles: plugininstances_plugininstancefile_arr_rel_insert_input
+  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  plugins_plugin: plugins_plugin_obj_rel_insert_input
+  previous_id: bigint
+  raw: String
+  size: bigint
+  start_date: timestamptz
+  status: String
+  summary: String
+  title: String
+  workflow_id: bigint
+  workflows_workflow: workflows_workflow_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type plugininstances_plugininstance_max_fields {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz
+  error_code: String
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  raw: String
+  size: bigint
+  start_date: timestamptz
+  status: String
+  summary: String
+  title: String
+  workflow_id: bigint
+}
+
+"""
+order by max() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_max_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  end_date: order_by
+  error_code: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  raw: order_by
+  size: order_by
+  start_date: order_by
+  status: order_by
+  summary: order_by
+  title: order_by
+  workflow_id: order_by
+}
+
+"""aggregate min on columns"""
+type plugininstances_plugininstance_min_fields {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz
+  error_code: String
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  raw: String
+  size: bigint
+  start_date: timestamptz
+  status: String
+  summary: String
+  title: String
+  workflow_id: bigint
+}
+
+"""
+order by min() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_min_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  end_date: order_by
+  error_code: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  raw: order_by
+  size: order_by
+  start_date: order_by
+  status: order_by
+  summary: order_by
+  title: order_by
+  workflow_id: order_by
+}
+
+"""
+response of any mutation on the table "plugininstances_plugininstance"
+"""
+type plugininstances_plugininstance_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [plugininstances_plugininstance!]!
+}
+
+"""
+input type for inserting object relation for remote table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_obj_rel_insert_input {
+  data: plugininstances_plugininstance_insert_input!
+
+  """upsert condition"""
+  on_conflict: plugininstances_plugininstance_on_conflict
+}
+
+"""
+on_conflict condition type for table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_on_conflict {
+  constraint: plugininstances_plugininstance_constraint!
+  update_columns: [plugininstances_plugininstance_update_column!]! = []
+  where: plugininstances_plugininstance_bool_exp
+}
+
+"""
+Ordering options when selecting data from "plugininstances_plugininstance".
+"""
+input plugininstances_plugininstance_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  end_date: order_by
+  error_code: order_by
+  feed_id: order_by
+  feeds_feed: feeds_feed_order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  plugininstances_plugininstance: plugininstances_plugininstance_order_by
+  plugininstances_plugininstancefiles_aggregate: plugininstances_plugininstancefile_aggregate_order_by
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  plugins_plugin: plugins_plugin_order_by
+  previous_id: order_by
+  raw: order_by
+  size: order_by
+  start_date: order_by
+  status: order_by
+  summary: order_by
+  title: order_by
+  workflow_id: order_by
+  workflows_workflow: workflows_workflow_order_by
+}
+
+"""primary key columns input for table: plugininstances_plugininstance"""
+input plugininstances_plugininstance_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "plugininstances_plugininstance"
+"""
+enum plugininstances_plugininstance_select_column {
+  """column name"""
+  compute_resource_id
+
+  """column name"""
+  cpu_limit
+
+  """column name"""
+  end_date
+
+  """column name"""
+  error_code
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  gpu_limit
+
+  """column name"""
+  id
+
+  """column name"""
+  memory_limit
+
+  """column name"""
+  number_of_workers
+
+  """column name"""
+  owner_id
+
+  """column name"""
+  pipeline_inst_id
+
+  """column name"""
+  plugin_id
+
+  """column name"""
+  previous_id
+
+  """column name"""
+  raw
+
+  """column name"""
+  size
+
+  """column name"""
+  start_date
+
+  """column name"""
+  status
+
+  """column name"""
+  summary
+
+  """column name"""
+  title
+
+  """column name"""
+  workflow_id
+}
+
+"""
+input type for updating data in table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_set_input {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz
+  error_code: String
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  raw: String
+  size: bigint
+  start_date: timestamptz
+  status: String
+  summary: String
+  title: String
+  workflow_id: bigint
+}
+
+"""aggregate stddev on columns"""
+type plugininstances_plugininstance_stddev_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by stddev() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_stddev_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type plugininstances_plugininstance_stddev_pop_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_stddev_pop_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type plugininstances_plugininstance_stddev_samp_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_stddev_samp_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""
+Streaming cursor of the table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: plugininstances_plugininstance_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input plugininstances_plugininstance_stream_cursor_value_input {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  end_date: timestamptz
+  error_code: String
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  raw: String
+  size: bigint
+  start_date: timestamptz
+  status: String
+  summary: String
+  title: String
+  workflow_id: bigint
+}
+
+"""aggregate sum on columns"""
+type plugininstances_plugininstance_sum_fields {
+  compute_resource_id: bigint
+  cpu_limit: Int
+  feed_id: bigint
+  gpu_limit: Int
+  id: bigint
+  memory_limit: Int
+  number_of_workers: Int
+  owner_id: Int
+  pipeline_inst_id: bigint
+  plugin_id: bigint
+  previous_id: bigint
+  size: bigint
+  workflow_id: bigint
+}
+
+"""
+order by sum() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_sum_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""
+update columns of table "plugininstances_plugininstance"
+"""
+enum plugininstances_plugininstance_update_column {
+  """column name"""
+  compute_resource_id
+
+  """column name"""
+  cpu_limit
+
+  """column name"""
+  end_date
+
+  """column name"""
+  error_code
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  gpu_limit
+
+  """column name"""
+  id
+
+  """column name"""
+  memory_limit
+
+  """column name"""
+  number_of_workers
+
+  """column name"""
+  owner_id
+
+  """column name"""
+  pipeline_inst_id
+
+  """column name"""
+  plugin_id
+
+  """column name"""
+  previous_id
+
+  """column name"""
+  raw
+
+  """column name"""
+  size
+
+  """column name"""
+  start_date
+
+  """column name"""
+  status
+
+  """column name"""
+  summary
+
+  """column name"""
+  title
+
+  """column name"""
+  workflow_id
+}
+
+input plugininstances_plugininstance_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: plugininstances_plugininstance_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: plugininstances_plugininstance_set_input
+
+  """filter the rows which have to be updated"""
+  where: plugininstances_plugininstance_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type plugininstances_plugininstance_var_pop_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by var_pop() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_var_pop_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type plugininstances_plugininstance_var_samp_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by var_samp() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_var_samp_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""aggregate variance on columns"""
+type plugininstances_plugininstance_variance_fields {
+  compute_resource_id: Float
+  cpu_limit: Float
+  feed_id: Float
+  gpu_limit: Float
+  id: Float
+  memory_limit: Float
+  number_of_workers: Float
+  owner_id: Float
+  pipeline_inst_id: Float
+  plugin_id: Float
+  previous_id: Float
+  size: Float
+  workflow_id: Float
+}
+
+"""
+order by variance() on columns of table "plugininstances_plugininstance"
+"""
+input plugininstances_plugininstance_variance_order_by {
+  compute_resource_id: order_by
+  cpu_limit: order_by
+  feed_id: order_by
+  gpu_limit: order_by
+  id: order_by
+  memory_limit: order_by
+  number_of_workers: order_by
+  owner_id: order_by
+  pipeline_inst_id: order_by
+  plugin_id: order_by
+  previous_id: order_by
+  size: order_by
+  workflow_id: order_by
+}
+
+"""
+columns and relationships of "plugininstances_plugininstancefile"
+"""
+type plugininstances_plugininstancefile {
+  creation_date: timestamptz!
+  fname: String!
+  id: bigint!
+  plugin_inst_id: bigint!
+
+  """An object relationship"""
+  plugininstances_plugininstance: plugininstances_plugininstance!
+}
+
+"""
+aggregated selection of "plugininstances_plugininstancefile"
+"""
+type plugininstances_plugininstancefile_aggregate {
+  aggregate: plugininstances_plugininstancefile_aggregate_fields
+  nodes: [plugininstances_plugininstancefile!]!
+}
+
+input plugininstances_plugininstancefile_aggregate_bool_exp {
+  count: plugininstances_plugininstancefile_aggregate_bool_exp_count
+}
+
+input plugininstances_plugininstancefile_aggregate_bool_exp_count {
+  arguments: [plugininstances_plugininstancefile_select_column!]
+  distinct: Boolean
+  filter: plugininstances_plugininstancefile_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "plugininstances_plugininstancefile"
+"""
+type plugininstances_plugininstancefile_aggregate_fields {
+  avg: plugininstances_plugininstancefile_avg_fields
+  count(columns: [plugininstances_plugininstancefile_select_column!], distinct: Boolean): Int!
+  max: plugininstances_plugininstancefile_max_fields
+  min: plugininstances_plugininstancefile_min_fields
+  stddev: plugininstances_plugininstancefile_stddev_fields
+  stddev_pop: plugininstances_plugininstancefile_stddev_pop_fields
+  stddev_samp: plugininstances_plugininstancefile_stddev_samp_fields
+  sum: plugininstances_plugininstancefile_sum_fields
+  var_pop: plugininstances_plugininstancefile_var_pop_fields
+  var_samp: plugininstances_plugininstancefile_var_samp_fields
+  variance: plugininstances_plugininstancefile_variance_fields
+}
+
+"""
+order by aggregate values of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_aggregate_order_by {
+  avg: plugininstances_plugininstancefile_avg_order_by
+  count: order_by
+  max: plugininstances_plugininstancefile_max_order_by
+  min: plugininstances_plugininstancefile_min_order_by
+  stddev: plugininstances_plugininstancefile_stddev_order_by
+  stddev_pop: plugininstances_plugininstancefile_stddev_pop_order_by
+  stddev_samp: plugininstances_plugininstancefile_stddev_samp_order_by
+  sum: plugininstances_plugininstancefile_sum_order_by
+  var_pop: plugininstances_plugininstancefile_var_pop_order_by
+  var_samp: plugininstances_plugininstancefile_var_samp_order_by
+  variance: plugininstances_plugininstancefile_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_arr_rel_insert_input {
+  data: [plugininstances_plugininstancefile_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: plugininstances_plugininstancefile_on_conflict
+}
+
+"""aggregate avg on columns"""
+type plugininstances_plugininstancefile_avg_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by avg() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_avg_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "plugininstances_plugininstancefile". All fields are combined with a logical 'AND'.
+"""
+input plugininstances_plugininstancefile_bool_exp {
+  _and: [plugininstances_plugininstancefile_bool_exp!]
+  _not: plugininstances_plugininstancefile_bool_exp
+  _or: [plugininstances_plugininstancefile_bool_exp!]
+  creation_date: timestamptz_comparison_exp
+  fname: String_comparison_exp
+  id: bigint_comparison_exp
+  plugin_inst_id: bigint_comparison_exp
+  plugininstances_plugininstance: plugininstances_plugininstance_bool_exp
+}
+
+"""
+unique or primary key constraints on table "plugininstances_plugininstancefile"
+"""
+enum plugininstances_plugininstancefile_constraint {
+  """
+  unique or primary key constraint on columns "fname"
+  """
+  plugininstances_plugininstancefile_fname_fc1d9d05_uniq
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  plugininstances_plugininstancefile_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_inc_input {
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""
+input type for inserting data into table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_insert_input {
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  plugin_inst_id: bigint
+  plugininstances_plugininstance: plugininstances_plugininstance_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type plugininstances_plugininstancefile_max_fields {
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""
+order by max() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_max_order_by {
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""aggregate min on columns"""
+type plugininstances_plugininstancefile_min_fields {
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""
+order by min() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_min_order_by {
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+response of any mutation on the table "plugininstances_plugininstancefile"
+"""
+type plugininstances_plugininstancefile_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [plugininstances_plugininstancefile!]!
+}
+
+"""
+on_conflict condition type for table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_on_conflict {
+  constraint: plugininstances_plugininstancefile_constraint!
+  update_columns: [plugininstances_plugininstancefile_update_column!]! = []
+  where: plugininstances_plugininstancefile_bool_exp
+}
+
+"""
+Ordering options when selecting data from "plugininstances_plugininstancefile".
+"""
+input plugininstances_plugininstancefile_order_by {
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  plugin_inst_id: order_by
+  plugininstances_plugininstance: plugininstances_plugininstance_order_by
+}
+
+"""
+primary key columns input for table: plugininstances_plugininstancefile
+"""
+input plugininstances_plugininstancefile_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "plugininstances_plugininstancefile"
+"""
+enum plugininstances_plugininstancefile_select_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  fname
+
+  """column name"""
+  id
+
+  """column name"""
+  plugin_inst_id
+}
+
+"""
+input type for updating data in table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_set_input {
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""aggregate stddev on columns"""
+type plugininstances_plugininstancefile_stddev_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by stddev() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_stddev_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type plugininstances_plugininstancefile_stddev_pop_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_stddev_pop_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type plugininstances_plugininstancefile_stddev_samp_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_stddev_samp_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+Streaming cursor of the table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: plugininstances_plugininstancefile_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input plugininstances_plugininstancefile_stream_cursor_value_input {
+  creation_date: timestamptz
+  fname: String
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""aggregate sum on columns"""
+type plugininstances_plugininstancefile_sum_fields {
+  id: bigint
+  plugin_inst_id: bigint
+}
+
+"""
+order by sum() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_sum_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+update columns of table "plugininstances_plugininstancefile"
+"""
+enum plugininstances_plugininstancefile_update_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  fname
+
+  """column name"""
+  id
+
+  """column name"""
+  plugin_inst_id
+}
+
+input plugininstances_plugininstancefile_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: plugininstances_plugininstancefile_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: plugininstances_plugininstancefile_set_input
+
+  """filter the rows which have to be updated"""
+  where: plugininstances_plugininstancefile_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type plugininstances_plugininstancefile_var_pop_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by var_pop() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_var_pop_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type plugininstances_plugininstancefile_var_samp_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by var_samp() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_var_samp_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""aggregate variance on columns"""
+type plugininstances_plugininstancefile_variance_fields {
+  id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by variance() on columns of table "plugininstances_plugininstancefile"
+"""
+input plugininstances_plugininstancefile_variance_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+columns and relationships of "plugins_plugin"
+"""
+type plugins_plugin {
+  creation_date: timestamptz!
+  description: String!
+  dock_image: String!
+  execshell: String!
+  id: bigint!
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint!
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+
+  """An array relationship"""
+  plugininstances_plugininstances(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """An aggregate relationship"""
+  plugininstances_plugininstances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+
+  """An object relationship"""
+  plugins_pluginmetum: plugins_pluginmeta!
+  selfexec: String!
+  selfpath: String!
+  version: String!
+}
+
+"""
+aggregated selection of "plugins_plugin"
+"""
+type plugins_plugin_aggregate {
+  aggregate: plugins_plugin_aggregate_fields
+  nodes: [plugins_plugin!]!
+}
+
+input plugins_plugin_aggregate_bool_exp {
+  count: plugins_plugin_aggregate_bool_exp_count
+}
+
+input plugins_plugin_aggregate_bool_exp_count {
+  arguments: [plugins_plugin_select_column!]
+  distinct: Boolean
+  filter: plugins_plugin_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "plugins_plugin"
+"""
+type plugins_plugin_aggregate_fields {
+  avg: plugins_plugin_avg_fields
+  count(columns: [plugins_plugin_select_column!], distinct: Boolean): Int!
+  max: plugins_plugin_max_fields
+  min: plugins_plugin_min_fields
+  stddev: plugins_plugin_stddev_fields
+  stddev_pop: plugins_plugin_stddev_pop_fields
+  stddev_samp: plugins_plugin_stddev_samp_fields
+  sum: plugins_plugin_sum_fields
+  var_pop: plugins_plugin_var_pop_fields
+  var_samp: plugins_plugin_var_samp_fields
+  variance: plugins_plugin_variance_fields
+}
+
+"""
+order by aggregate values of table "plugins_plugin"
+"""
+input plugins_plugin_aggregate_order_by {
+  avg: plugins_plugin_avg_order_by
+  count: order_by
+  max: plugins_plugin_max_order_by
+  min: plugins_plugin_min_order_by
+  stddev: plugins_plugin_stddev_order_by
+  stddev_pop: plugins_plugin_stddev_pop_order_by
+  stddev_samp: plugins_plugin_stddev_samp_order_by
+  sum: plugins_plugin_sum_order_by
+  var_pop: plugins_plugin_var_pop_order_by
+  var_samp: plugins_plugin_var_samp_order_by
+  variance: plugins_plugin_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "plugins_plugin"
+"""
+input plugins_plugin_arr_rel_insert_input {
+  data: [plugins_plugin_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: plugins_plugin_on_conflict
+}
+
+"""aggregate avg on columns"""
+type plugins_plugin_avg_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by avg() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_avg_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "plugins_plugin". All fields are combined with a logical 'AND'.
+"""
+input plugins_plugin_bool_exp {
+  _and: [plugins_plugin_bool_exp!]
+  _not: plugins_plugin_bool_exp
+  _or: [plugins_plugin_bool_exp!]
+  creation_date: timestamptz_comparison_exp
+  description: String_comparison_exp
+  dock_image: String_comparison_exp
+  execshell: String_comparison_exp
+  id: bigint_comparison_exp
+  max_cpu_limit: Int_comparison_exp
+  max_gpu_limit: Int_comparison_exp
+  max_memory_limit: Int_comparison_exp
+  max_number_of_workers: Int_comparison_exp
+  meta_id: bigint_comparison_exp
+  min_cpu_limit: Int_comparison_exp
+  min_gpu_limit: Int_comparison_exp
+  min_memory_limit: Int_comparison_exp
+  min_number_of_workers: Int_comparison_exp
+  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  plugins_pluginmetum: plugins_pluginmeta_bool_exp
+  selfexec: String_comparison_exp
+  selfpath: String_comparison_exp
+  version: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "plugins_plugin"
+"""
+enum plugins_plugin_constraint {
+  """
+  unique or primary key constraint on columns "dock_image", "meta_id"
+  """
+  plugins_plugin_meta_id_dock_image_d362ec89_uniq
+
+  """
+  unique or primary key constraint on columns "meta_id", "version"
+  """
+  plugins_plugin_meta_id_version_880033ee_uniq
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  plugins_plugin_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "plugins_plugin"
+"""
+input plugins_plugin_inc_input {
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+}
+
+"""
+input type for inserting data into table "plugins_plugin"
+"""
+input plugins_plugin_insert_input {
+  creation_date: timestamptz
+  description: String
+  dock_image: String
+  execshell: String
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  plugins_pluginmetum: plugins_pluginmeta_obj_rel_insert_input
+  selfexec: String
+  selfpath: String
+  version: String
+}
+
+"""aggregate max on columns"""
+type plugins_plugin_max_fields {
+  creation_date: timestamptz
+  description: String
+  dock_image: String
+  execshell: String
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+  selfexec: String
+  selfpath: String
+  version: String
+}
+
+"""
+order by max() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_max_order_by {
+  creation_date: order_by
+  description: order_by
+  dock_image: order_by
+  execshell: order_by
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+  selfexec: order_by
+  selfpath: order_by
+  version: order_by
+}
+
+"""aggregate min on columns"""
+type plugins_plugin_min_fields {
+  creation_date: timestamptz
+  description: String
+  dock_image: String
+  execshell: String
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+  selfexec: String
+  selfpath: String
+  version: String
+}
+
+"""
+order by min() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_min_order_by {
+  creation_date: order_by
+  description: order_by
+  dock_image: order_by
+  execshell: order_by
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+  selfexec: order_by
+  selfpath: order_by
+  version: order_by
+}
+
+"""
+response of any mutation on the table "plugins_plugin"
+"""
+type plugins_plugin_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [plugins_plugin!]!
+}
+
+"""
+input type for inserting object relation for remote table "plugins_plugin"
+"""
+input plugins_plugin_obj_rel_insert_input {
+  data: plugins_plugin_insert_input!
+
+  """upsert condition"""
+  on_conflict: plugins_plugin_on_conflict
+}
+
+"""
+on_conflict condition type for table "plugins_plugin"
+"""
+input plugins_plugin_on_conflict {
+  constraint: plugins_plugin_constraint!
+  update_columns: [plugins_plugin_update_column!]! = []
+  where: plugins_plugin_bool_exp
+}
+
+"""Ordering options when selecting data from "plugins_plugin"."""
+input plugins_plugin_order_by {
+  creation_date: order_by
+  description: order_by
+  dock_image: order_by
+  execshell: order_by
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  plugins_pluginmetum: plugins_pluginmeta_order_by
+  selfexec: order_by
+  selfpath: order_by
+  version: order_by
+}
+
+"""primary key columns input for table: plugins_plugin"""
+input plugins_plugin_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "plugins_plugin"
+"""
+enum plugins_plugin_select_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  description
+
+  """column name"""
+  dock_image
+
+  """column name"""
+  execshell
+
+  """column name"""
+  id
+
+  """column name"""
+  max_cpu_limit
+
+  """column name"""
+  max_gpu_limit
+
+  """column name"""
+  max_memory_limit
+
+  """column name"""
+  max_number_of_workers
+
+  """column name"""
+  meta_id
+
+  """column name"""
+  min_cpu_limit
+
+  """column name"""
+  min_gpu_limit
+
+  """column name"""
+  min_memory_limit
+
+  """column name"""
+  min_number_of_workers
+
+  """column name"""
+  selfexec
+
+  """column name"""
+  selfpath
+
+  """column name"""
+  version
+}
+
+"""
+input type for updating data in table "plugins_plugin"
+"""
+input plugins_plugin_set_input {
+  creation_date: timestamptz
+  description: String
+  dock_image: String
+  execshell: String
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+  selfexec: String
+  selfpath: String
+  version: String
+}
+
+"""aggregate stddev on columns"""
+type plugins_plugin_stddev_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by stddev() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_stddev_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type plugins_plugin_stddev_pop_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by stddev_pop() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_stddev_pop_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type plugins_plugin_stddev_samp_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by stddev_samp() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_stddev_samp_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""
+Streaming cursor of the table "plugins_plugin"
+"""
+input plugins_plugin_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: plugins_plugin_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input plugins_plugin_stream_cursor_value_input {
+  creation_date: timestamptz
+  description: String
+  dock_image: String
+  execshell: String
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+  selfexec: String
+  selfpath: String
+  version: String
+}
+
+"""aggregate sum on columns"""
+type plugins_plugin_sum_fields {
+  id: bigint
+  max_cpu_limit: Int
+  max_gpu_limit: Int
+  max_memory_limit: Int
+  max_number_of_workers: Int
+  meta_id: bigint
+  min_cpu_limit: Int
+  min_gpu_limit: Int
+  min_memory_limit: Int
+  min_number_of_workers: Int
+}
+
+"""
+order by sum() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_sum_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""
+update columns of table "plugins_plugin"
+"""
+enum plugins_plugin_update_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  description
+
+  """column name"""
+  dock_image
+
+  """column name"""
+  execshell
+
+  """column name"""
+  id
+
+  """column name"""
+  max_cpu_limit
+
+  """column name"""
+  max_gpu_limit
+
+  """column name"""
+  max_memory_limit
+
+  """column name"""
+  max_number_of_workers
+
+  """column name"""
+  meta_id
+
+  """column name"""
+  min_cpu_limit
+
+  """column name"""
+  min_gpu_limit
+
+  """column name"""
+  min_memory_limit
+
+  """column name"""
+  min_number_of_workers
+
+  """column name"""
+  selfexec
+
+  """column name"""
+  selfpath
+
+  """column name"""
+  version
+}
+
+input plugins_plugin_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: plugins_plugin_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: plugins_plugin_set_input
+
+  """filter the rows which have to be updated"""
+  where: plugins_plugin_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type plugins_plugin_var_pop_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by var_pop() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_var_pop_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""aggregate var_samp on columns"""
+type plugins_plugin_var_samp_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by var_samp() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_var_samp_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""aggregate variance on columns"""
+type plugins_plugin_variance_fields {
+  id: Float
+  max_cpu_limit: Float
+  max_gpu_limit: Float
+  max_memory_limit: Float
+  max_number_of_workers: Float
+  meta_id: Float
+  min_cpu_limit: Float
+  min_gpu_limit: Float
+  min_memory_limit: Float
+  min_number_of_workers: Float
+}
+
+"""
+order by variance() on columns of table "plugins_plugin"
+"""
+input plugins_plugin_variance_order_by {
+  id: order_by
+  max_cpu_limit: order_by
+  max_gpu_limit: order_by
+  max_memory_limit: order_by
+  max_number_of_workers: order_by
+  meta_id: order_by
+  min_cpu_limit: order_by
+  min_gpu_limit: order_by
+  min_memory_limit: order_by
+  min_number_of_workers: order_by
+}
+
+"""
+columns and relationships of "plugins_pluginmeta"
+"""
+type plugins_pluginmeta {
+  authors: String!
+  category: String!
+  creation_date: timestamptz!
+  documentation: String!
+  icon: String!
+  id: bigint!
+  license: String!
+  modification_date: timestamptz!
+  name: String!
+
+  """An array relationship"""
+  plugins_plugins(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): [plugins_plugin!]!
+
+  """An aggregate relationship"""
+  plugins_plugins_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): plugins_plugin_aggregate!
+  public_repo: String!
+  stars: Int!
+  title: String!
+  type: String!
+}
+
+"""
+aggregated selection of "plugins_pluginmeta"
+"""
+type plugins_pluginmeta_aggregate {
+  aggregate: plugins_pluginmeta_aggregate_fields
+  nodes: [plugins_pluginmeta!]!
+}
+
+"""
+aggregate fields of "plugins_pluginmeta"
+"""
+type plugins_pluginmeta_aggregate_fields {
+  avg: plugins_pluginmeta_avg_fields
+  count(columns: [plugins_pluginmeta_select_column!], distinct: Boolean): Int!
+  max: plugins_pluginmeta_max_fields
+  min: plugins_pluginmeta_min_fields
+  stddev: plugins_pluginmeta_stddev_fields
+  stddev_pop: plugins_pluginmeta_stddev_pop_fields
+  stddev_samp: plugins_pluginmeta_stddev_samp_fields
+  sum: plugins_pluginmeta_sum_fields
+  var_pop: plugins_pluginmeta_var_pop_fields
+  var_samp: plugins_pluginmeta_var_samp_fields
+  variance: plugins_pluginmeta_variance_fields
+}
+
+"""aggregate avg on columns"""
+type plugins_pluginmeta_avg_fields {
+  id: Float
+  stars: Float
+}
+
+"""
+Boolean expression to filter rows from the table "plugins_pluginmeta". All fields are combined with a logical 'AND'.
+"""
+input plugins_pluginmeta_bool_exp {
+  _and: [plugins_pluginmeta_bool_exp!]
+  _not: plugins_pluginmeta_bool_exp
+  _or: [plugins_pluginmeta_bool_exp!]
+  authors: String_comparison_exp
+  category: String_comparison_exp
+  creation_date: timestamptz_comparison_exp
+  documentation: String_comparison_exp
+  icon: String_comparison_exp
+  id: bigint_comparison_exp
+  license: String_comparison_exp
+  modification_date: timestamptz_comparison_exp
+  name: String_comparison_exp
+  plugins_plugins: plugins_plugin_bool_exp
+  plugins_plugins_aggregate: plugins_plugin_aggregate_bool_exp
+  public_repo: String_comparison_exp
+  stars: Int_comparison_exp
+  title: String_comparison_exp
+  type: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "plugins_pluginmeta"
+"""
+enum plugins_pluginmeta_constraint {
+  """
+  unique or primary key constraint on columns "name"
+  """
+  plugins_pluginmeta_name_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  plugins_pluginmeta_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_inc_input {
+  id: bigint
+  stars: Int
+}
+
+"""
+input type for inserting data into table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_insert_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  documentation: String
+  icon: String
+  id: bigint
+  license: String
+  modification_date: timestamptz
+  name: String
+  plugins_plugins: plugins_plugin_arr_rel_insert_input
+  public_repo: String
+  stars: Int
+  title: String
+  type: String
+}
+
+"""aggregate max on columns"""
+type plugins_pluginmeta_max_fields {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  documentation: String
+  icon: String
+  id: bigint
+  license: String
+  modification_date: timestamptz
+  name: String
+  public_repo: String
+  stars: Int
+  title: String
+  type: String
+}
+
+"""aggregate min on columns"""
+type plugins_pluginmeta_min_fields {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  documentation: String
+  icon: String
+  id: bigint
+  license: String
+  modification_date: timestamptz
+  name: String
+  public_repo: String
+  stars: Int
+  title: String
+  type: String
+}
+
+"""
+response of any mutation on the table "plugins_pluginmeta"
+"""
+type plugins_pluginmeta_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [plugins_pluginmeta!]!
+}
+
+"""
+input type for inserting object relation for remote table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_obj_rel_insert_input {
+  data: plugins_pluginmeta_insert_input!
+
+  """upsert condition"""
+  on_conflict: plugins_pluginmeta_on_conflict
+}
+
+"""
+on_conflict condition type for table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_on_conflict {
+  constraint: plugins_pluginmeta_constraint!
+  update_columns: [plugins_pluginmeta_update_column!]! = []
+  where: plugins_pluginmeta_bool_exp
+}
+
+"""Ordering options when selecting data from "plugins_pluginmeta"."""
+input plugins_pluginmeta_order_by {
+  authors: order_by
+  category: order_by
+  creation_date: order_by
+  documentation: order_by
+  icon: order_by
+  id: order_by
+  license: order_by
+  modification_date: order_by
+  name: order_by
+  plugins_plugins_aggregate: plugins_plugin_aggregate_order_by
+  public_repo: order_by
+  stars: order_by
+  title: order_by
+  type: order_by
+}
+
+"""primary key columns input for table: plugins_pluginmeta"""
+input plugins_pluginmeta_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "plugins_pluginmeta"
+"""
+enum plugins_pluginmeta_select_column {
+  """column name"""
+  authors
+
+  """column name"""
+  category
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  documentation
+
+  """column name"""
+  icon
+
+  """column name"""
+  id
+
+  """column name"""
+  license
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  public_repo
+
+  """column name"""
+  stars
+
+  """column name"""
+  title
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_set_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  documentation: String
+  icon: String
+  id: bigint
+  license: String
+  modification_date: timestamptz
+  name: String
+  public_repo: String
+  stars: Int
+  title: String
+  type: String
+}
+
+"""aggregate stddev on columns"""
+type plugins_pluginmeta_stddev_fields {
+  id: Float
+  stars: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type plugins_pluginmeta_stddev_pop_fields {
+  id: Float
+  stars: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type plugins_pluginmeta_stddev_samp_fields {
+  id: Float
+  stars: Float
+}
+
+"""
+Streaming cursor of the table "plugins_pluginmeta"
+"""
+input plugins_pluginmeta_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: plugins_pluginmeta_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input plugins_pluginmeta_stream_cursor_value_input {
+  authors: String
+  category: String
+  creation_date: timestamptz
+  documentation: String
+  icon: String
+  id: bigint
+  license: String
+  modification_date: timestamptz
+  name: String
+  public_repo: String
+  stars: Int
+  title: String
+  type: String
+}
+
+"""aggregate sum on columns"""
+type plugins_pluginmeta_sum_fields {
+  id: bigint
+  stars: Int
+}
+
+"""
+update columns of table "plugins_pluginmeta"
+"""
+enum plugins_pluginmeta_update_column {
+  """column name"""
+  authors
+
+  """column name"""
+  category
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  documentation
+
+  """column name"""
+  icon
+
+  """column name"""
+  id
+
+  """column name"""
+  license
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  name
+
+  """column name"""
+  public_repo
+
+  """column name"""
+  stars
+
+  """column name"""
+  title
+
+  """column name"""
+  type
+}
+
+input plugins_pluginmeta_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: plugins_pluginmeta_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: plugins_pluginmeta_set_input
+
+  """filter the rows which have to be updated"""
+  where: plugins_pluginmeta_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type plugins_pluginmeta_var_pop_fields {
+  id: Float
+  stars: Float
+}
+
+"""aggregate var_samp on columns"""
+type plugins_pluginmeta_var_samp_fields {
+  id: Float
+  stars: Float
+}
+
+"""aggregate variance on columns"""
+type plugins_pluginmeta_variance_fields {
+  id: Float
+  stars: Float
+}
+
 type query_root {
+  """
+  fetch data from the table: "feeds_feed"
+  """
+  feeds_feed(
+    """distinct select on columns"""
+    distinct_on: [feeds_feed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_feed_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_feed_bool_exp
+  ): [feeds_feed!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_feed"
+  """
+  feeds_feed_aggregate(
+    """distinct select on columns"""
+    distinct_on: [feeds_feed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_feed_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_feed_bool_exp
+  ): feeds_feed_aggregate!
+
+  """fetch data from the table: "feeds_feed" using primary key columns"""
+  feeds_feed_by_pk(id: bigint!): feeds_feed
+
+  """
+  fetch data from the table: "feeds_note"
+  """
+  feeds_note(
+    """distinct select on columns"""
+    distinct_on: [feeds_note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_note_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_note_bool_exp
+  ): [feeds_note!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_note"
+  """
+  feeds_note_aggregate(
+    """distinct select on columns"""
+    distinct_on: [feeds_note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_note_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_note_bool_exp
+  ): feeds_note_aggregate!
+
+  """fetch data from the table: "feeds_note" using primary key columns"""
+  feeds_note_by_pk(id: bigint!): feeds_note
+
   """
   fetch data from the table: "pacsfiles_pacsfile"
   """
@@ -705,9 +4849,391 @@ type query_root {
   fetch data from the table: "pacsfiles_pacsfile" using primary key columns
   """
   pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
+
+  """
+  fetch data from the table: "pipelines_pipeline"
+  """
+  pipelines_pipeline(
+    """distinct select on columns"""
+    distinct_on: [pipelines_pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipelines_pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipelines_pipeline_bool_exp
+  ): [pipelines_pipeline!]!
+
+  """
+  fetch aggregated fields from the table: "pipelines_pipeline"
+  """
+  pipelines_pipeline_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pipelines_pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipelines_pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipelines_pipeline_bool_exp
+  ): pipelines_pipeline_aggregate!
+
+  """
+  fetch data from the table: "pipelines_pipeline" using primary key columns
+  """
+  pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
+
+  """
+  fetch data from the table: "plugininstances_plugininstance"
+  """
+  plugininstances_plugininstance(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstance"
+  """
+  plugininstances_plugininstance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance" using primary key columns
+  """
+  plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
+
+  """
+  fetch data from the table: "plugininstances_plugininstancefile"
+  """
+  plugininstances_plugininstancefile(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): [plugininstances_plugininstancefile!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstancefile"
+  """
+  plugininstances_plugininstancefile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): plugininstances_plugininstancefile_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstancefile" using primary key columns
+  """
+  plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+
+  """
+  fetch data from the table: "plugins_plugin"
+  """
+  plugins_plugin(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): [plugins_plugin!]!
+
+  """
+  fetch aggregated fields from the table: "plugins_plugin"
+  """
+  plugins_plugin_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): plugins_plugin_aggregate!
+
+  """fetch data from the table: "plugins_plugin" using primary key columns"""
+  plugins_plugin_by_pk(id: bigint!): plugins_plugin
+
+  """
+  fetch data from the table: "plugins_pluginmeta"
+  """
+  plugins_pluginmeta(
+    """distinct select on columns"""
+    distinct_on: [plugins_pluginmeta_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_pluginmeta_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_pluginmeta_bool_exp
+  ): [plugins_pluginmeta!]!
+
+  """
+  fetch aggregated fields from the table: "plugins_pluginmeta"
+  """
+  plugins_pluginmeta_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugins_pluginmeta_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_pluginmeta_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_pluginmeta_bool_exp
+  ): plugins_pluginmeta_aggregate!
+
+  """
+  fetch data from the table: "plugins_pluginmeta" using primary key columns
+  """
+  plugins_pluginmeta_by_pk(id: bigint!): plugins_pluginmeta
+
+  """
+  fetch data from the table: "workflows_workflow"
+  """
+  workflows_workflow(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): [workflows_workflow!]!
+
+  """
+  fetch aggregated fields from the table: "workflows_workflow"
+  """
+  workflows_workflow_aggregate(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): workflows_workflow_aggregate!
+
+  """
+  fetch data from the table: "workflows_workflow" using primary key columns
+  """
+  workflows_workflow_by_pk(id: bigint!): workflows_workflow
 }
 
 type subscription_root {
+  """
+  fetch data from the table: "feeds_feed"
+  """
+  feeds_feed(
+    """distinct select on columns"""
+    distinct_on: [feeds_feed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_feed_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_feed_bool_exp
+  ): [feeds_feed!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_feed"
+  """
+  feeds_feed_aggregate(
+    """distinct select on columns"""
+    distinct_on: [feeds_feed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_feed_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_feed_bool_exp
+  ): feeds_feed_aggregate!
+
+  """fetch data from the table: "feeds_feed" using primary key columns"""
+  feeds_feed_by_pk(id: bigint!): feeds_feed
+
+  """
+  fetch data from the table in a streaming manner: "feeds_feed"
+  """
+  feeds_feed_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [feeds_feed_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: feeds_feed_bool_exp
+  ): [feeds_feed!]!
+
+  """
+  fetch data from the table: "feeds_note"
+  """
+  feeds_note(
+    """distinct select on columns"""
+    distinct_on: [feeds_note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_note_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_note_bool_exp
+  ): [feeds_note!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_note"
+  """
+  feeds_note_aggregate(
+    """distinct select on columns"""
+    distinct_on: [feeds_note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [feeds_note_order_by!]
+
+    """filter the rows returned"""
+    where: feeds_note_bool_exp
+  ): feeds_note_aggregate!
+
+  """fetch data from the table: "feeds_note" using primary key columns"""
+  feeds_note_by_pk(id: bigint!): feeds_note
+
+  """
+  fetch data from the table in a streaming manner: "feeds_note"
+  """
+  feeds_note_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [feeds_note_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: feeds_note_bool_exp
+  ): [feeds_note!]!
+
   """
   fetch data from the table: "pacsfiles_pacsfile"
   """
@@ -766,6 +5292,358 @@ type subscription_root {
     """filter the rows returned"""
     where: pacsfiles_pacsfile_bool_exp
   ): [pacsfiles_pacsfile!]!
+
+  """
+  fetch data from the table: "pipelines_pipeline"
+  """
+  pipelines_pipeline(
+    """distinct select on columns"""
+    distinct_on: [pipelines_pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipelines_pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipelines_pipeline_bool_exp
+  ): [pipelines_pipeline!]!
+
+  """
+  fetch aggregated fields from the table: "pipelines_pipeline"
+  """
+  pipelines_pipeline_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pipelines_pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipelines_pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipelines_pipeline_bool_exp
+  ): pipelines_pipeline_aggregate!
+
+  """
+  fetch data from the table: "pipelines_pipeline" using primary key columns
+  """
+  pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
+
+  """
+  fetch data from the table in a streaming manner: "pipelines_pipeline"
+  """
+  pipelines_pipeline_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [pipelines_pipeline_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: pipelines_pipeline_bool_exp
+  ): [pipelines_pipeline!]!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance"
+  """
+  plugininstances_plugininstance(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstance"
+  """
+  plugininstances_plugininstance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance" using primary key columns
+  """
+  plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
+
+  """
+  fetch data from the table in a streaming manner: "plugininstances_plugininstance"
+  """
+  plugininstances_plugininstance_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [plugininstances_plugininstance_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """
+  fetch data from the table: "plugininstances_plugininstancefile"
+  """
+  plugininstances_plugininstancefile(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): [plugininstances_plugininstancefile!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstancefile"
+  """
+  plugininstances_plugininstancefile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstancefile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstancefile_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): plugininstances_plugininstancefile_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstancefile" using primary key columns
+  """
+  plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+
+  """
+  fetch data from the table in a streaming manner: "plugininstances_plugininstancefile"
+  """
+  plugininstances_plugininstancefile_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [plugininstances_plugininstancefile_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstancefile_bool_exp
+  ): [plugininstances_plugininstancefile!]!
+
+  """
+  fetch data from the table: "plugins_plugin"
+  """
+  plugins_plugin(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): [plugins_plugin!]!
+
+  """
+  fetch aggregated fields from the table: "plugins_plugin"
+  """
+  plugins_plugin_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugins_plugin_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_plugin_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): plugins_plugin_aggregate!
+
+  """fetch data from the table: "plugins_plugin" using primary key columns"""
+  plugins_plugin_by_pk(id: bigint!): plugins_plugin
+
+  """
+  fetch data from the table in a streaming manner: "plugins_plugin"
+  """
+  plugins_plugin_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [plugins_plugin_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: plugins_plugin_bool_exp
+  ): [plugins_plugin!]!
+
+  """
+  fetch data from the table: "plugins_pluginmeta"
+  """
+  plugins_pluginmeta(
+    """distinct select on columns"""
+    distinct_on: [plugins_pluginmeta_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_pluginmeta_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_pluginmeta_bool_exp
+  ): [plugins_pluginmeta!]!
+
+  """
+  fetch aggregated fields from the table: "plugins_pluginmeta"
+  """
+  plugins_pluginmeta_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugins_pluginmeta_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugins_pluginmeta_order_by!]
+
+    """filter the rows returned"""
+    where: plugins_pluginmeta_bool_exp
+  ): plugins_pluginmeta_aggregate!
+
+  """
+  fetch data from the table: "plugins_pluginmeta" using primary key columns
+  """
+  plugins_pluginmeta_by_pk(id: bigint!): plugins_pluginmeta
+
+  """
+  fetch data from the table in a streaming manner: "plugins_pluginmeta"
+  """
+  plugins_pluginmeta_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [plugins_pluginmeta_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: plugins_pluginmeta_bool_exp
+  ): [plugins_pluginmeta!]!
+
+  """
+  fetch data from the table: "workflows_workflow"
+  """
+  workflows_workflow(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): [workflows_workflow!]!
+
+  """
+  fetch aggregated fields from the table: "workflows_workflow"
+  """
+  workflows_workflow_aggregate(
+    """distinct select on columns"""
+    distinct_on: [workflows_workflow_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [workflows_workflow_order_by!]
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): workflows_workflow_aggregate!
+
+  """
+  fetch data from the table: "workflows_workflow" using primary key columns
+  """
+  workflows_workflow_by_pk(id: bigint!): workflows_workflow
+
+  """
+  fetch data from the table in a streaming manner: "workflows_workflow"
+  """
+  workflows_workflow_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [workflows_workflow_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: workflows_workflow_bool_exp
+  ): [workflows_workflow!]!
 }
 
 scalar timestamptz
@@ -783,4 +5661,462 @@ input timestamptz_comparison_exp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "workflows_workflow"
+"""
+type workflows_workflow {
+  creation_date: timestamptz!
+  id: bigint!
+  owner_id: Int!
+  pipeline_id: bigint!
+
+  """An object relationship"""
+  pipelines_pipeline: pipelines_pipeline!
+
+  """An array relationship"""
+  plugininstances_plugininstances(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): [plugininstances_plugininstance!]!
+
+  """An aggregate relationship"""
+  plugininstances_plugininstances_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugininstances_plugininstance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugininstances_plugininstance_order_by!]
+
+    """filter the rows returned"""
+    where: plugininstances_plugininstance_bool_exp
+  ): plugininstances_plugininstance_aggregate!
+  title: String!
+}
+
+"""
+aggregated selection of "workflows_workflow"
+"""
+type workflows_workflow_aggregate {
+  aggregate: workflows_workflow_aggregate_fields
+  nodes: [workflows_workflow!]!
+}
+
+input workflows_workflow_aggregate_bool_exp {
+  count: workflows_workflow_aggregate_bool_exp_count
+}
+
+input workflows_workflow_aggregate_bool_exp_count {
+  arguments: [workflows_workflow_select_column!]
+  distinct: Boolean
+  filter: workflows_workflow_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "workflows_workflow"
+"""
+type workflows_workflow_aggregate_fields {
+  avg: workflows_workflow_avg_fields
+  count(columns: [workflows_workflow_select_column!], distinct: Boolean): Int!
+  max: workflows_workflow_max_fields
+  min: workflows_workflow_min_fields
+  stddev: workflows_workflow_stddev_fields
+  stddev_pop: workflows_workflow_stddev_pop_fields
+  stddev_samp: workflows_workflow_stddev_samp_fields
+  sum: workflows_workflow_sum_fields
+  var_pop: workflows_workflow_var_pop_fields
+  var_samp: workflows_workflow_var_samp_fields
+  variance: workflows_workflow_variance_fields
+}
+
+"""
+order by aggregate values of table "workflows_workflow"
+"""
+input workflows_workflow_aggregate_order_by {
+  avg: workflows_workflow_avg_order_by
+  count: order_by
+  max: workflows_workflow_max_order_by
+  min: workflows_workflow_min_order_by
+  stddev: workflows_workflow_stddev_order_by
+  stddev_pop: workflows_workflow_stddev_pop_order_by
+  stddev_samp: workflows_workflow_stddev_samp_order_by
+  sum: workflows_workflow_sum_order_by
+  var_pop: workflows_workflow_var_pop_order_by
+  var_samp: workflows_workflow_var_samp_order_by
+  variance: workflows_workflow_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "workflows_workflow"
+"""
+input workflows_workflow_arr_rel_insert_input {
+  data: [workflows_workflow_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: workflows_workflow_on_conflict
+}
+
+"""aggregate avg on columns"""
+type workflows_workflow_avg_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by avg() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_avg_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "workflows_workflow". All fields are combined with a logical 'AND'.
+"""
+input workflows_workflow_bool_exp {
+  _and: [workflows_workflow_bool_exp!]
+  _not: workflows_workflow_bool_exp
+  _or: [workflows_workflow_bool_exp!]
+  creation_date: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  owner_id: Int_comparison_exp
+  pipeline_id: bigint_comparison_exp
+  pipelines_pipeline: pipelines_pipeline_bool_exp
+  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "workflows_workflow"
+"""
+enum workflows_workflow_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  workflows_workflow_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "workflows_workflow"
+"""
+input workflows_workflow_inc_input {
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+}
+
+"""
+input type for inserting data into table "workflows_workflow"
+"""
+input workflows_workflow_insert_input {
+  creation_date: timestamptz
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+  pipelines_pipeline: pipelines_pipeline_obj_rel_insert_input
+  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  title: String
+}
+
+"""aggregate max on columns"""
+type workflows_workflow_max_fields {
+  creation_date: timestamptz
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+  title: String
+}
+
+"""
+order by max() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_max_order_by {
+  creation_date: order_by
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+  title: order_by
+}
+
+"""aggregate min on columns"""
+type workflows_workflow_min_fields {
+  creation_date: timestamptz
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+  title: String
+}
+
+"""
+order by min() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_min_order_by {
+  creation_date: order_by
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+  title: order_by
+}
+
+"""
+response of any mutation on the table "workflows_workflow"
+"""
+type workflows_workflow_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [workflows_workflow!]!
+}
+
+"""
+input type for inserting object relation for remote table "workflows_workflow"
+"""
+input workflows_workflow_obj_rel_insert_input {
+  data: workflows_workflow_insert_input!
+
+  """upsert condition"""
+  on_conflict: workflows_workflow_on_conflict
+}
+
+"""
+on_conflict condition type for table "workflows_workflow"
+"""
+input workflows_workflow_on_conflict {
+  constraint: workflows_workflow_constraint!
+  update_columns: [workflows_workflow_update_column!]! = []
+  where: workflows_workflow_bool_exp
+}
+
+"""Ordering options when selecting data from "workflows_workflow"."""
+input workflows_workflow_order_by {
+  creation_date: order_by
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+  pipelines_pipeline: pipelines_pipeline_order_by
+  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  title: order_by
+}
+
+"""primary key columns input for table: workflows_workflow"""
+input workflows_workflow_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "workflows_workflow"
+"""
+enum workflows_workflow_select_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  id
+
+  """column name"""
+  owner_id
+
+  """column name"""
+  pipeline_id
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "workflows_workflow"
+"""
+input workflows_workflow_set_input {
+  creation_date: timestamptz
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+  title: String
+}
+
+"""aggregate stddev on columns"""
+type workflows_workflow_stddev_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by stddev() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_stddev_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type workflows_workflow_stddev_pop_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_stddev_pop_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type workflows_workflow_stddev_samp_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_stddev_samp_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""
+Streaming cursor of the table "workflows_workflow"
+"""
+input workflows_workflow_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: workflows_workflow_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input workflows_workflow_stream_cursor_value_input {
+  creation_date: timestamptz
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+  title: String
+}
+
+"""aggregate sum on columns"""
+type workflows_workflow_sum_fields {
+  id: bigint
+  owner_id: Int
+  pipeline_id: bigint
+}
+
+"""
+order by sum() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_sum_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""
+update columns of table "workflows_workflow"
+"""
+enum workflows_workflow_update_column {
+  """column name"""
+  creation_date
+
+  """column name"""
+  id
+
+  """column name"""
+  owner_id
+
+  """column name"""
+  pipeline_id
+
+  """column name"""
+  title
+}
+
+input workflows_workflow_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: workflows_workflow_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: workflows_workflow_set_input
+
+  """filter the rows which have to be updated"""
+  where: workflows_workflow_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type workflows_workflow_var_pop_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by var_pop() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_var_pop_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type workflows_workflow_var_samp_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by var_samp() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_var_samp_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
+}
+
+"""aggregate variance on columns"""
+type workflows_workflow_variance_fields {
+  id: Float
+  owner_id: Float
+  pipeline_id: Float
+}
+
+"""
+order by variance() on columns of table "workflows_workflow"
+"""
+input workflows_workflow_variance_order_by {
+  id: order_by
+  owner_id: order_by
+  pipeline_id: order_by
 }

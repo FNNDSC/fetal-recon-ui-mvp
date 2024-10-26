@@ -1,0 +1,31 @@
+table:
+  name: plugininstances_plugininstance
+  schema: public
+object_relationships:
+  - name: feeds_feed
+    using:
+      foreign_key_constraint_on: feed_id
+  - name: plugininstances_plugininstance
+    using:
+      foreign_key_constraint_on: previous_id
+  - name: plugins_plugin
+    using:
+      foreign_key_constraint_on: plugin_id
+  - name: workflows_workflow
+    using:
+      foreign_key_constraint_on: workflow_id
+array_relationships:
+  - name: plugininstances_plugininstancefiles
+    using:
+      foreign_key_constraint_on:
+        column: plugin_inst_id
+        table:
+          name: plugininstances_plugininstancefile
+          schema: public
+  - name: plugininstances_plugininstances
+    using:
+      foreign_key_constraint_on:
+        column: previous_id
+        table:
+          name: plugininstances_plugininstance
+          schema: public
