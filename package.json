@@ -10,7 +10,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "fmt": "biome format --write .",
     "dicom-push": "bun run ./testing/dicomPush.mjs",
-    "wipe": "./testing/miniChRIS/scripts/clear_pacsfiles.sh",
+    "wipe": "xh -a chris:chris1234 :8000/api/v1/pipelines/workflows/ accept:application/json limit==1000 | jq -r '.results[] | .url' | parallel --bar xh -o /dev/null -a chris:chris1234 DELETE",
     "minichris:up": "cd testing/miniChRIS && docker compose up -d chris db oxidicom graphql-engine",
     "minichris:full": "cd testing/miniChRIS && docker compose --profile hasura --profile pacs up -d",
     "minichris:down": "cd testing/miniChRIS && ./unmake.sh",

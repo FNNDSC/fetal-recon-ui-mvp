@@ -14,7 +14,7 @@ import { CHRIS_UI } from "$lib/config";
 import About from "$lib/About.svelte";
 import { BrainSolid, TableColumnOutline } from "flowbite-svelte-icons";
 import hotkeys from "$lib/ctrlHotkey.svelte";
-import {WorkflowStateStore} from "$houdini";
+import { WorkflowStateStore } from "$houdini";
 
 let showAbout = $state(false);
 

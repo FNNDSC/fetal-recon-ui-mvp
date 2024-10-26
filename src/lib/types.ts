@@ -28,7 +28,9 @@ type PluginInstance = {
   feed: string;
 };
 
-type Workflow = {};
+type Workflow = {
+  title: string;
+};
 
 type Feed = {
   url: string;

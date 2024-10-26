@@ -1,15 +1,29 @@
-query WorkflowState($title: String!) {
+query WorkflowState($title: String!, $pipeline: String!) {
   workflows: workflows_workflow(
     limit: 1
     where: {
-      title: {
-        _eq: $title
+      _and: {
+        title: { _eq: $title }
+        plugininstances_plugininstances_aggregate: {
+          # N.B.:
+          # Workflows are not deleted in CUBE when their plugin
+          # instances are deleted, for instance, when the feed
+          # is deleted. So we need to exclude workflows which
+          # have no plugin instances.
+          count: { predicate: { _gt: 0 } }
+        }
+        pipelines_pipeline: { name: { _eq: $pipeline } }
       }
     }
   ) {
     plugininstances: plugininstances_plugininstances {
       files: plugininstances_plugininstancefiles(
-        where: { fname: { _ilike: "/.+\\\\/recon\\\\.nii(\\\\.gz)?$/" } }
+        where: {
+          _or: [
+            { fname: { _ilike: "%recon.nii" } }
+            { fname: { _ilike: "%recon.nii.gz" } }
+          ]
+        }
         limit: 1
       ) {
         id

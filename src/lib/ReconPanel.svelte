@@ -7,9 +7,11 @@ import { selected } from "$lib/selectionState.svelte";
 import { NeuroFetalMrSeriesStore, WorkflowStateStore } from "$houdini";
 
 import { GradientButton } from "flowbite-svelte";
-import {runPipeline, titleFor} from "$lib/runPipeline";
+import { runPipeline, titleFor } from "$lib/runPipeline";
 import type { Series, Study } from "$lib/types";
 import Scaffold from "$lib/Scaffold.svelte";
+import { CHRIS_URL, PIPELINE_NAME } from "$lib/config";
+import { format } from "date-fns";
 
 const study = $derived(selected.study);
 
@@ -21,14 +23,29 @@ const plugininstances = $derived.by(() => {
     return null;
   }
   return $workflowStore.data.workflows.flatMap((w) => w.plugininstances);
-})
+});
+const reconNii = $derived.by(() => {
+  if (!plugininstances) {
+    return null;
+  }
+  const files = plugininstances.flatMap((p) => p.files);
+  return files[files.length - 1];
+});
+const reconNiiUrl = $derived.by(() => {
+  if (!reconNii) {
+    return;
+  }
+  const { id, fname } = reconNii;
+  const basename = basenameOf(fname);
+  return `${CHRIS_URL}files/${id}${basename}`;
+});
 
 $effect(() => {
   (async () => {
     if (selected.study === null) {
       return;
     }
-    const workflows = await fetchWorkflow(selected.study);
+    await fetchWorkflow(selected.study);
     if (plugininstances?.length === 0) {
       await fetchSeries(selected.study);
     }
@@ -37,9 +54,10 @@ $effect(() => {
 
 function fetchWorkflow(study: Study) {
   const variables = {
-    title: titleFor(study)
+    title: titleFor(study),
+    pipeline: PIPELINE_NAME,
   };
-  return workflowStore.fetch({variables});
+  return workflowStore.fetch({ variables, policy: "NetworkOnly" });
 }
 
 function fetchSeries(study: Study) {
@@ -65,6 +83,42 @@ function seriesFolderOf(fname: string) {
   const i = fname.lastIndexOf("/");
   return fname.substring(0, i);
 }
+
+function basenameOf(fname: string) {
+  const i = fname.lastIndexOf("/");
+  return fname.substring(i);
+}
+
+const STATUSES = {
+  waiting: new Set(["created", "waiting", "scheduled"]),
+  running: new Set(["started", "registeringFiles"]),
+  success: new Set(["finishedSuccessfully"]),
+  error: new Set(["finishedWithError"]),
+  cancelled: new Set(["cancelled"]),
+};
+
+const currentStatuses: ReadonlyArray<{
+  status: keyof typeof STATUSES;
+  count: number;
+}> | null = $derived.by(() => {
+  if (!plugininstances || plugininstances.length === 0) {
+    return null;
+  }
+  const statuses = plugininstances.map((p) => p.status);
+  return (Object.entries(STATUSES) as [keyof typeof STATUSES, Set<string>][])
+    .map(([status, match]) => ({
+      status,
+      count: statuses.filter((s) => match.has(s)).length,
+    }))
+    .filter(({ count }) => count > 0);
+});
+
+const startDate = $derived.by(() => {
+  if (!plugininstances || plugininstances.length === 0) {
+    return null;
+  }
+  return plugininstances[0].start_date;
+});
 
 let creatingWorkflow = $state(false);
 
@@ -94,10 +148,24 @@ async function startPipeline(study: Study, series: ReadonlyArray<Series>) {
           </div>
         {:else if $workflowStore.fetching}
           <div>Searching for feed in <em>ChRIS</em>&hellip;</div>
-        {:else if plugininstances?.length && plugininstances.length > 0}
-          <pre>
-            {JSON.stringify(plugininstances, undefined, 2)}
-          </pre>
+        {:else if reconNiiUrl}
+          <pre>{reconNiiUrl}</pre>
+        {:else if currentStatuses}
+          <p>
+            {#if (currentStatuses.find((s) => s.status === "error")?.count ?? 0) > 0}
+              The pipeline had an error.
+            {:else}
+              The pipeline is currently running, please check back later.
+            {/if}
+          </p>
+          <ul>
+            {#if startDate}
+              <ul>Started at: {format(startDate, "yyyy MMM dd HH:mm:ss")}</ul>
+            {/if}
+            {#each currentStatuses as {status, count}}
+              <li>{status}: {count}</li>
+            {/each}
+          </ul>
         {:else if series}
           <div class="size-full flex items-center justify-center">
             <GradientButton
