@@ -13,8 +13,11 @@ An experimental GUI for the
 
 ### Setup
 
-After cloning this repository, download and set up dummy data by running
+After cloning this repository, set up the backend by running
 
 ```shell
 bun run setup
 ```
+
+Follow the instructions here to download some sample data: https://github.com/FNNDSC/fetal_t2mri_dicoms
+

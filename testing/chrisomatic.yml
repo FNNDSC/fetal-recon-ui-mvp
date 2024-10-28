@@ -28,8 +28,7 @@ cube:
       version: 1.0.0
 
       # needed by fake pipeline
-    - name: pl-mri_sag_anon_192
-      version: 1.0.2
+    - dock_image: ghcr.io/fnndsc/pl-nesvor_pp:1.0.0
 
       # needed by fetal reconstruction pipeline
     - name: pl-dcm2niix

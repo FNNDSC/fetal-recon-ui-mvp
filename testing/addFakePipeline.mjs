@@ -21,14 +21,30 @@ plugin_tree:
   previous: "Unstack folders"
   plugin_parameter_defaults:
     b: n  # no BIDS sidecar
-- title: "Rename output to recon.nii"
-  plugin: pl-bulk-rename v0.1.2
+- title: "Brain Mask"
   previous: "Convert DICOM to NIFTI"
+  plugin: pl-simpledsapp v2.1.0
   plugin_parameter_defaults:
-    # FIXME fails: "recon.nii" already exists.
-    filter: ".*\\\\.nii$"
-    expression: "(.*)\\\\.nii"
-    replacement: "recon.nii"
+    ignoreInputDir: true
+    sleepLength: 10
+- title: "N4 Bias Field Correction"
+  previous: "Brain Mask"
+  plugin: pl-simpledsapp v2.1.0
+  plugin_parameter_defaults:
+    ignoreInputDir: true
+    sleepLength: 10
+- title: "Automatic quality assessment"
+  previous: "N4 Bias Field Correction"
+  plugin: pl-simpledsapp v2.1.0
+  plugin_parameter_defaults:
+    ignoreInputDir: true
+    sleepLength: 10
+- title: "Multi-to-single volume reconstruction - NeSVoR Algorithm"
+  previous: "Automatic quality assessment"
+  plugin: pl-NeSVoR_pp v1.0.0
+  plugin_parameter_defaults:
+    ignoreInputDir: true
+    sleepLength: 10
 `;
 
 const URL = "http://localhost:8000/api/v1/";
