@@ -1,3 +1,8 @@
 table:
   name: pacsfiles_pacsfile
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: pacsfile
+  custom_root_fields: {}

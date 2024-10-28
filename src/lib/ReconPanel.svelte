@@ -23,7 +23,7 @@ const plugininstances = $derived.by(() => {
   if (!$workflowStore.data) {
     return null;
   }
-  return $workflowStore.data.workflows.flatMap((w) => w.plugininstances);
+  return $workflowStore.data.workflow.flatMap((w) => w.plugin_instances);
 });
 const reconNii = $derived.by(() => {
   if (!plugininstances) {
@@ -63,7 +63,7 @@ async function fetchWorkflow(study: Study) {
     policy: "NetworkOnly",
   });
   // SMELL: global state syncing
-  const feedId = workflows.data?.workflows.flatMap((w) => w.plugininstances)[0]
+  const feedId = workflows.data?.workflow.flatMap((w) => w.plugin_instances)[0]
     ?.feed_id;
   if (feedId) {
     feed.id = feedId;
@@ -84,7 +84,7 @@ const series = $derived.by(() => {
   if (!data) {
     return null;
   }
-  return data.pacsfiles_pacsfile.map(({ SeriesDescription, fname }) => ({
+  return data.pacsfile.map(({ SeriesDescription, fname }) => ({
     SeriesDescription,
     folder: seriesFolderOf(fname),
   }));

@@ -1,8 +1,13 @@
 table:
   name: pipelines_pipeline
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: pipeline
+  custom_root_fields: {}
 array_relationships:
-  - name: workflows_workflows
+  - name: workflows
     using:
       foreign_key_constraint_on:
         column: pipeline_id

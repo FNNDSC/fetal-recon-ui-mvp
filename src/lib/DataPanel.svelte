@@ -13,7 +13,7 @@ import { CHRIS_UI } from "$lib/config";
 import DataTable from "$lib/DataTable.svelte";
 
 const store = new NeuroFetalMrStudiesStore();
-const studies = $derived($store.data?.pacsfiles_pacsfile);
+const studies = $derived($store.data?.pacsfile);
 
 onMount(() => {
   store.fetch();

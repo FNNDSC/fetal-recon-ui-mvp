@@ -1,8 +1,13 @@
 table:
   name: feeds_feed
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: feed
+  custom_root_fields: {}
 object_relationships:
-  - name: feeds_note
+  - name: note
     using:
       foreign_key_constraint_on:
         column: feed_id
@@ -10,7 +15,7 @@ object_relationships:
           name: feeds_note
           schema: public
 array_relationships:
-  - name: plugininstances_plugininstances
+  - name: plugin_instances
     using:
       foreign_key_constraint_on:
         column: feed_id

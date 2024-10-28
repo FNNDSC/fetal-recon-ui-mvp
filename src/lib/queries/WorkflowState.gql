@@ -1,10 +1,10 @@
 query WorkflowState($title: String!, $pipeline: String!) {
-  workflows: workflows_workflow(
+  workflow(
     limit: 1
     where: {
       _and: {
         title: { _eq: $title }
-        plugininstances_plugininstances_aggregate: {
+        plugin_instances_aggregate: {
           # N.B.:
           # Workflows are not deleted in CUBE when their plugin
           # instances are deleted, for instance, when the feed
@@ -12,12 +12,12 @@ query WorkflowState($title: String!, $pipeline: String!) {
           # have no plugin instances.
           count: { predicate: { _gt: 0 } }
         }
-        pipelines_pipeline: { name: { _eq: $pipeline } }
+        pipeline: { name: { _eq: $pipeline } }
       }
     }
   ) {
-    plugininstances: plugininstances_plugininstances {
-      files: plugininstances_plugininstancefiles(
+    plugin_instances {
+      files(
         where: {
           _or: [
             { fname: { _ilike: "%recon.nii" } }
@@ -29,8 +29,8 @@ query WorkflowState($title: String!, $pipeline: String!) {
         id
         fname
       }
-      plugin: plugins_plugin {
-        meta: plugins_pluginmetum {
+      plugin {
+        meta {
           name
         }
         version

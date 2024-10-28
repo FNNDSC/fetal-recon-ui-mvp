@@ -1,7 +1,12 @@
 table:
   name: plugininstances_plugininstancefile
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: file
+  custom_root_fields: {}
 object_relationships:
-  - name: plugininstances_plugininstance
+  - name: plugin_instance
     using:
       foreign_key_constraint_on: plugin_inst_id

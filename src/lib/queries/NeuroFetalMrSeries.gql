@@ -1,5 +1,5 @@
 query NeuroFetalMrSeries($StudyInstanceUID: String!, $pacs_id: bigint!) {
-  pacsfiles_pacsfile(
+  pacsfile(
     distinct_on: SeriesInstanceUID
     where: {
       _and: [

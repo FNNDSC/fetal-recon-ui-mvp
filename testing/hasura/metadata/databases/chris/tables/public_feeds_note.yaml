@@ -1,6 +1,11 @@
 table:
   name: feeds_note
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: note
+  custom_root_fields: {}
 object_relationships:
   - name: feeds_feed
     using:

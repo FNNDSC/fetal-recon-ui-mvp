@@ -1,12 +1,17 @@
 table:
   name: workflows_workflow
   schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: workflow
+  custom_root_fields: {}
 object_relationships:
-  - name: pipelines_pipeline
+  - name: pipeline
     using:
       foreign_key_constraint_on: pipeline_id
 array_relationships:
-  - name: plugininstances_plugininstances
+  - name: plugin_instances
     using:
       foreign_key_constraint_on:
         column: workflow_id

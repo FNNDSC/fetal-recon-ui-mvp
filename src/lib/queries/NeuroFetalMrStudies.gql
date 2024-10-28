@@ -1,5 +1,5 @@
 query NeuroFetalMrStudies {
-  pacsfiles_pacsfile(
+  pacsfile(
     limit: 100
     distinct_on: StudyInstanceUID
     where: {

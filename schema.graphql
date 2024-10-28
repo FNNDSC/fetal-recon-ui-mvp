@@ -142,19 +142,19 @@ input date_comparison_exp {
 """
 columns and relationships of "feeds_feed"
 """
-type feeds_feed {
+type feed {
   creation_date: timestamptz!
-
-  """An object relationship"""
-  feeds_note: feeds_note
   id: bigint!
   modification_date: timestamptz!
   name: String!
 
+  """An object relationship"""
+  note: note
+
   """An array relationship"""
-  plugininstances_plugininstances(
+  plugin_instances(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -163,16 +163,16 @@ type feeds_feed {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
 
   """An aggregate relationship"""
-  plugininstances_plugininstances_aggregate(
+  plugin_instances_aggregate(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -181,65 +181,65 @@ type feeds_feed {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
   public: Boolean!
 }
 
 """
 aggregated selection of "feeds_feed"
 """
-type feeds_feed_aggregate {
-  aggregate: feeds_feed_aggregate_fields
-  nodes: [feeds_feed!]!
+type feed_aggregate {
+  aggregate: feed_aggregate_fields
+  nodes: [feed!]!
 }
 
 """
 aggregate fields of "feeds_feed"
 """
-type feeds_feed_aggregate_fields {
-  avg: feeds_feed_avg_fields
-  count(columns: [feeds_feed_select_column!], distinct: Boolean): Int!
-  max: feeds_feed_max_fields
-  min: feeds_feed_min_fields
-  stddev: feeds_feed_stddev_fields
-  stddev_pop: feeds_feed_stddev_pop_fields
-  stddev_samp: feeds_feed_stddev_samp_fields
-  sum: feeds_feed_sum_fields
-  var_pop: feeds_feed_var_pop_fields
-  var_samp: feeds_feed_var_samp_fields
-  variance: feeds_feed_variance_fields
+type feed_aggregate_fields {
+  avg: feed_avg_fields
+  count(columns: [feed_select_column!], distinct: Boolean): Int!
+  max: feed_max_fields
+  min: feed_min_fields
+  stddev: feed_stddev_fields
+  stddev_pop: feed_stddev_pop_fields
+  stddev_samp: feed_stddev_samp_fields
+  sum: feed_sum_fields
+  var_pop: feed_var_pop_fields
+  var_samp: feed_var_samp_fields
+  variance: feed_variance_fields
 }
 
 """aggregate avg on columns"""
-type feeds_feed_avg_fields {
+type feed_avg_fields {
   id: Float
 }
 
 """
 Boolean expression to filter rows from the table "feeds_feed". All fields are combined with a logical 'AND'.
 """
-input feeds_feed_bool_exp {
-  _and: [feeds_feed_bool_exp!]
-  _not: feeds_feed_bool_exp
-  _or: [feeds_feed_bool_exp!]
+input feed_bool_exp {
+  _and: [feed_bool_exp!]
+  _not: feed_bool_exp
+  _or: [feed_bool_exp!]
   creation_date: timestamptz_comparison_exp
-  feeds_note: feeds_note_bool_exp
   id: bigint_comparison_exp
   modification_date: timestamptz_comparison_exp
   name: String_comparison_exp
-  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  note: note_bool_exp
+  plugin_instances: plugin_instance_bool_exp
+  plugin_instances_aggregate: plugin_instance_aggregate_bool_exp
   public: Boolean_comparison_exp
 }
 
 """
 unique or primary key constraints on table "feeds_feed"
 """
-enum feeds_feed_constraint {
+enum feed_constraint {
   """
   unique or primary key constraint on columns "id"
   """
@@ -249,25 +249,25 @@ enum feeds_feed_constraint {
 """
 input type for incrementing numeric columns in table "feeds_feed"
 """
-input feeds_feed_inc_input {
+input feed_inc_input {
   id: bigint
 }
 
 """
 input type for inserting data into table "feeds_feed"
 """
-input feeds_feed_insert_input {
+input feed_insert_input {
   creation_date: timestamptz
-  feeds_note: feeds_note_obj_rel_insert_input
   id: bigint
   modification_date: timestamptz
   name: String
-  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  note: note_obj_rel_insert_input
+  plugin_instances: plugin_instance_arr_rel_insert_input
   public: Boolean
 }
 
 """aggregate max on columns"""
-type feeds_feed_max_fields {
+type feed_max_fields {
   creation_date: timestamptz
   id: bigint
   modification_date: timestamptz
@@ -275,7 +275,7 @@ type feeds_feed_max_fields {
 }
 
 """aggregate min on columns"""
-type feeds_feed_min_fields {
+type feed_min_fields {
   creation_date: timestamptz
   id: bigint
   modification_date: timestamptz
@@ -285,53 +285,53 @@ type feeds_feed_min_fields {
 """
 response of any mutation on the table "feeds_feed"
 """
-type feeds_feed_mutation_response {
+type feed_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [feeds_feed!]!
+  returning: [feed!]!
 }
 
 """
 input type for inserting object relation for remote table "feeds_feed"
 """
-input feeds_feed_obj_rel_insert_input {
-  data: feeds_feed_insert_input!
+input feed_obj_rel_insert_input {
+  data: feed_insert_input!
 
   """upsert condition"""
-  on_conflict: feeds_feed_on_conflict
+  on_conflict: feed_on_conflict
 }
 
 """
 on_conflict condition type for table "feeds_feed"
 """
-input feeds_feed_on_conflict {
-  constraint: feeds_feed_constraint!
-  update_columns: [feeds_feed_update_column!]! = []
-  where: feeds_feed_bool_exp
+input feed_on_conflict {
+  constraint: feed_constraint!
+  update_columns: [feed_update_column!]! = []
+  where: feed_bool_exp
 }
 
 """Ordering options when selecting data from "feeds_feed"."""
-input feeds_feed_order_by {
+input feed_order_by {
   creation_date: order_by
-  feeds_note: feeds_note_order_by
   id: order_by
   modification_date: order_by
   name: order_by
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  note: note_order_by
+  plugin_instances_aggregate: plugin_instance_aggregate_order_by
   public: order_by
 }
 
 """primary key columns input for table: feeds_feed"""
-input feeds_feed_pk_columns_input {
+input feed_pk_columns_input {
   id: bigint!
 }
 
 """
 select columns of table "feeds_feed"
 """
-enum feeds_feed_select_column {
+enum feed_select_column {
   """column name"""
   creation_date
 
@@ -351,7 +351,7 @@ enum feeds_feed_select_column {
 """
 input type for updating data in table "feeds_feed"
 """
-input feeds_feed_set_input {
+input feed_set_input {
   creation_date: timestamptz
   id: bigint
   modification_date: timestamptz
@@ -360,33 +360,33 @@ input feeds_feed_set_input {
 }
 
 """aggregate stddev on columns"""
-type feeds_feed_stddev_fields {
+type feed_stddev_fields {
   id: Float
 }
 
 """aggregate stddev_pop on columns"""
-type feeds_feed_stddev_pop_fields {
+type feed_stddev_pop_fields {
   id: Float
 }
 
 """aggregate stddev_samp on columns"""
-type feeds_feed_stddev_samp_fields {
+type feed_stddev_samp_fields {
   id: Float
 }
 
 """
-Streaming cursor of the table "feeds_feed"
+Streaming cursor of the table "feed"
 """
-input feeds_feed_stream_cursor_input {
+input feed_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: feeds_feed_stream_cursor_value_input!
+  initial_value: feed_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input feeds_feed_stream_cursor_value_input {
+input feed_stream_cursor_value_input {
   creation_date: timestamptz
   id: bigint
   modification_date: timestamptz
@@ -395,14 +395,14 @@ input feeds_feed_stream_cursor_value_input {
 }
 
 """aggregate sum on columns"""
-type feeds_feed_sum_fields {
+type feed_sum_fields {
   id: bigint
 }
 
 """
 update columns of table "feeds_feed"
 """
-enum feeds_feed_update_column {
+enum feed_update_column {
   """column name"""
   creation_date
 
@@ -419,326 +419,414 @@ enum feeds_feed_update_column {
   public
 }
 
-input feeds_feed_updates {
+input feed_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: feeds_feed_inc_input
+  _inc: feed_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: feeds_feed_set_input
+  _set: feed_set_input
 
   """filter the rows which have to be updated"""
-  where: feeds_feed_bool_exp!
+  where: feed_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type feeds_feed_var_pop_fields {
+type feed_var_pop_fields {
   id: Float
 }
 
 """aggregate var_samp on columns"""
-type feeds_feed_var_samp_fields {
+type feed_var_samp_fields {
   id: Float
 }
 
 """aggregate variance on columns"""
-type feeds_feed_variance_fields {
+type feed_variance_fields {
   id: Float
 }
 
 """
-columns and relationships of "feeds_note"
+columns and relationships of "plugininstances_plugininstancefile"
 """
-type feeds_note {
-  content: String!
+type file {
   creation_date: timestamptz!
-  feed_id: bigint!
+  fname: String!
+  id: bigint!
+  plugin_inst_id: bigint!
 
   """An object relationship"""
-  feeds_feed: feeds_feed!
-  id: bigint!
-  modification_date: timestamptz!
-  title: String!
+  plugin_instance: plugin_instance!
 }
 
 """
-aggregated selection of "feeds_note"
+aggregated selection of "plugininstances_plugininstancefile"
 """
-type feeds_note_aggregate {
-  aggregate: feeds_note_aggregate_fields
-  nodes: [feeds_note!]!
+type file_aggregate {
+  aggregate: file_aggregate_fields
+  nodes: [file!]!
+}
+
+input file_aggregate_bool_exp {
+  count: file_aggregate_bool_exp_count
+}
+
+input file_aggregate_bool_exp_count {
+  arguments: [file_select_column!]
+  distinct: Boolean
+  filter: file_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
-aggregate fields of "feeds_note"
+aggregate fields of "plugininstances_plugininstancefile"
 """
-type feeds_note_aggregate_fields {
-  avg: feeds_note_avg_fields
-  count(columns: [feeds_note_select_column!], distinct: Boolean): Int!
-  max: feeds_note_max_fields
-  min: feeds_note_min_fields
-  stddev: feeds_note_stddev_fields
-  stddev_pop: feeds_note_stddev_pop_fields
-  stddev_samp: feeds_note_stddev_samp_fields
-  sum: feeds_note_sum_fields
-  var_pop: feeds_note_var_pop_fields
-  var_samp: feeds_note_var_samp_fields
-  variance: feeds_note_variance_fields
+type file_aggregate_fields {
+  avg: file_avg_fields
+  count(columns: [file_select_column!], distinct: Boolean): Int!
+  max: file_max_fields
+  min: file_min_fields
+  stddev: file_stddev_fields
+  stddev_pop: file_stddev_pop_fields
+  stddev_samp: file_stddev_samp_fields
+  sum: file_sum_fields
+  var_pop: file_var_pop_fields
+  var_samp: file_var_samp_fields
+  variance: file_variance_fields
+}
+
+"""
+order by aggregate values of table "plugininstances_plugininstancefile"
+"""
+input file_aggregate_order_by {
+  avg: file_avg_order_by
+  count: order_by
+  max: file_max_order_by
+  min: file_min_order_by
+  stddev: file_stddev_order_by
+  stddev_pop: file_stddev_pop_order_by
+  stddev_samp: file_stddev_samp_order_by
+  sum: file_sum_order_by
+  var_pop: file_var_pop_order_by
+  var_samp: file_var_samp_order_by
+  variance: file_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "plugininstances_plugininstancefile"
+"""
+input file_arr_rel_insert_input {
+  data: [file_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: file_on_conflict
 }
 
 """aggregate avg on columns"""
-type feeds_note_avg_fields {
-  feed_id: Float
+type file_avg_fields {
   id: Float
+  plugin_inst_id: Float
 }
 
 """
-Boolean expression to filter rows from the table "feeds_note". All fields are combined with a logical 'AND'.
+order by avg() on columns of table "plugininstances_plugininstancefile"
 """
-input feeds_note_bool_exp {
-  _and: [feeds_note_bool_exp!]
-  _not: feeds_note_bool_exp
-  _or: [feeds_note_bool_exp!]
-  content: String_comparison_exp
+input file_avg_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "plugininstances_plugininstancefile". All fields are combined with a logical 'AND'.
+"""
+input file_bool_exp {
+  _and: [file_bool_exp!]
+  _not: file_bool_exp
+  _or: [file_bool_exp!]
   creation_date: timestamptz_comparison_exp
-  feed_id: bigint_comparison_exp
-  feeds_feed: feeds_feed_bool_exp
+  fname: String_comparison_exp
   id: bigint_comparison_exp
-  modification_date: timestamptz_comparison_exp
-  title: String_comparison_exp
+  plugin_inst_id: bigint_comparison_exp
+  plugin_instance: plugin_instance_bool_exp
 }
 
 """
-unique or primary key constraints on table "feeds_note"
+unique or primary key constraints on table "plugininstances_plugininstancefile"
 """
-enum feeds_note_constraint {
+enum file_constraint {
   """
-  unique or primary key constraint on columns "feed_id"
+  unique or primary key constraint on columns "fname"
   """
-  feeds_note_feed_id_key
+  plugininstances_plugininstancefile_fname_fc1d9d05_uniq
 
   """
   unique or primary key constraint on columns "id"
   """
-  feeds_note_pkey
+  plugininstances_plugininstancefile_pkey
 }
 
 """
-input type for incrementing numeric columns in table "feeds_note"
+input type for incrementing numeric columns in table "plugininstances_plugininstancefile"
 """
-input feeds_note_inc_input {
-  feed_id: bigint
+input file_inc_input {
   id: bigint
+  plugin_inst_id: bigint
 }
 
 """
-input type for inserting data into table "feeds_note"
+input type for inserting data into table "plugininstances_plugininstancefile"
 """
-input feeds_note_insert_input {
-  content: String
+input file_insert_input {
   creation_date: timestamptz
-  feed_id: bigint
-  feeds_feed: feeds_feed_obj_rel_insert_input
+  fname: String
   id: bigint
-  modification_date: timestamptz
-  title: String
+  plugin_inst_id: bigint
+  plugin_instance: plugin_instance_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
-type feeds_note_max_fields {
-  content: String
+type file_max_fields {
   creation_date: timestamptz
-  feed_id: bigint
+  fname: String
   id: bigint
-  modification_date: timestamptz
-  title: String
+  plugin_inst_id: bigint
+}
+
+"""
+order by max() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_max_order_by {
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """aggregate min on columns"""
-type feeds_note_min_fields {
-  content: String
+type file_min_fields {
   creation_date: timestamptz
-  feed_id: bigint
+  fname: String
   id: bigint
-  modification_date: timestamptz
-  title: String
+  plugin_inst_id: bigint
 }
 
 """
-response of any mutation on the table "feeds_note"
+order by min() on columns of table "plugininstances_plugininstancefile"
 """
-type feeds_note_mutation_response {
+input file_min_order_by {
+  creation_date: order_by
+  fname: order_by
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+response of any mutation on the table "plugininstances_plugininstancefile"
+"""
+type file_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [feeds_note!]!
+  returning: [file!]!
 }
 
 """
-input type for inserting object relation for remote table "feeds_note"
+on_conflict condition type for table "plugininstances_plugininstancefile"
 """
-input feeds_note_obj_rel_insert_input {
-  data: feeds_note_insert_input!
-
-  """upsert condition"""
-  on_conflict: feeds_note_on_conflict
+input file_on_conflict {
+  constraint: file_constraint!
+  update_columns: [file_update_column!]! = []
+  where: file_bool_exp
 }
 
 """
-on_conflict condition type for table "feeds_note"
+Ordering options when selecting data from "plugininstances_plugininstancefile".
 """
-input feeds_note_on_conflict {
-  constraint: feeds_note_constraint!
-  update_columns: [feeds_note_update_column!]! = []
-  where: feeds_note_bool_exp
-}
-
-"""Ordering options when selecting data from "feeds_note"."""
-input feeds_note_order_by {
-  content: order_by
+input file_order_by {
   creation_date: order_by
-  feed_id: order_by
-  feeds_feed: feeds_feed_order_by
+  fname: order_by
   id: order_by
-  modification_date: order_by
-  title: order_by
+  plugin_inst_id: order_by
+  plugin_instance: plugin_instance_order_by
 }
 
-"""primary key columns input for table: feeds_note"""
-input feeds_note_pk_columns_input {
+"""
+primary key columns input for table: plugininstances_plugininstancefile
+"""
+input file_pk_columns_input {
   id: bigint!
 }
 
 """
-select columns of table "feeds_note"
+select columns of table "plugininstances_plugininstancefile"
 """
-enum feeds_note_select_column {
-  """column name"""
-  content
-
+enum file_select_column {
   """column name"""
   creation_date
 
   """column name"""
-  feed_id
+  fname
 
   """column name"""
   id
 
   """column name"""
-  modification_date
-
-  """column name"""
-  title
+  plugin_inst_id
 }
 
 """
-input type for updating data in table "feeds_note"
+input type for updating data in table "plugininstances_plugininstancefile"
 """
-input feeds_note_set_input {
-  content: String
+input file_set_input {
   creation_date: timestamptz
-  feed_id: bigint
+  fname: String
   id: bigint
-  modification_date: timestamptz
-  title: String
+  plugin_inst_id: bigint
 }
 
 """aggregate stddev on columns"""
-type feeds_note_stddev_fields {
-  feed_id: Float
+type file_stddev_fields {
   id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by stddev() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_stddev_order_by {
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """aggregate stddev_pop on columns"""
-type feeds_note_stddev_pop_fields {
-  feed_id: Float
+type file_stddev_pop_fields {
   id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_stddev_pop_order_by {
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """aggregate stddev_samp on columns"""
-type feeds_note_stddev_samp_fields {
-  feed_id: Float
+type file_stddev_samp_fields {
   id: Float
+  plugin_inst_id: Float
 }
 
 """
-Streaming cursor of the table "feeds_note"
+order by stddev_samp() on columns of table "plugininstances_plugininstancefile"
 """
-input feeds_note_stream_cursor_input {
+input file_stddev_samp_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
+
+"""
+Streaming cursor of the table "file"
+"""
+input file_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: feeds_note_stream_cursor_value_input!
+  initial_value: file_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input feeds_note_stream_cursor_value_input {
-  content: String
+input file_stream_cursor_value_input {
   creation_date: timestamptz
-  feed_id: bigint
+  fname: String
   id: bigint
-  modification_date: timestamptz
-  title: String
+  plugin_inst_id: bigint
 }
 
 """aggregate sum on columns"""
-type feeds_note_sum_fields {
-  feed_id: bigint
+type file_sum_fields {
   id: bigint
+  plugin_inst_id: bigint
 }
 
 """
-update columns of table "feeds_note"
+order by sum() on columns of table "plugininstances_plugininstancefile"
 """
-enum feeds_note_update_column {
-  """column name"""
-  content
+input file_sum_order_by {
+  id: order_by
+  plugin_inst_id: order_by
+}
 
+"""
+update columns of table "plugininstances_plugininstancefile"
+"""
+enum file_update_column {
   """column name"""
   creation_date
 
   """column name"""
-  feed_id
+  fname
 
   """column name"""
   id
 
   """column name"""
-  modification_date
-
-  """column name"""
-  title
+  plugin_inst_id
 }
 
-input feeds_note_updates {
+input file_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: feeds_note_inc_input
+  _inc: file_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: feeds_note_set_input
+  _set: file_set_input
 
   """filter the rows which have to be updated"""
-  where: feeds_note_bool_exp!
+  where: file_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type feeds_note_var_pop_fields {
-  feed_id: Float
+type file_var_pop_fields {
   id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by var_pop() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_var_pop_order_by {
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """aggregate var_samp on columns"""
-type feeds_note_var_samp_fields {
-  feed_id: Float
+type file_var_samp_fields {
   id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by var_samp() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_var_samp_order_by {
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """aggregate variance on columns"""
-type feeds_note_variance_fields {
-  feed_id: Float
+type file_variance_fields {
   id: Float
+  plugin_inst_id: Float
+}
+
+"""
+order by variance() on columns of table "plugininstances_plugininstancefile"
+"""
+input file_variance_order_by {
+  id: order_by
+  plugin_inst_id: order_by
 }
 
 """mutation root"""
@@ -746,80 +834,80 @@ type mutation_root {
   """
   delete data from the table: "feeds_feed"
   """
-  delete_feeds_feed(
+  delete_feed(
     """filter the rows which have to be deleted"""
-    where: feeds_feed_bool_exp!
-  ): feeds_feed_mutation_response
+    where: feed_bool_exp!
+  ): feed_mutation_response
 
   """
   delete single row from the table: "feeds_feed"
   """
-  delete_feeds_feed_by_pk(id: bigint!): feeds_feed
-
-  """
-  delete data from the table: "feeds_note"
-  """
-  delete_feeds_note(
-    """filter the rows which have to be deleted"""
-    where: feeds_note_bool_exp!
-  ): feeds_note_mutation_response
-
-  """
-  delete single row from the table: "feeds_note"
-  """
-  delete_feeds_note_by_pk(id: bigint!): feeds_note
-
-  """
-  delete data from the table: "pacsfiles_pacsfile"
-  """
-  delete_pacsfiles_pacsfile(
-    """filter the rows which have to be deleted"""
-    where: pacsfiles_pacsfile_bool_exp!
-  ): pacsfiles_pacsfile_mutation_response
-
-  """
-  delete single row from the table: "pacsfiles_pacsfile"
-  """
-  delete_pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
-
-  """
-  delete data from the table: "pipelines_pipeline"
-  """
-  delete_pipelines_pipeline(
-    """filter the rows which have to be deleted"""
-    where: pipelines_pipeline_bool_exp!
-  ): pipelines_pipeline_mutation_response
-
-  """
-  delete single row from the table: "pipelines_pipeline"
-  """
-  delete_pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
-
-  """
-  delete data from the table: "plugininstances_plugininstance"
-  """
-  delete_plugininstances_plugininstance(
-    """filter the rows which have to be deleted"""
-    where: plugininstances_plugininstance_bool_exp!
-  ): plugininstances_plugininstance_mutation_response
-
-  """
-  delete single row from the table: "plugininstances_plugininstance"
-  """
-  delete_plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
+  delete_feed_by_pk(id: bigint!): feed
 
   """
   delete data from the table: "plugininstances_plugininstancefile"
   """
-  delete_plugininstances_plugininstancefile(
+  delete_file(
     """filter the rows which have to be deleted"""
-    where: plugininstances_plugininstancefile_bool_exp!
-  ): plugininstances_plugininstancefile_mutation_response
+    where: file_bool_exp!
+  ): file_mutation_response
 
   """
   delete single row from the table: "plugininstances_plugininstancefile"
   """
-  delete_plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+  delete_file_by_pk(id: bigint!): file
+
+  """
+  delete data from the table: "feeds_note"
+  """
+  delete_note(
+    """filter the rows which have to be deleted"""
+    where: note_bool_exp!
+  ): note_mutation_response
+
+  """
+  delete single row from the table: "feeds_note"
+  """
+  delete_note_by_pk(id: bigint!): note
+
+  """
+  delete data from the table: "pacsfiles_pacsfile"
+  """
+  delete_pacsfile(
+    """filter the rows which have to be deleted"""
+    where: pacsfile_bool_exp!
+  ): pacsfile_mutation_response
+
+  """
+  delete single row from the table: "pacsfiles_pacsfile"
+  """
+  delete_pacsfile_by_pk(id: bigint!): pacsfile
+
+  """
+  delete data from the table: "pipelines_pipeline"
+  """
+  delete_pipeline(
+    """filter the rows which have to be deleted"""
+    where: pipeline_bool_exp!
+  ): pipeline_mutation_response
+
+  """
+  delete single row from the table: "pipelines_pipeline"
+  """
+  delete_pipeline_by_pk(id: bigint!): pipeline
+
+  """
+  delete data from the table: "plugininstances_plugininstance"
+  """
+  delete_plugin_instance(
+    """filter the rows which have to be deleted"""
+    where: plugin_instance_bool_exp!
+  ): plugin_instance_mutation_response
+
+  """
+  delete single row from the table: "plugininstances_plugininstance"
+  """
+  delete_plugin_instance_by_pk(id: bigint!): plugin_instance
 
   """
   delete data from the table: "plugins_plugin"
@@ -850,147 +938,147 @@ type mutation_root {
   """
   delete data from the table: "workflows_workflow"
   """
-  delete_workflows_workflow(
+  delete_workflow(
     """filter the rows which have to be deleted"""
-    where: workflows_workflow_bool_exp!
-  ): workflows_workflow_mutation_response
+    where: workflow_bool_exp!
+  ): workflow_mutation_response
 
   """
   delete single row from the table: "workflows_workflow"
   """
-  delete_workflows_workflow_by_pk(id: bigint!): workflows_workflow
+  delete_workflow_by_pk(id: bigint!): workflow
 
   """
   insert data into the table: "feeds_feed"
   """
-  insert_feeds_feed(
+  insert_feed(
     """the rows to be inserted"""
-    objects: [feeds_feed_insert_input!]!
+    objects: [feed_insert_input!]!
 
     """upsert condition"""
-    on_conflict: feeds_feed_on_conflict
-  ): feeds_feed_mutation_response
+    on_conflict: feed_on_conflict
+  ): feed_mutation_response
 
   """
   insert a single row into the table: "feeds_feed"
   """
-  insert_feeds_feed_one(
+  insert_feed_one(
     """the row to be inserted"""
-    object: feeds_feed_insert_input!
+    object: feed_insert_input!
 
     """upsert condition"""
-    on_conflict: feeds_feed_on_conflict
-  ): feeds_feed
-
-  """
-  insert data into the table: "feeds_note"
-  """
-  insert_feeds_note(
-    """the rows to be inserted"""
-    objects: [feeds_note_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: feeds_note_on_conflict
-  ): feeds_note_mutation_response
-
-  """
-  insert a single row into the table: "feeds_note"
-  """
-  insert_feeds_note_one(
-    """the row to be inserted"""
-    object: feeds_note_insert_input!
-
-    """upsert condition"""
-    on_conflict: feeds_note_on_conflict
-  ): feeds_note
-
-  """
-  insert data into the table: "pacsfiles_pacsfile"
-  """
-  insert_pacsfiles_pacsfile(
-    """the rows to be inserted"""
-    objects: [pacsfiles_pacsfile_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: pacsfiles_pacsfile_on_conflict
-  ): pacsfiles_pacsfile_mutation_response
-
-  """
-  insert a single row into the table: "pacsfiles_pacsfile"
-  """
-  insert_pacsfiles_pacsfile_one(
-    """the row to be inserted"""
-    object: pacsfiles_pacsfile_insert_input!
-
-    """upsert condition"""
-    on_conflict: pacsfiles_pacsfile_on_conflict
-  ): pacsfiles_pacsfile
-
-  """
-  insert data into the table: "pipelines_pipeline"
-  """
-  insert_pipelines_pipeline(
-    """the rows to be inserted"""
-    objects: [pipelines_pipeline_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: pipelines_pipeline_on_conflict
-  ): pipelines_pipeline_mutation_response
-
-  """
-  insert a single row into the table: "pipelines_pipeline"
-  """
-  insert_pipelines_pipeline_one(
-    """the row to be inserted"""
-    object: pipelines_pipeline_insert_input!
-
-    """upsert condition"""
-    on_conflict: pipelines_pipeline_on_conflict
-  ): pipelines_pipeline
-
-  """
-  insert data into the table: "plugininstances_plugininstance"
-  """
-  insert_plugininstances_plugininstance(
-    """the rows to be inserted"""
-    objects: [plugininstances_plugininstance_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: plugininstances_plugininstance_on_conflict
-  ): plugininstances_plugininstance_mutation_response
-
-  """
-  insert a single row into the table: "plugininstances_plugininstance"
-  """
-  insert_plugininstances_plugininstance_one(
-    """the row to be inserted"""
-    object: plugininstances_plugininstance_insert_input!
-
-    """upsert condition"""
-    on_conflict: plugininstances_plugininstance_on_conflict
-  ): plugininstances_plugininstance
+    on_conflict: feed_on_conflict
+  ): feed
 
   """
   insert data into the table: "plugininstances_plugininstancefile"
   """
-  insert_plugininstances_plugininstancefile(
+  insert_file(
     """the rows to be inserted"""
-    objects: [plugininstances_plugininstancefile_insert_input!]!
+    objects: [file_insert_input!]!
 
     """upsert condition"""
-    on_conflict: plugininstances_plugininstancefile_on_conflict
-  ): plugininstances_plugininstancefile_mutation_response
+    on_conflict: file_on_conflict
+  ): file_mutation_response
 
   """
   insert a single row into the table: "plugininstances_plugininstancefile"
   """
-  insert_plugininstances_plugininstancefile_one(
+  insert_file_one(
     """the row to be inserted"""
-    object: plugininstances_plugininstancefile_insert_input!
+    object: file_insert_input!
 
     """upsert condition"""
-    on_conflict: plugininstances_plugininstancefile_on_conflict
-  ): plugininstances_plugininstancefile
+    on_conflict: file_on_conflict
+  ): file
+
+  """
+  insert data into the table: "feeds_note"
+  """
+  insert_note(
+    """the rows to be inserted"""
+    objects: [note_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: note_on_conflict
+  ): note_mutation_response
+
+  """
+  insert a single row into the table: "feeds_note"
+  """
+  insert_note_one(
+    """the row to be inserted"""
+    object: note_insert_input!
+
+    """upsert condition"""
+    on_conflict: note_on_conflict
+  ): note
+
+  """
+  insert data into the table: "pacsfiles_pacsfile"
+  """
+  insert_pacsfile(
+    """the rows to be inserted"""
+    objects: [pacsfile_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: pacsfile_on_conflict
+  ): pacsfile_mutation_response
+
+  """
+  insert a single row into the table: "pacsfiles_pacsfile"
+  """
+  insert_pacsfile_one(
+    """the row to be inserted"""
+    object: pacsfile_insert_input!
+
+    """upsert condition"""
+    on_conflict: pacsfile_on_conflict
+  ): pacsfile
+
+  """
+  insert data into the table: "pipelines_pipeline"
+  """
+  insert_pipeline(
+    """the rows to be inserted"""
+    objects: [pipeline_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: pipeline_on_conflict
+  ): pipeline_mutation_response
+
+  """
+  insert a single row into the table: "pipelines_pipeline"
+  """
+  insert_pipeline_one(
+    """the row to be inserted"""
+    object: pipeline_insert_input!
+
+    """upsert condition"""
+    on_conflict: pipeline_on_conflict
+  ): pipeline
+
+  """
+  insert data into the table: "plugininstances_plugininstance"
+  """
+  insert_plugin_instance(
+    """the rows to be inserted"""
+    objects: [plugin_instance_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: plugin_instance_on_conflict
+  ): plugin_instance_mutation_response
+
+  """
+  insert a single row into the table: "plugininstances_plugininstance"
+  """
+  insert_plugin_instance_one(
+    """the row to be inserted"""
+    object: plugin_instance_insert_input!
+
+    """upsert condition"""
+    on_conflict: plugin_instance_on_conflict
+  ): plugin_instance
 
   """
   insert data into the table: "plugins_plugin"
@@ -1039,228 +1127,228 @@ type mutation_root {
   """
   insert data into the table: "workflows_workflow"
   """
-  insert_workflows_workflow(
+  insert_workflow(
     """the rows to be inserted"""
-    objects: [workflows_workflow_insert_input!]!
+    objects: [workflow_insert_input!]!
 
     """upsert condition"""
-    on_conflict: workflows_workflow_on_conflict
-  ): workflows_workflow_mutation_response
+    on_conflict: workflow_on_conflict
+  ): workflow_mutation_response
 
   """
   insert a single row into the table: "workflows_workflow"
   """
-  insert_workflows_workflow_one(
+  insert_workflow_one(
     """the row to be inserted"""
-    object: workflows_workflow_insert_input!
+    object: workflow_insert_input!
 
     """upsert condition"""
-    on_conflict: workflows_workflow_on_conflict
-  ): workflows_workflow
+    on_conflict: workflow_on_conflict
+  ): workflow
 
   """
   update data of the table: "feeds_feed"
   """
-  update_feeds_feed(
+  update_feed(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: feeds_feed_inc_input
+    _inc: feed_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: feeds_feed_set_input
+    _set: feed_set_input
 
     """filter the rows which have to be updated"""
-    where: feeds_feed_bool_exp!
-  ): feeds_feed_mutation_response
+    where: feed_bool_exp!
+  ): feed_mutation_response
 
   """
   update single row of the table: "feeds_feed"
   """
-  update_feeds_feed_by_pk(
+  update_feed_by_pk(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: feeds_feed_inc_input
+    _inc: feed_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: feeds_feed_set_input
-    pk_columns: feeds_feed_pk_columns_input!
-  ): feeds_feed
+    _set: feed_set_input
+    pk_columns: feed_pk_columns_input!
+  ): feed
 
   """
   update multiples rows of table: "feeds_feed"
   """
-  update_feeds_feed_many(
+  update_feed_many(
     """updates to execute, in order"""
-    updates: [feeds_feed_updates!]!
-  ): [feeds_feed_mutation_response]
-
-  """
-  update data of the table: "feeds_note"
-  """
-  update_feeds_note(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: feeds_note_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: feeds_note_set_input
-
-    """filter the rows which have to be updated"""
-    where: feeds_note_bool_exp!
-  ): feeds_note_mutation_response
-
-  """
-  update single row of the table: "feeds_note"
-  """
-  update_feeds_note_by_pk(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: feeds_note_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: feeds_note_set_input
-    pk_columns: feeds_note_pk_columns_input!
-  ): feeds_note
-
-  """
-  update multiples rows of table: "feeds_note"
-  """
-  update_feeds_note_many(
-    """updates to execute, in order"""
-    updates: [feeds_note_updates!]!
-  ): [feeds_note_mutation_response]
-
-  """
-  update data of the table: "pacsfiles_pacsfile"
-  """
-  update_pacsfiles_pacsfile(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: pacsfiles_pacsfile_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: pacsfiles_pacsfile_set_input
-
-    """filter the rows which have to be updated"""
-    where: pacsfiles_pacsfile_bool_exp!
-  ): pacsfiles_pacsfile_mutation_response
-
-  """
-  update single row of the table: "pacsfiles_pacsfile"
-  """
-  update_pacsfiles_pacsfile_by_pk(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: pacsfiles_pacsfile_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: pacsfiles_pacsfile_set_input
-    pk_columns: pacsfiles_pacsfile_pk_columns_input!
-  ): pacsfiles_pacsfile
-
-  """
-  update multiples rows of table: "pacsfiles_pacsfile"
-  """
-  update_pacsfiles_pacsfile_many(
-    """updates to execute, in order"""
-    updates: [pacsfiles_pacsfile_updates!]!
-  ): [pacsfiles_pacsfile_mutation_response]
-
-  """
-  update data of the table: "pipelines_pipeline"
-  """
-  update_pipelines_pipeline(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: pipelines_pipeline_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: pipelines_pipeline_set_input
-
-    """filter the rows which have to be updated"""
-    where: pipelines_pipeline_bool_exp!
-  ): pipelines_pipeline_mutation_response
-
-  """
-  update single row of the table: "pipelines_pipeline"
-  """
-  update_pipelines_pipeline_by_pk(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: pipelines_pipeline_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: pipelines_pipeline_set_input
-    pk_columns: pipelines_pipeline_pk_columns_input!
-  ): pipelines_pipeline
-
-  """
-  update multiples rows of table: "pipelines_pipeline"
-  """
-  update_pipelines_pipeline_many(
-    """updates to execute, in order"""
-    updates: [pipelines_pipeline_updates!]!
-  ): [pipelines_pipeline_mutation_response]
-
-  """
-  update data of the table: "plugininstances_plugininstance"
-  """
-  update_plugininstances_plugininstance(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: plugininstances_plugininstance_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: plugininstances_plugininstance_set_input
-
-    """filter the rows which have to be updated"""
-    where: plugininstances_plugininstance_bool_exp!
-  ): plugininstances_plugininstance_mutation_response
-
-  """
-  update single row of the table: "plugininstances_plugininstance"
-  """
-  update_plugininstances_plugininstance_by_pk(
-    """increments the numeric columns with given value of the filtered values"""
-    _inc: plugininstances_plugininstance_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: plugininstances_plugininstance_set_input
-    pk_columns: plugininstances_plugininstance_pk_columns_input!
-  ): plugininstances_plugininstance
-
-  """
-  update multiples rows of table: "plugininstances_plugininstance"
-  """
-  update_plugininstances_plugininstance_many(
-    """updates to execute, in order"""
-    updates: [plugininstances_plugininstance_updates!]!
-  ): [plugininstances_plugininstance_mutation_response]
+    updates: [feed_updates!]!
+  ): [feed_mutation_response]
 
   """
   update data of the table: "plugininstances_plugininstancefile"
   """
-  update_plugininstances_plugininstancefile(
+  update_file(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: plugininstances_plugininstancefile_inc_input
+    _inc: file_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: plugininstances_plugininstancefile_set_input
+    _set: file_set_input
 
     """filter the rows which have to be updated"""
-    where: plugininstances_plugininstancefile_bool_exp!
-  ): plugininstances_plugininstancefile_mutation_response
+    where: file_bool_exp!
+  ): file_mutation_response
 
   """
   update single row of the table: "plugininstances_plugininstancefile"
   """
-  update_plugininstances_plugininstancefile_by_pk(
+  update_file_by_pk(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: plugininstances_plugininstancefile_inc_input
+    _inc: file_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: plugininstances_plugininstancefile_set_input
-    pk_columns: plugininstances_plugininstancefile_pk_columns_input!
-  ): plugininstances_plugininstancefile
+    _set: file_set_input
+    pk_columns: file_pk_columns_input!
+  ): file
 
   """
   update multiples rows of table: "plugininstances_plugininstancefile"
   """
-  update_plugininstances_plugininstancefile_many(
+  update_file_many(
     """updates to execute, in order"""
-    updates: [plugininstances_plugininstancefile_updates!]!
-  ): [plugininstances_plugininstancefile_mutation_response]
+    updates: [file_updates!]!
+  ): [file_mutation_response]
+
+  """
+  update data of the table: "feeds_note"
+  """
+  update_note(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: note_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: note_set_input
+
+    """filter the rows which have to be updated"""
+    where: note_bool_exp!
+  ): note_mutation_response
+
+  """
+  update single row of the table: "feeds_note"
+  """
+  update_note_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: note_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: note_set_input
+    pk_columns: note_pk_columns_input!
+  ): note
+
+  """
+  update multiples rows of table: "feeds_note"
+  """
+  update_note_many(
+    """updates to execute, in order"""
+    updates: [note_updates!]!
+  ): [note_mutation_response]
+
+  """
+  update data of the table: "pacsfiles_pacsfile"
+  """
+  update_pacsfile(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pacsfile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pacsfile_set_input
+
+    """filter the rows which have to be updated"""
+    where: pacsfile_bool_exp!
+  ): pacsfile_mutation_response
+
+  """
+  update single row of the table: "pacsfiles_pacsfile"
+  """
+  update_pacsfile_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pacsfile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pacsfile_set_input
+    pk_columns: pacsfile_pk_columns_input!
+  ): pacsfile
+
+  """
+  update multiples rows of table: "pacsfiles_pacsfile"
+  """
+  update_pacsfile_many(
+    """updates to execute, in order"""
+    updates: [pacsfile_updates!]!
+  ): [pacsfile_mutation_response]
+
+  """
+  update data of the table: "pipelines_pipeline"
+  """
+  update_pipeline(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pipeline_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pipeline_set_input
+
+    """filter the rows which have to be updated"""
+    where: pipeline_bool_exp!
+  ): pipeline_mutation_response
+
+  """
+  update single row of the table: "pipelines_pipeline"
+  """
+  update_pipeline_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: pipeline_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pipeline_set_input
+    pk_columns: pipeline_pk_columns_input!
+  ): pipeline
+
+  """
+  update multiples rows of table: "pipelines_pipeline"
+  """
+  update_pipeline_many(
+    """updates to execute, in order"""
+    updates: [pipeline_updates!]!
+  ): [pipeline_mutation_response]
+
+  """
+  update data of the table: "plugininstances_plugininstance"
+  """
+  update_plugin_instance(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugin_instance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugin_instance_set_input
+
+    """filter the rows which have to be updated"""
+    where: plugin_instance_bool_exp!
+  ): plugin_instance_mutation_response
+
+  """
+  update single row of the table: "plugininstances_plugininstance"
+  """
+  update_plugin_instance_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: plugin_instance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: plugin_instance_set_input
+    pk_columns: plugin_instance_pk_columns_input!
+  ): plugin_instance
+
+  """
+  update multiples rows of table: "plugininstances_plugininstance"
+  """
+  update_plugin_instance_many(
+    """updates to execute, in order"""
+    updates: [plugin_instance_updates!]!
+  ): [plugin_instance_mutation_response]
 
   """
   update data of the table: "plugins_plugin"
@@ -1333,36 +1421,332 @@ type mutation_root {
   """
   update data of the table: "workflows_workflow"
   """
-  update_workflows_workflow(
+  update_workflow(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: workflows_workflow_inc_input
+    _inc: workflow_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: workflows_workflow_set_input
+    _set: workflow_set_input
 
     """filter the rows which have to be updated"""
-    where: workflows_workflow_bool_exp!
-  ): workflows_workflow_mutation_response
+    where: workflow_bool_exp!
+  ): workflow_mutation_response
 
   """
   update single row of the table: "workflows_workflow"
   """
-  update_workflows_workflow_by_pk(
+  update_workflow_by_pk(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: workflows_workflow_inc_input
+    _inc: workflow_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: workflows_workflow_set_input
-    pk_columns: workflows_workflow_pk_columns_input!
-  ): workflows_workflow
+    _set: workflow_set_input
+    pk_columns: workflow_pk_columns_input!
+  ): workflow
 
   """
   update multiples rows of table: "workflows_workflow"
   """
-  update_workflows_workflow_many(
+  update_workflow_many(
     """updates to execute, in order"""
-    updates: [workflows_workflow_updates!]!
-  ): [workflows_workflow_mutation_response]
+    updates: [workflow_updates!]!
+  ): [workflow_mutation_response]
+}
+
+"""
+columns and relationships of "feeds_note"
+"""
+type note {
+  content: String!
+  creation_date: timestamptz!
+  feed_id: bigint!
+
+  """An object relationship"""
+  feeds_feed: feed!
+  id: bigint!
+  modification_date: timestamptz!
+  title: String!
+}
+
+"""
+aggregated selection of "feeds_note"
+"""
+type note_aggregate {
+  aggregate: note_aggregate_fields
+  nodes: [note!]!
+}
+
+"""
+aggregate fields of "feeds_note"
+"""
+type note_aggregate_fields {
+  avg: note_avg_fields
+  count(columns: [note_select_column!], distinct: Boolean): Int!
+  max: note_max_fields
+  min: note_min_fields
+  stddev: note_stddev_fields
+  stddev_pop: note_stddev_pop_fields
+  stddev_samp: note_stddev_samp_fields
+  sum: note_sum_fields
+  var_pop: note_var_pop_fields
+  var_samp: note_var_samp_fields
+  variance: note_variance_fields
+}
+
+"""aggregate avg on columns"""
+type note_avg_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "feeds_note". All fields are combined with a logical 'AND'.
+"""
+input note_bool_exp {
+  _and: [note_bool_exp!]
+  _not: note_bool_exp
+  _or: [note_bool_exp!]
+  content: String_comparison_exp
+  creation_date: timestamptz_comparison_exp
+  feed_id: bigint_comparison_exp
+  feeds_feed: feed_bool_exp
+  id: bigint_comparison_exp
+  modification_date: timestamptz_comparison_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "feeds_note"
+"""
+enum note_constraint {
+  """
+  unique or primary key constraint on columns "feed_id"
+  """
+  feeds_note_feed_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  feeds_note_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "feeds_note"
+"""
+input note_inc_input {
+  feed_id: bigint
+  id: bigint
+}
+
+"""
+input type for inserting data into table "feeds_note"
+"""
+input note_insert_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  feeds_feed: feed_obj_rel_insert_input
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate max on columns"""
+type note_max_fields {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate min on columns"""
+type note_min_fields {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""
+response of any mutation on the table "feeds_note"
+"""
+type note_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [note!]!
+}
+
+"""
+input type for inserting object relation for remote table "feeds_note"
+"""
+input note_obj_rel_insert_input {
+  data: note_insert_input!
+
+  """upsert condition"""
+  on_conflict: note_on_conflict
+}
+
+"""
+on_conflict condition type for table "feeds_note"
+"""
+input note_on_conflict {
+  constraint: note_constraint!
+  update_columns: [note_update_column!]! = []
+  where: note_bool_exp
+}
+
+"""Ordering options when selecting data from "feeds_note"."""
+input note_order_by {
+  content: order_by
+  creation_date: order_by
+  feed_id: order_by
+  feeds_feed: feed_order_by
+  id: order_by
+  modification_date: order_by
+  title: order_by
+}
+
+"""primary key columns input for table: feeds_note"""
+input note_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "feeds_note"
+"""
+enum note_select_column {
+  """column name"""
+  content
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "feeds_note"
+"""
+input note_set_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate stddev on columns"""
+type note_stddev_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type note_stddev_pop_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type note_stddev_samp_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "note"
+"""
+input note_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: note_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input note_stream_cursor_value_input {
+  content: String
+  creation_date: timestamptz
+  feed_id: bigint
+  id: bigint
+  modification_date: timestamptz
+  title: String
+}
+
+"""aggregate sum on columns"""
+type note_sum_fields {
+  feed_id: bigint
+  id: bigint
+}
+
+"""
+update columns of table "feeds_note"
+"""
+enum note_update_column {
+  """column name"""
+  content
+
+  """column name"""
+  creation_date
+
+  """column name"""
+  feed_id
+
+  """column name"""
+  id
+
+  """column name"""
+  modification_date
+
+  """column name"""
+  title
+}
+
+input note_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: note_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: note_set_input
+
+  """filter the rows which have to be updated"""
+  where: note_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type note_var_pop_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate var_samp on columns"""
+type note_var_samp_fields {
+  feed_id: Float
+  id: Float
+}
+
+"""aggregate variance on columns"""
+type note_variance_fields {
+  feed_id: Float
+  id: Float
 }
 
 """column ordering options"""
@@ -1389,7 +1773,7 @@ enum order_by {
 """
 columns and relationships of "pacsfiles_pacsfile"
 """
-type pacsfiles_pacsfile {
+type pacsfile {
   AccessionNumber: String!
   Modality: String!
   PatientAge: Int
@@ -1412,30 +1796,30 @@ type pacsfiles_pacsfile {
 """
 aggregated selection of "pacsfiles_pacsfile"
 """
-type pacsfiles_pacsfile_aggregate {
-  aggregate: pacsfiles_pacsfile_aggregate_fields
-  nodes: [pacsfiles_pacsfile!]!
+type pacsfile_aggregate {
+  aggregate: pacsfile_aggregate_fields
+  nodes: [pacsfile!]!
 }
 
 """
 aggregate fields of "pacsfiles_pacsfile"
 """
-type pacsfiles_pacsfile_aggregate_fields {
-  avg: pacsfiles_pacsfile_avg_fields
-  count(columns: [pacsfiles_pacsfile_select_column!], distinct: Boolean): Int!
-  max: pacsfiles_pacsfile_max_fields
-  min: pacsfiles_pacsfile_min_fields
-  stddev: pacsfiles_pacsfile_stddev_fields
-  stddev_pop: pacsfiles_pacsfile_stddev_pop_fields
-  stddev_samp: pacsfiles_pacsfile_stddev_samp_fields
-  sum: pacsfiles_pacsfile_sum_fields
-  var_pop: pacsfiles_pacsfile_var_pop_fields
-  var_samp: pacsfiles_pacsfile_var_samp_fields
-  variance: pacsfiles_pacsfile_variance_fields
+type pacsfile_aggregate_fields {
+  avg: pacsfile_avg_fields
+  count(columns: [pacsfile_select_column!], distinct: Boolean): Int!
+  max: pacsfile_max_fields
+  min: pacsfile_min_fields
+  stddev: pacsfile_stddev_fields
+  stddev_pop: pacsfile_stddev_pop_fields
+  stddev_samp: pacsfile_stddev_samp_fields
+  sum: pacsfile_sum_fields
+  var_pop: pacsfile_var_pop_fields
+  var_samp: pacsfile_var_samp_fields
+  variance: pacsfile_variance_fields
 }
 
 """aggregate avg on columns"""
-type pacsfiles_pacsfile_avg_fields {
+type pacsfile_avg_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
@@ -1444,7 +1828,7 @@ type pacsfiles_pacsfile_avg_fields {
 """
 Boolean expression to filter rows from the table "pacsfiles_pacsfile". All fields are combined with a logical 'AND'.
 """
-input pacsfiles_pacsfile_bool_exp {
+input pacsfile_bool_exp {
   AccessionNumber: String_comparison_exp
   Modality: String_comparison_exp
   PatientAge: Int_comparison_exp
@@ -1458,9 +1842,9 @@ input pacsfiles_pacsfile_bool_exp {
   StudyDate: date_comparison_exp
   StudyDescription: String_comparison_exp
   StudyInstanceUID: String_comparison_exp
-  _and: [pacsfiles_pacsfile_bool_exp!]
-  _not: pacsfiles_pacsfile_bool_exp
-  _or: [pacsfiles_pacsfile_bool_exp!]
+  _and: [pacsfile_bool_exp!]
+  _not: pacsfile_bool_exp
+  _or: [pacsfile_bool_exp!]
   creation_date: timestamptz_comparison_exp
   fname: String_comparison_exp
   id: bigint_comparison_exp
@@ -1470,7 +1854,7 @@ input pacsfiles_pacsfile_bool_exp {
 """
 unique or primary key constraints on table "pacsfiles_pacsfile"
 """
-enum pacsfiles_pacsfile_constraint {
+enum pacsfile_constraint {
   """
   unique or primary key constraint on columns "fname"
   """
@@ -1485,7 +1869,7 @@ enum pacsfiles_pacsfile_constraint {
 """
 input type for incrementing numeric columns in table "pacsfiles_pacsfile"
 """
-input pacsfiles_pacsfile_inc_input {
+input pacsfile_inc_input {
   PatientAge: Int
   id: bigint
   pacs_id: bigint
@@ -1494,7 +1878,7 @@ input pacsfiles_pacsfile_inc_input {
 """
 input type for inserting data into table "pacsfiles_pacsfile"
 """
-input pacsfiles_pacsfile_insert_input {
+input pacsfile_insert_input {
   AccessionNumber: String
   Modality: String
   PatientAge: Int
@@ -1515,7 +1899,7 @@ input pacsfiles_pacsfile_insert_input {
 }
 
 """aggregate max on columns"""
-type pacsfiles_pacsfile_max_fields {
+type pacsfile_max_fields {
   AccessionNumber: String
   Modality: String
   PatientAge: Int
@@ -1536,7 +1920,7 @@ type pacsfiles_pacsfile_max_fields {
 }
 
 """aggregate min on columns"""
-type pacsfiles_pacsfile_min_fields {
+type pacsfile_min_fields {
   AccessionNumber: String
   Modality: String
   PatientAge: Int
@@ -1559,25 +1943,25 @@ type pacsfiles_pacsfile_min_fields {
 """
 response of any mutation on the table "pacsfiles_pacsfile"
 """
-type pacsfiles_pacsfile_mutation_response {
+type pacsfile_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [pacsfiles_pacsfile!]!
+  returning: [pacsfile!]!
 }
 
 """
 on_conflict condition type for table "pacsfiles_pacsfile"
 """
-input pacsfiles_pacsfile_on_conflict {
-  constraint: pacsfiles_pacsfile_constraint!
-  update_columns: [pacsfiles_pacsfile_update_column!]! = []
-  where: pacsfiles_pacsfile_bool_exp
+input pacsfile_on_conflict {
+  constraint: pacsfile_constraint!
+  update_columns: [pacsfile_update_column!]! = []
+  where: pacsfile_bool_exp
 }
 
 """Ordering options when selecting data from "pacsfiles_pacsfile"."""
-input pacsfiles_pacsfile_order_by {
+input pacsfile_order_by {
   AccessionNumber: order_by
   Modality: order_by
   PatientAge: order_by
@@ -1598,14 +1982,14 @@ input pacsfiles_pacsfile_order_by {
 }
 
 """primary key columns input for table: pacsfiles_pacsfile"""
-input pacsfiles_pacsfile_pk_columns_input {
+input pacsfile_pk_columns_input {
   id: bigint!
 }
 
 """
 select columns of table "pacsfiles_pacsfile"
 """
-enum pacsfiles_pacsfile_select_column {
+enum pacsfile_select_column {
   """column name"""
   AccessionNumber
 
@@ -1661,7 +2045,7 @@ enum pacsfiles_pacsfile_select_column {
 """
 input type for updating data in table "pacsfiles_pacsfile"
 """
-input pacsfiles_pacsfile_set_input {
+input pacsfile_set_input {
   AccessionNumber: String
   Modality: String
   PatientAge: Int
@@ -1682,39 +2066,39 @@ input pacsfiles_pacsfile_set_input {
 }
 
 """aggregate stddev on columns"""
-type pacsfiles_pacsfile_stddev_fields {
+type pacsfile_stddev_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
 }
 
 """aggregate stddev_pop on columns"""
-type pacsfiles_pacsfile_stddev_pop_fields {
+type pacsfile_stddev_pop_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
 }
 
 """aggregate stddev_samp on columns"""
-type pacsfiles_pacsfile_stddev_samp_fields {
+type pacsfile_stddev_samp_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
 }
 
 """
-Streaming cursor of the table "pacsfiles_pacsfile"
+Streaming cursor of the table "pacsfile"
 """
-input pacsfiles_pacsfile_stream_cursor_input {
+input pacsfile_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: pacsfiles_pacsfile_stream_cursor_value_input!
+  initial_value: pacsfile_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input pacsfiles_pacsfile_stream_cursor_value_input {
+input pacsfile_stream_cursor_value_input {
   AccessionNumber: String
   Modality: String
   PatientAge: Int
@@ -1735,7 +2119,7 @@ input pacsfiles_pacsfile_stream_cursor_value_input {
 }
 
 """aggregate sum on columns"""
-type pacsfiles_pacsfile_sum_fields {
+type pacsfile_sum_fields {
   PatientAge: Int
   id: bigint
   pacs_id: bigint
@@ -1744,7 +2128,7 @@ type pacsfiles_pacsfile_sum_fields {
 """
 update columns of table "pacsfiles_pacsfile"
 """
-enum pacsfiles_pacsfile_update_column {
+enum pacsfile_update_column {
   """column name"""
   AccessionNumber
 
@@ -1797,33 +2181,33 @@ enum pacsfiles_pacsfile_update_column {
   pacs_id
 }
 
-input pacsfiles_pacsfile_updates {
+input pacsfile_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: pacsfiles_pacsfile_inc_input
+  _inc: pacsfile_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: pacsfiles_pacsfile_set_input
+  _set: pacsfile_set_input
 
   """filter the rows which have to be updated"""
-  where: pacsfiles_pacsfile_bool_exp!
+  where: pacsfile_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type pacsfiles_pacsfile_var_pop_fields {
+type pacsfile_var_pop_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
 }
 
 """aggregate var_samp on columns"""
-type pacsfiles_pacsfile_var_samp_fields {
+type pacsfile_var_samp_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
 }
 
 """aggregate variance on columns"""
-type pacsfiles_pacsfile_variance_fields {
+type pacsfile_variance_fields {
   PatientAge: Float
   id: Float
   pacs_id: Float
@@ -1832,7 +2216,7 @@ type pacsfiles_pacsfile_variance_fields {
 """
 columns and relationships of "pipelines_pipeline"
 """
-type pipelines_pipeline {
+type pipeline {
   authors: String!
   category: String!
   creation_date: timestamptz!
@@ -1844,9 +2228,9 @@ type pipelines_pipeline {
   owner_id: Int
 
   """An array relationship"""
-  workflows_workflows(
+  workflows(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -1855,16 +2239,16 @@ type pipelines_pipeline {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): [workflows_workflow!]!
+    where: workflow_bool_exp
+  ): [workflow!]!
 
   """An aggregate relationship"""
-  workflows_workflows_aggregate(
+  workflows_aggregate(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -1873,40 +2257,40 @@ type pipelines_pipeline {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): workflows_workflow_aggregate!
+    where: workflow_bool_exp
+  ): workflow_aggregate!
 }
 
 """
 aggregated selection of "pipelines_pipeline"
 """
-type pipelines_pipeline_aggregate {
-  aggregate: pipelines_pipeline_aggregate_fields
-  nodes: [pipelines_pipeline!]!
+type pipeline_aggregate {
+  aggregate: pipeline_aggregate_fields
+  nodes: [pipeline!]!
 }
 
 """
 aggregate fields of "pipelines_pipeline"
 """
-type pipelines_pipeline_aggregate_fields {
-  avg: pipelines_pipeline_avg_fields
-  count(columns: [pipelines_pipeline_select_column!], distinct: Boolean): Int!
-  max: pipelines_pipeline_max_fields
-  min: pipelines_pipeline_min_fields
-  stddev: pipelines_pipeline_stddev_fields
-  stddev_pop: pipelines_pipeline_stddev_pop_fields
-  stddev_samp: pipelines_pipeline_stddev_samp_fields
-  sum: pipelines_pipeline_sum_fields
-  var_pop: pipelines_pipeline_var_pop_fields
-  var_samp: pipelines_pipeline_var_samp_fields
-  variance: pipelines_pipeline_variance_fields
+type pipeline_aggregate_fields {
+  avg: pipeline_avg_fields
+  count(columns: [pipeline_select_column!], distinct: Boolean): Int!
+  max: pipeline_max_fields
+  min: pipeline_min_fields
+  stddev: pipeline_stddev_fields
+  stddev_pop: pipeline_stddev_pop_fields
+  stddev_samp: pipeline_stddev_samp_fields
+  sum: pipeline_sum_fields
+  var_pop: pipeline_var_pop_fields
+  var_samp: pipeline_var_samp_fields
+  variance: pipeline_variance_fields
 }
 
 """aggregate avg on columns"""
-type pipelines_pipeline_avg_fields {
+type pipeline_avg_fields {
   id: Float
   owner_id: Float
 }
@@ -1914,10 +2298,10 @@ type pipelines_pipeline_avg_fields {
 """
 Boolean expression to filter rows from the table "pipelines_pipeline". All fields are combined with a logical 'AND'.
 """
-input pipelines_pipeline_bool_exp {
-  _and: [pipelines_pipeline_bool_exp!]
-  _not: pipelines_pipeline_bool_exp
-  _or: [pipelines_pipeline_bool_exp!]
+input pipeline_bool_exp {
+  _and: [pipeline_bool_exp!]
+  _not: pipeline_bool_exp
+  _or: [pipeline_bool_exp!]
   authors: String_comparison_exp
   category: String_comparison_exp
   creation_date: timestamptz_comparison_exp
@@ -1927,14 +2311,14 @@ input pipelines_pipeline_bool_exp {
   modification_date: timestamptz_comparison_exp
   name: String_comparison_exp
   owner_id: Int_comparison_exp
-  workflows_workflows: workflows_workflow_bool_exp
-  workflows_workflows_aggregate: workflows_workflow_aggregate_bool_exp
+  workflows: workflow_bool_exp
+  workflows_aggregate: workflow_aggregate_bool_exp
 }
 
 """
 unique or primary key constraints on table "pipelines_pipeline"
 """
-enum pipelines_pipeline_constraint {
+enum pipeline_constraint {
   """
   unique or primary key constraint on columns "name"
   """
@@ -1949,7 +2333,7 @@ enum pipelines_pipeline_constraint {
 """
 input type for incrementing numeric columns in table "pipelines_pipeline"
 """
-input pipelines_pipeline_inc_input {
+input pipeline_inc_input {
   id: bigint
   owner_id: Int
 }
@@ -1957,7 +2341,7 @@ input pipelines_pipeline_inc_input {
 """
 input type for inserting data into table "pipelines_pipeline"
 """
-input pipelines_pipeline_insert_input {
+input pipeline_insert_input {
   authors: String
   category: String
   creation_date: timestamptz
@@ -1967,11 +2351,11 @@ input pipelines_pipeline_insert_input {
   modification_date: timestamptz
   name: String
   owner_id: Int
-  workflows_workflows: workflows_workflow_arr_rel_insert_input
+  workflows: workflow_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
-type pipelines_pipeline_max_fields {
+type pipeline_max_fields {
   authors: String
   category: String
   creation_date: timestamptz
@@ -1983,7 +2367,7 @@ type pipelines_pipeline_max_fields {
 }
 
 """aggregate min on columns"""
-type pipelines_pipeline_min_fields {
+type pipeline_min_fields {
   authors: String
   category: String
   creation_date: timestamptz
@@ -1997,35 +2381,35 @@ type pipelines_pipeline_min_fields {
 """
 response of any mutation on the table "pipelines_pipeline"
 """
-type pipelines_pipeline_mutation_response {
+type pipeline_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [pipelines_pipeline!]!
+  returning: [pipeline!]!
 }
 
 """
 input type for inserting object relation for remote table "pipelines_pipeline"
 """
-input pipelines_pipeline_obj_rel_insert_input {
-  data: pipelines_pipeline_insert_input!
+input pipeline_obj_rel_insert_input {
+  data: pipeline_insert_input!
 
   """upsert condition"""
-  on_conflict: pipelines_pipeline_on_conflict
+  on_conflict: pipeline_on_conflict
 }
 
 """
 on_conflict condition type for table "pipelines_pipeline"
 """
-input pipelines_pipeline_on_conflict {
-  constraint: pipelines_pipeline_constraint!
-  update_columns: [pipelines_pipeline_update_column!]! = []
-  where: pipelines_pipeline_bool_exp
+input pipeline_on_conflict {
+  constraint: pipeline_constraint!
+  update_columns: [pipeline_update_column!]! = []
+  where: pipeline_bool_exp
 }
 
 """Ordering options when selecting data from "pipelines_pipeline"."""
-input pipelines_pipeline_order_by {
+input pipeline_order_by {
   authors: order_by
   category: order_by
   creation_date: order_by
@@ -2035,18 +2419,18 @@ input pipelines_pipeline_order_by {
   modification_date: order_by
   name: order_by
   owner_id: order_by
-  workflows_workflows_aggregate: workflows_workflow_aggregate_order_by
+  workflows_aggregate: workflow_aggregate_order_by
 }
 
 """primary key columns input for table: pipelines_pipeline"""
-input pipelines_pipeline_pk_columns_input {
+input pipeline_pk_columns_input {
   id: bigint!
 }
 
 """
 select columns of table "pipelines_pipeline"
 """
-enum pipelines_pipeline_select_column {
+enum pipeline_select_column {
   """column name"""
   authors
 
@@ -2078,7 +2462,7 @@ enum pipelines_pipeline_select_column {
 """
 input type for updating data in table "pipelines_pipeline"
 """
-input pipelines_pipeline_set_input {
+input pipeline_set_input {
   authors: String
   category: String
   creation_date: timestamptz
@@ -2091,36 +2475,36 @@ input pipelines_pipeline_set_input {
 }
 
 """aggregate stddev on columns"""
-type pipelines_pipeline_stddev_fields {
+type pipeline_stddev_fields {
   id: Float
   owner_id: Float
 }
 
 """aggregate stddev_pop on columns"""
-type pipelines_pipeline_stddev_pop_fields {
+type pipeline_stddev_pop_fields {
   id: Float
   owner_id: Float
 }
 
 """aggregate stddev_samp on columns"""
-type pipelines_pipeline_stddev_samp_fields {
+type pipeline_stddev_samp_fields {
   id: Float
   owner_id: Float
 }
 
 """
-Streaming cursor of the table "pipelines_pipeline"
+Streaming cursor of the table "pipeline"
 """
-input pipelines_pipeline_stream_cursor_input {
+input pipeline_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: pipelines_pipeline_stream_cursor_value_input!
+  initial_value: pipeline_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input pipelines_pipeline_stream_cursor_value_input {
+input pipeline_stream_cursor_value_input {
   authors: String
   category: String
   creation_date: timestamptz
@@ -2133,7 +2517,7 @@ input pipelines_pipeline_stream_cursor_value_input {
 }
 
 """aggregate sum on columns"""
-type pipelines_pipeline_sum_fields {
+type pipeline_sum_fields {
   id: bigint
   owner_id: Int
 }
@@ -2141,7 +2525,7 @@ type pipelines_pipeline_sum_fields {
 """
 update columns of table "pipelines_pipeline"
 """
-enum pipelines_pipeline_update_column {
+enum pipeline_update_column {
   """column name"""
   authors
 
@@ -2170,31 +2554,31 @@ enum pipelines_pipeline_update_column {
   owner_id
 }
 
-input pipelines_pipeline_updates {
+input pipeline_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: pipelines_pipeline_inc_input
+  _inc: pipeline_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: pipelines_pipeline_set_input
+  _set: pipeline_set_input
 
   """filter the rows which have to be updated"""
-  where: pipelines_pipeline_bool_exp!
+  where: pipeline_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type pipelines_pipeline_var_pop_fields {
+type pipeline_var_pop_fields {
   id: Float
   owner_id: Float
 }
 
 """aggregate var_samp on columns"""
-type pipelines_pipeline_var_samp_fields {
+type pipeline_var_samp_fields {
   id: Float
   owner_id: Float
 }
 
 """aggregate variance on columns"""
-type pipelines_pipeline_variance_fields {
+type pipeline_variance_fields {
   id: Float
   owner_id: Float
 }
@@ -2202,100 +2586,99 @@ type pipelines_pipeline_variance_fields {
 """
 columns and relationships of "plugininstances_plugininstance"
 """
-type plugininstances_plugininstance {
+type plugin_instance {
+  """An array relationship"""
+  children(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
+
+  """An aggregate relationship"""
+  children_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz!
   error_code: String!
-  feed_id: bigint!
 
   """An object relationship"""
-  feeds_feed: feeds_feed!
+  feed: feed!
+  feed_id: bigint!
+
+  """An array relationship"""
+  files(
+    """distinct select on columns"""
+    distinct_on: [file_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [file_order_by!]
+
+    """filter the rows returned"""
+    where: file_bool_exp
+  ): [file!]!
+
+  """An aggregate relationship"""
+  files_aggregate(
+    """distinct select on columns"""
+    distinct_on: [file_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [file_order_by!]
+
+    """filter the rows returned"""
+    where: file_bool_exp
+  ): file_aggregate!
   gpu_limit: Int
   id: bigint!
   memory_limit: Int
   number_of_workers: Int
   owner_id: Int!
   pipeline_inst_id: bigint
+
+  """An object relationship"""
+  plugin: plugins_plugin!
   plugin_id: bigint!
 
   """An object relationship"""
-  plugininstances_plugininstance: plugininstances_plugininstance
-
-  """An array relationship"""
-  plugininstances_plugininstancefiles(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): [plugininstances_plugininstancefile!]!
-
-  """An aggregate relationship"""
-  plugininstances_plugininstancefiles_aggregate(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): plugininstances_plugininstancefile_aggregate!
-
-  """An array relationship"""
-  plugininstances_plugininstances(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
-
-  """An aggregate relationship"""
-  plugininstances_plugininstances_aggregate(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
-
-  """An object relationship"""
-  plugins_plugin: plugins_plugin!
+  previous: plugin_instance
   previous_id: bigint
   raw: String!
   size: bigint!
@@ -2303,77 +2686,77 @@ type plugininstances_plugininstance {
   status: String!
   summary: String!
   title: String!
-  workflow_id: bigint
 
   """An object relationship"""
-  workflows_workflow: workflows_workflow
+  workflow: workflow
+  workflow_id: bigint
 }
 
 """
 aggregated selection of "plugininstances_plugininstance"
 """
-type plugininstances_plugininstance_aggregate {
-  aggregate: plugininstances_plugininstance_aggregate_fields
-  nodes: [plugininstances_plugininstance!]!
+type plugin_instance_aggregate {
+  aggregate: plugin_instance_aggregate_fields
+  nodes: [plugin_instance!]!
 }
 
-input plugininstances_plugininstance_aggregate_bool_exp {
-  count: plugininstances_plugininstance_aggregate_bool_exp_count
+input plugin_instance_aggregate_bool_exp {
+  count: plugin_instance_aggregate_bool_exp_count
 }
 
-input plugininstances_plugininstance_aggregate_bool_exp_count {
-  arguments: [plugininstances_plugininstance_select_column!]
+input plugin_instance_aggregate_bool_exp_count {
+  arguments: [plugin_instance_select_column!]
   distinct: Boolean
-  filter: plugininstances_plugininstance_bool_exp
+  filter: plugin_instance_bool_exp
   predicate: Int_comparison_exp!
 }
 
 """
 aggregate fields of "plugininstances_plugininstance"
 """
-type plugininstances_plugininstance_aggregate_fields {
-  avg: plugininstances_plugininstance_avg_fields
-  count(columns: [plugininstances_plugininstance_select_column!], distinct: Boolean): Int!
-  max: plugininstances_plugininstance_max_fields
-  min: plugininstances_plugininstance_min_fields
-  stddev: plugininstances_plugininstance_stddev_fields
-  stddev_pop: plugininstances_plugininstance_stddev_pop_fields
-  stddev_samp: plugininstances_plugininstance_stddev_samp_fields
-  sum: plugininstances_plugininstance_sum_fields
-  var_pop: plugininstances_plugininstance_var_pop_fields
-  var_samp: plugininstances_plugininstance_var_samp_fields
-  variance: plugininstances_plugininstance_variance_fields
+type plugin_instance_aggregate_fields {
+  avg: plugin_instance_avg_fields
+  count(columns: [plugin_instance_select_column!], distinct: Boolean): Int!
+  max: plugin_instance_max_fields
+  min: plugin_instance_min_fields
+  stddev: plugin_instance_stddev_fields
+  stddev_pop: plugin_instance_stddev_pop_fields
+  stddev_samp: plugin_instance_stddev_samp_fields
+  sum: plugin_instance_sum_fields
+  var_pop: plugin_instance_var_pop_fields
+  var_samp: plugin_instance_var_samp_fields
+  variance: plugin_instance_variance_fields
 }
 
 """
 order by aggregate values of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_aggregate_order_by {
-  avg: plugininstances_plugininstance_avg_order_by
+input plugin_instance_aggregate_order_by {
+  avg: plugin_instance_avg_order_by
   count: order_by
-  max: plugininstances_plugininstance_max_order_by
-  min: plugininstances_plugininstance_min_order_by
-  stddev: plugininstances_plugininstance_stddev_order_by
-  stddev_pop: plugininstances_plugininstance_stddev_pop_order_by
-  stddev_samp: plugininstances_plugininstance_stddev_samp_order_by
-  sum: plugininstances_plugininstance_sum_order_by
-  var_pop: plugininstances_plugininstance_var_pop_order_by
-  var_samp: plugininstances_plugininstance_var_samp_order_by
-  variance: plugininstances_plugininstance_variance_order_by
+  max: plugin_instance_max_order_by
+  min: plugin_instance_min_order_by
+  stddev: plugin_instance_stddev_order_by
+  stddev_pop: plugin_instance_stddev_pop_order_by
+  stddev_samp: plugin_instance_stddev_samp_order_by
+  sum: plugin_instance_sum_order_by
+  var_pop: plugin_instance_var_pop_order_by
+  var_samp: plugin_instance_var_samp_order_by
+  variance: plugin_instance_variance_order_by
 }
 
 """
 input type for inserting array relation for remote table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_arr_rel_insert_input {
-  data: [plugininstances_plugininstance_insert_input!]!
+input plugin_instance_arr_rel_insert_input {
+  data: [plugin_instance_insert_input!]!
 
   """upsert condition"""
-  on_conflict: plugininstances_plugininstance_on_conflict
+  on_conflict: plugin_instance_on_conflict
 }
 
 """aggregate avg on columns"""
-type plugininstances_plugininstance_avg_fields {
+type plugin_instance_avg_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -2392,7 +2775,7 @@ type plugininstances_plugininstance_avg_fields {
 """
 order by avg() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_avg_order_by {
+input plugin_instance_avg_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -2411,29 +2794,29 @@ input plugininstances_plugininstance_avg_order_by {
 """
 Boolean expression to filter rows from the table "plugininstances_plugininstance". All fields are combined with a logical 'AND'.
 """
-input plugininstances_plugininstance_bool_exp {
-  _and: [plugininstances_plugininstance_bool_exp!]
-  _not: plugininstances_plugininstance_bool_exp
-  _or: [plugininstances_plugininstance_bool_exp!]
+input plugin_instance_bool_exp {
+  _and: [plugin_instance_bool_exp!]
+  _not: plugin_instance_bool_exp
+  _or: [plugin_instance_bool_exp!]
+  children: plugin_instance_bool_exp
+  children_aggregate: plugin_instance_aggregate_bool_exp
   compute_resource_id: bigint_comparison_exp
   cpu_limit: Int_comparison_exp
   end_date: timestamptz_comparison_exp
   error_code: String_comparison_exp
+  feed: feed_bool_exp
   feed_id: bigint_comparison_exp
-  feeds_feed: feeds_feed_bool_exp
+  files: file_bool_exp
+  files_aggregate: file_aggregate_bool_exp
   gpu_limit: Int_comparison_exp
   id: bigint_comparison_exp
   memory_limit: Int_comparison_exp
   number_of_workers: Int_comparison_exp
   owner_id: Int_comparison_exp
   pipeline_inst_id: bigint_comparison_exp
+  plugin: plugins_plugin_bool_exp
   plugin_id: bigint_comparison_exp
-  plugininstances_plugininstance: plugininstances_plugininstance_bool_exp
-  plugininstances_plugininstancefiles: plugininstances_plugininstancefile_bool_exp
-  plugininstances_plugininstancefiles_aggregate: plugininstances_plugininstancefile_aggregate_bool_exp
-  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
-  plugins_plugin: plugins_plugin_bool_exp
+  previous: plugin_instance_bool_exp
   previous_id: bigint_comparison_exp
   raw: String_comparison_exp
   size: bigint_comparison_exp
@@ -2441,14 +2824,14 @@ input plugininstances_plugininstance_bool_exp {
   status: String_comparison_exp
   summary: String_comparison_exp
   title: String_comparison_exp
+  workflow: workflow_bool_exp
   workflow_id: bigint_comparison_exp
-  workflows_workflow: workflows_workflow_bool_exp
 }
 
 """
 unique or primary key constraints on table "plugininstances_plugininstance"
 """
-enum plugininstances_plugininstance_constraint {
+enum plugin_instance_constraint {
   """
   unique or primary key constraint on columns "id"
   """
@@ -2458,7 +2841,7 @@ enum plugininstances_plugininstance_constraint {
 """
 input type for incrementing numeric columns in table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_inc_input {
+input plugin_instance_inc_input {
   compute_resource_id: bigint
   cpu_limit: Int
   feed_id: bigint
@@ -2477,24 +2860,24 @@ input plugininstances_plugininstance_inc_input {
 """
 input type for inserting data into table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_insert_input {
+input plugin_instance_insert_input {
+  children: plugin_instance_arr_rel_insert_input
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz
   error_code: String
+  feed: feed_obj_rel_insert_input
   feed_id: bigint
-  feeds_feed: feeds_feed_obj_rel_insert_input
+  files: file_arr_rel_insert_input
   gpu_limit: Int
   id: bigint
   memory_limit: Int
   number_of_workers: Int
   owner_id: Int
   pipeline_inst_id: bigint
+  plugin: plugins_plugin_obj_rel_insert_input
   plugin_id: bigint
-  plugininstances_plugininstance: plugininstances_plugininstance_obj_rel_insert_input
-  plugininstances_plugininstancefiles: plugininstances_plugininstancefile_arr_rel_insert_input
-  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
-  plugins_plugin: plugins_plugin_obj_rel_insert_input
+  previous: plugin_instance_obj_rel_insert_input
   previous_id: bigint
   raw: String
   size: bigint
@@ -2502,12 +2885,12 @@ input plugininstances_plugininstance_insert_input {
   status: String
   summary: String
   title: String
+  workflow: workflow_obj_rel_insert_input
   workflow_id: bigint
-  workflows_workflow: workflows_workflow_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
-type plugininstances_plugininstance_max_fields {
+type plugin_instance_max_fields {
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz
@@ -2533,7 +2916,7 @@ type plugininstances_plugininstance_max_fields {
 """
 order by max() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_max_order_by {
+input plugin_instance_max_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   end_date: order_by
@@ -2557,7 +2940,7 @@ input plugininstances_plugininstance_max_order_by {
 }
 
 """aggregate min on columns"""
-type plugininstances_plugininstance_min_fields {
+type plugin_instance_min_fields {
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz
@@ -2583,7 +2966,7 @@ type plugininstances_plugininstance_min_fields {
 """
 order by min() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_min_order_by {
+input plugin_instance_min_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   end_date: order_by
@@ -2609,54 +2992,54 @@ input plugininstances_plugininstance_min_order_by {
 """
 response of any mutation on the table "plugininstances_plugininstance"
 """
-type plugininstances_plugininstance_mutation_response {
+type plugin_instance_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [plugininstances_plugininstance!]!
+  returning: [plugin_instance!]!
 }
 
 """
 input type for inserting object relation for remote table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_obj_rel_insert_input {
-  data: plugininstances_plugininstance_insert_input!
+input plugin_instance_obj_rel_insert_input {
+  data: plugin_instance_insert_input!
 
   """upsert condition"""
-  on_conflict: plugininstances_plugininstance_on_conflict
+  on_conflict: plugin_instance_on_conflict
 }
 
 """
 on_conflict condition type for table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_on_conflict {
-  constraint: plugininstances_plugininstance_constraint!
-  update_columns: [plugininstances_plugininstance_update_column!]! = []
-  where: plugininstances_plugininstance_bool_exp
+input plugin_instance_on_conflict {
+  constraint: plugin_instance_constraint!
+  update_columns: [plugin_instance_update_column!]! = []
+  where: plugin_instance_bool_exp
 }
 
 """
 Ordering options when selecting data from "plugininstances_plugininstance".
 """
-input plugininstances_plugininstance_order_by {
+input plugin_instance_order_by {
+  children_aggregate: plugin_instance_aggregate_order_by
   compute_resource_id: order_by
   cpu_limit: order_by
   end_date: order_by
   error_code: order_by
+  feed: feed_order_by
   feed_id: order_by
-  feeds_feed: feeds_feed_order_by
+  files_aggregate: file_aggregate_order_by
   gpu_limit: order_by
   id: order_by
   memory_limit: order_by
   number_of_workers: order_by
   owner_id: order_by
   pipeline_inst_id: order_by
+  plugin: plugins_plugin_order_by
   plugin_id: order_by
-  plugininstances_plugininstance: plugininstances_plugininstance_order_by
-  plugininstances_plugininstancefiles_aggregate: plugininstances_plugininstancefile_aggregate_order_by
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
-  plugins_plugin: plugins_plugin_order_by
+  previous: plugin_instance_order_by
   previous_id: order_by
   raw: order_by
   size: order_by
@@ -2664,19 +3047,19 @@ input plugininstances_plugininstance_order_by {
   status: order_by
   summary: order_by
   title: order_by
+  workflow: workflow_order_by
   workflow_id: order_by
-  workflows_workflow: workflows_workflow_order_by
 }
 
 """primary key columns input for table: plugininstances_plugininstance"""
-input plugininstances_plugininstance_pk_columns_input {
+input plugin_instance_pk_columns_input {
   id: bigint!
 }
 
 """
 select columns of table "plugininstances_plugininstance"
 """
-enum plugininstances_plugininstance_select_column {
+enum plugin_instance_select_column {
   """column name"""
   compute_resource_id
 
@@ -2741,7 +3124,7 @@ enum plugininstances_plugininstance_select_column {
 """
 input type for updating data in table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_set_input {
+input plugin_instance_set_input {
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz
@@ -2765,7 +3148,7 @@ input plugininstances_plugininstance_set_input {
 }
 
 """aggregate stddev on columns"""
-type plugininstances_plugininstance_stddev_fields {
+type plugin_instance_stddev_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -2784,7 +3167,7 @@ type plugininstances_plugininstance_stddev_fields {
 """
 order by stddev() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_stddev_order_by {
+input plugin_instance_stddev_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -2801,7 +3184,7 @@ input plugininstances_plugininstance_stddev_order_by {
 }
 
 """aggregate stddev_pop on columns"""
-type plugininstances_plugininstance_stddev_pop_fields {
+type plugin_instance_stddev_pop_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -2820,7 +3203,7 @@ type plugininstances_plugininstance_stddev_pop_fields {
 """
 order by stddev_pop() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_stddev_pop_order_by {
+input plugin_instance_stddev_pop_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -2837,7 +3220,7 @@ input plugininstances_plugininstance_stddev_pop_order_by {
 }
 
 """aggregate stddev_samp on columns"""
-type plugininstances_plugininstance_stddev_samp_fields {
+type plugin_instance_stddev_samp_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -2856,7 +3239,7 @@ type plugininstances_plugininstance_stddev_samp_fields {
 """
 order by stddev_samp() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_stddev_samp_order_by {
+input plugin_instance_stddev_samp_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -2873,18 +3256,18 @@ input plugininstances_plugininstance_stddev_samp_order_by {
 }
 
 """
-Streaming cursor of the table "plugininstances_plugininstance"
+Streaming cursor of the table "plugin_instance"
 """
-input plugininstances_plugininstance_stream_cursor_input {
+input plugin_instance_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: plugininstances_plugininstance_stream_cursor_value_input!
+  initial_value: plugin_instance_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input plugininstances_plugininstance_stream_cursor_value_input {
+input plugin_instance_stream_cursor_value_input {
   compute_resource_id: bigint
   cpu_limit: Int
   end_date: timestamptz
@@ -2908,7 +3291,7 @@ input plugininstances_plugininstance_stream_cursor_value_input {
 }
 
 """aggregate sum on columns"""
-type plugininstances_plugininstance_sum_fields {
+type plugin_instance_sum_fields {
   compute_resource_id: bigint
   cpu_limit: Int
   feed_id: bigint
@@ -2927,7 +3310,7 @@ type plugininstances_plugininstance_sum_fields {
 """
 order by sum() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_sum_order_by {
+input plugin_instance_sum_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -2946,7 +3329,7 @@ input plugininstances_plugininstance_sum_order_by {
 """
 update columns of table "plugininstances_plugininstance"
 """
-enum plugininstances_plugininstance_update_column {
+enum plugin_instance_update_column {
   """column name"""
   compute_resource_id
 
@@ -3008,19 +3391,19 @@ enum plugininstances_plugininstance_update_column {
   workflow_id
 }
 
-input plugininstances_plugininstance_updates {
+input plugin_instance_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: plugininstances_plugininstance_inc_input
+  _inc: plugin_instance_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: plugininstances_plugininstance_set_input
+  _set: plugin_instance_set_input
 
   """filter the rows which have to be updated"""
-  where: plugininstances_plugininstance_bool_exp!
+  where: plugin_instance_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type plugininstances_plugininstance_var_pop_fields {
+type plugin_instance_var_pop_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -3039,7 +3422,7 @@ type plugininstances_plugininstance_var_pop_fields {
 """
 order by var_pop() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_var_pop_order_by {
+input plugin_instance_var_pop_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -3056,7 +3439,7 @@ input plugininstances_plugininstance_var_pop_order_by {
 }
 
 """aggregate var_samp on columns"""
-type plugininstances_plugininstance_var_samp_fields {
+type plugin_instance_var_samp_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -3075,7 +3458,7 @@ type plugininstances_plugininstance_var_samp_fields {
 """
 order by var_samp() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_var_samp_order_by {
+input plugin_instance_var_samp_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -3092,7 +3475,7 @@ input plugininstances_plugininstance_var_samp_order_by {
 }
 
 """aggregate variance on columns"""
-type plugininstances_plugininstance_variance_fields {
+type plugin_instance_variance_fields {
   compute_resource_id: Float
   cpu_limit: Float
   feed_id: Float
@@ -3111,7 +3494,7 @@ type plugininstances_plugininstance_variance_fields {
 """
 order by variance() on columns of table "plugininstances_plugininstance"
 """
-input plugininstances_plugininstance_variance_order_by {
+input plugin_instance_variance_order_by {
   compute_resource_id: order_by
   cpu_limit: order_by
   feed_id: order_by
@@ -3128,390 +3511,6 @@ input plugininstances_plugininstance_variance_order_by {
 }
 
 """
-columns and relationships of "plugininstances_plugininstancefile"
-"""
-type plugininstances_plugininstancefile {
-  creation_date: timestamptz!
-  fname: String!
-  id: bigint!
-  plugin_inst_id: bigint!
-
-  """An object relationship"""
-  plugininstances_plugininstance: plugininstances_plugininstance!
-}
-
-"""
-aggregated selection of "plugininstances_plugininstancefile"
-"""
-type plugininstances_plugininstancefile_aggregate {
-  aggregate: plugininstances_plugininstancefile_aggregate_fields
-  nodes: [plugininstances_plugininstancefile!]!
-}
-
-input plugininstances_plugininstancefile_aggregate_bool_exp {
-  count: plugininstances_plugininstancefile_aggregate_bool_exp_count
-}
-
-input plugininstances_plugininstancefile_aggregate_bool_exp_count {
-  arguments: [plugininstances_plugininstancefile_select_column!]
-  distinct: Boolean
-  filter: plugininstances_plugininstancefile_bool_exp
-  predicate: Int_comparison_exp!
-}
-
-"""
-aggregate fields of "plugininstances_plugininstancefile"
-"""
-type plugininstances_plugininstancefile_aggregate_fields {
-  avg: plugininstances_plugininstancefile_avg_fields
-  count(columns: [plugininstances_plugininstancefile_select_column!], distinct: Boolean): Int!
-  max: plugininstances_plugininstancefile_max_fields
-  min: plugininstances_plugininstancefile_min_fields
-  stddev: plugininstances_plugininstancefile_stddev_fields
-  stddev_pop: plugininstances_plugininstancefile_stddev_pop_fields
-  stddev_samp: plugininstances_plugininstancefile_stddev_samp_fields
-  sum: plugininstances_plugininstancefile_sum_fields
-  var_pop: plugininstances_plugininstancefile_var_pop_fields
-  var_samp: plugininstances_plugininstancefile_var_samp_fields
-  variance: plugininstances_plugininstancefile_variance_fields
-}
-
-"""
-order by aggregate values of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_aggregate_order_by {
-  avg: plugininstances_plugininstancefile_avg_order_by
-  count: order_by
-  max: plugininstances_plugininstancefile_max_order_by
-  min: plugininstances_plugininstancefile_min_order_by
-  stddev: plugininstances_plugininstancefile_stddev_order_by
-  stddev_pop: plugininstances_plugininstancefile_stddev_pop_order_by
-  stddev_samp: plugininstances_plugininstancefile_stddev_samp_order_by
-  sum: plugininstances_plugininstancefile_sum_order_by
-  var_pop: plugininstances_plugininstancefile_var_pop_order_by
-  var_samp: plugininstances_plugininstancefile_var_samp_order_by
-  variance: plugininstances_plugininstancefile_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_arr_rel_insert_input {
-  data: [plugininstances_plugininstancefile_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: plugininstances_plugininstancefile_on_conflict
-}
-
-"""aggregate avg on columns"""
-type plugininstances_plugininstancefile_avg_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by avg() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_avg_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""
-Boolean expression to filter rows from the table "plugininstances_plugininstancefile". All fields are combined with a logical 'AND'.
-"""
-input plugininstances_plugininstancefile_bool_exp {
-  _and: [plugininstances_plugininstancefile_bool_exp!]
-  _not: plugininstances_plugininstancefile_bool_exp
-  _or: [plugininstances_plugininstancefile_bool_exp!]
-  creation_date: timestamptz_comparison_exp
-  fname: String_comparison_exp
-  id: bigint_comparison_exp
-  plugin_inst_id: bigint_comparison_exp
-  plugininstances_plugininstance: plugininstances_plugininstance_bool_exp
-}
-
-"""
-unique or primary key constraints on table "plugininstances_plugininstancefile"
-"""
-enum plugininstances_plugininstancefile_constraint {
-  """
-  unique or primary key constraint on columns "fname"
-  """
-  plugininstances_plugininstancefile_fname_fc1d9d05_uniq
-
-  """
-  unique or primary key constraint on columns "id"
-  """
-  plugininstances_plugininstancefile_pkey
-}
-
-"""
-input type for incrementing numeric columns in table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_inc_input {
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""
-input type for inserting data into table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_insert_input {
-  creation_date: timestamptz
-  fname: String
-  id: bigint
-  plugin_inst_id: bigint
-  plugininstances_plugininstance: plugininstances_plugininstance_obj_rel_insert_input
-}
-
-"""aggregate max on columns"""
-type plugininstances_plugininstancefile_max_fields {
-  creation_date: timestamptz
-  fname: String
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""
-order by max() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_max_order_by {
-  creation_date: order_by
-  fname: order_by
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""aggregate min on columns"""
-type plugininstances_plugininstancefile_min_fields {
-  creation_date: timestamptz
-  fname: String
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""
-order by min() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_min_order_by {
-  creation_date: order_by
-  fname: order_by
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""
-response of any mutation on the table "plugininstances_plugininstancefile"
-"""
-type plugininstances_plugininstancefile_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [plugininstances_plugininstancefile!]!
-}
-
-"""
-on_conflict condition type for table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_on_conflict {
-  constraint: plugininstances_plugininstancefile_constraint!
-  update_columns: [plugininstances_plugininstancefile_update_column!]! = []
-  where: plugininstances_plugininstancefile_bool_exp
-}
-
-"""
-Ordering options when selecting data from "plugininstances_plugininstancefile".
-"""
-input plugininstances_plugininstancefile_order_by {
-  creation_date: order_by
-  fname: order_by
-  id: order_by
-  plugin_inst_id: order_by
-  plugininstances_plugininstance: plugininstances_plugininstance_order_by
-}
-
-"""
-primary key columns input for table: plugininstances_plugininstancefile
-"""
-input plugininstances_plugininstancefile_pk_columns_input {
-  id: bigint!
-}
-
-"""
-select columns of table "plugininstances_plugininstancefile"
-"""
-enum plugininstances_plugininstancefile_select_column {
-  """column name"""
-  creation_date
-
-  """column name"""
-  fname
-
-  """column name"""
-  id
-
-  """column name"""
-  plugin_inst_id
-}
-
-"""
-input type for updating data in table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_set_input {
-  creation_date: timestamptz
-  fname: String
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""aggregate stddev on columns"""
-type plugininstances_plugininstancefile_stddev_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by stddev() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_stddev_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""aggregate stddev_pop on columns"""
-type plugininstances_plugininstancefile_stddev_pop_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by stddev_pop() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_stddev_pop_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""aggregate stddev_samp on columns"""
-type plugininstances_plugininstancefile_stddev_samp_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by stddev_samp() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_stddev_samp_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""
-Streaming cursor of the table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: plugininstances_plugininstancefile_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input plugininstances_plugininstancefile_stream_cursor_value_input {
-  creation_date: timestamptz
-  fname: String
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""aggregate sum on columns"""
-type plugininstances_plugininstancefile_sum_fields {
-  id: bigint
-  plugin_inst_id: bigint
-}
-
-"""
-order by sum() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_sum_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""
-update columns of table "plugininstances_plugininstancefile"
-"""
-enum plugininstances_plugininstancefile_update_column {
-  """column name"""
-  creation_date
-
-  """column name"""
-  fname
-
-  """column name"""
-  id
-
-  """column name"""
-  plugin_inst_id
-}
-
-input plugininstances_plugininstancefile_updates {
-  """increments the numeric columns with given value of the filtered values"""
-  _inc: plugininstances_plugininstancefile_inc_input
-
-  """sets the columns of the filtered rows to the given values"""
-  _set: plugininstances_plugininstancefile_set_input
-
-  """filter the rows which have to be updated"""
-  where: plugininstances_plugininstancefile_bool_exp!
-}
-
-"""aggregate var_pop on columns"""
-type plugininstances_plugininstancefile_var_pop_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by var_pop() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_var_pop_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""aggregate var_samp on columns"""
-type plugininstances_plugininstancefile_var_samp_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by var_samp() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_var_samp_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""aggregate variance on columns"""
-type plugininstances_plugininstancefile_variance_fields {
-  id: Float
-  plugin_inst_id: Float
-}
-
-"""
-order by variance() on columns of table "plugininstances_plugininstancefile"
-"""
-input plugininstances_plugininstancefile_variance_order_by {
-  id: order_by
-  plugin_inst_id: order_by
-}
-
-"""
 columns and relationships of "plugins_plugin"
 """
 type plugins_plugin {
@@ -3524,6 +3523,9 @@ type plugins_plugin {
   max_gpu_limit: Int
   max_memory_limit: Int
   max_number_of_workers: Int
+
+  """An object relationship"""
+  meta: plugins_pluginmeta!
   meta_id: bigint!
   min_cpu_limit: Int
   min_gpu_limit: Int
@@ -3531,9 +3533,9 @@ type plugins_plugin {
   min_number_of_workers: Int
 
   """An array relationship"""
-  plugininstances_plugininstances(
+  plugin_instances(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -3542,16 +3544,16 @@ type plugins_plugin {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
 
   """An aggregate relationship"""
-  plugininstances_plugininstances_aggregate(
+  plugin_instances_aggregate(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -3560,14 +3562,11 @@ type plugins_plugin {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
-
-  """An object relationship"""
-  plugins_pluginmetum: plugins_pluginmeta!
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
   selfexec: String!
   selfpath: String!
   version: String!
@@ -3682,14 +3681,14 @@ input plugins_plugin_bool_exp {
   max_gpu_limit: Int_comparison_exp
   max_memory_limit: Int_comparison_exp
   max_number_of_workers: Int_comparison_exp
+  meta: plugins_pluginmeta_bool_exp
   meta_id: bigint_comparison_exp
   min_cpu_limit: Int_comparison_exp
   min_gpu_limit: Int_comparison_exp
   min_memory_limit: Int_comparison_exp
   min_number_of_workers: Int_comparison_exp
-  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
-  plugins_pluginmetum: plugins_pluginmeta_bool_exp
+  plugin_instances: plugin_instance_bool_exp
+  plugin_instances_aggregate: plugin_instance_aggregate_bool_exp
   selfexec: String_comparison_exp
   selfpath: String_comparison_exp
   version: String_comparison_exp
@@ -3744,13 +3743,13 @@ input plugins_plugin_insert_input {
   max_gpu_limit: Int
   max_memory_limit: Int
   max_number_of_workers: Int
+  meta: plugins_pluginmeta_obj_rel_insert_input
   meta_id: bigint
   min_cpu_limit: Int
   min_gpu_limit: Int
   min_memory_limit: Int
   min_number_of_workers: Int
-  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
-  plugins_pluginmetum: plugins_pluginmeta_obj_rel_insert_input
+  plugin_instances: plugin_instance_arr_rel_insert_input
   selfexec: String
   selfpath: String
   version: String
@@ -3885,13 +3884,13 @@ input plugins_plugin_order_by {
   max_gpu_limit: order_by
   max_memory_limit: order_by
   max_number_of_workers: order_by
+  meta: plugins_pluginmeta_order_by
   meta_id: order_by
   min_cpu_limit: order_by
   min_gpu_limit: order_by
   min_memory_limit: order_by
   min_number_of_workers: order_by
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
-  plugins_pluginmetum: plugins_pluginmeta_order_by
+  plugin_instances_aggregate: plugin_instance_aggregate_order_by
   selfexec: order_by
   selfpath: order_by
   version: order_by
@@ -4305,7 +4304,7 @@ type plugins_pluginmeta {
   name: String!
 
   """An array relationship"""
-  plugins_plugins(
+  plugins(
     """distinct select on columns"""
     distinct_on: [plugins_plugin_select_column!]
 
@@ -4323,7 +4322,7 @@ type plugins_pluginmeta {
   ): [plugins_plugin!]!
 
   """An aggregate relationship"""
-  plugins_plugins_aggregate(
+  plugins_aggregate(
     """distinct select on columns"""
     distinct_on: [plugins_plugin_select_column!]
 
@@ -4392,8 +4391,8 @@ input plugins_pluginmeta_bool_exp {
   license: String_comparison_exp
   modification_date: timestamptz_comparison_exp
   name: String_comparison_exp
-  plugins_plugins: plugins_plugin_bool_exp
-  plugins_plugins_aggregate: plugins_plugin_aggregate_bool_exp
+  plugins: plugins_plugin_bool_exp
+  plugins_aggregate: plugins_plugin_aggregate_bool_exp
   public_repo: String_comparison_exp
   stars: Int_comparison_exp
   title: String_comparison_exp
@@ -4436,7 +4435,7 @@ input plugins_pluginmeta_insert_input {
   license: String
   modification_date: timestamptz
   name: String
-  plugins_plugins: plugins_plugin_arr_rel_insert_input
+  plugins: plugins_plugin_arr_rel_insert_input
   public_repo: String
   stars: Int
   title: String
@@ -4518,7 +4517,7 @@ input plugins_pluginmeta_order_by {
   license: order_by
   modification_date: order_by
   name: order_by
-  plugins_plugins_aggregate: plugins_plugin_aggregate_order_by
+  plugins_aggregate: plugins_plugin_aggregate_order_by
   public_repo: order_by
   stars: order_by
   title: order_by
@@ -4722,9 +4721,9 @@ type query_root {
   """
   fetch data from the table: "feeds_feed"
   """
-  feeds_feed(
+  feed(
     """distinct select on columns"""
-    distinct_on: [feeds_feed_select_column!]
+    distinct_on: [feed_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -4733,18 +4732,18 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [feeds_feed_order_by!]
+    order_by: [feed_order_by!]
 
     """filter the rows returned"""
-    where: feeds_feed_bool_exp
-  ): [feeds_feed!]!
+    where: feed_bool_exp
+  ): [feed!]!
 
   """
   fetch aggregated fields from the table: "feeds_feed"
   """
-  feeds_feed_aggregate(
+  feed_aggregate(
     """distinct select on columns"""
-    distinct_on: [feeds_feed_select_column!]
+    distinct_on: [feed_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -4753,199 +4752,21 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [feeds_feed_order_by!]
+    order_by: [feed_order_by!]
 
     """filter the rows returned"""
-    where: feeds_feed_bool_exp
-  ): feeds_feed_aggregate!
+    where: feed_bool_exp
+  ): feed_aggregate!
 
   """fetch data from the table: "feeds_feed" using primary key columns"""
-  feeds_feed_by_pk(id: bigint!): feeds_feed
-
-  """
-  fetch data from the table: "feeds_note"
-  """
-  feeds_note(
-    """distinct select on columns"""
-    distinct_on: [feeds_note_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [feeds_note_order_by!]
-
-    """filter the rows returned"""
-    where: feeds_note_bool_exp
-  ): [feeds_note!]!
-
-  """
-  fetch aggregated fields from the table: "feeds_note"
-  """
-  feeds_note_aggregate(
-    """distinct select on columns"""
-    distinct_on: [feeds_note_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [feeds_note_order_by!]
-
-    """filter the rows returned"""
-    where: feeds_note_bool_exp
-  ): feeds_note_aggregate!
-
-  """fetch data from the table: "feeds_note" using primary key columns"""
-  feeds_note_by_pk(id: bigint!): feeds_note
-
-  """
-  fetch data from the table: "pacsfiles_pacsfile"
-  """
-  pacsfiles_pacsfile(
-    """distinct select on columns"""
-    distinct_on: [pacsfiles_pacsfile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pacsfiles_pacsfile_order_by!]
-
-    """filter the rows returned"""
-    where: pacsfiles_pacsfile_bool_exp
-  ): [pacsfiles_pacsfile!]!
-
-  """
-  fetch aggregated fields from the table: "pacsfiles_pacsfile"
-  """
-  pacsfiles_pacsfile_aggregate(
-    """distinct select on columns"""
-    distinct_on: [pacsfiles_pacsfile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pacsfiles_pacsfile_order_by!]
-
-    """filter the rows returned"""
-    where: pacsfiles_pacsfile_bool_exp
-  ): pacsfiles_pacsfile_aggregate!
-
-  """
-  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
-  """
-  pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
-
-  """
-  fetch data from the table: "pipelines_pipeline"
-  """
-  pipelines_pipeline(
-    """distinct select on columns"""
-    distinct_on: [pipelines_pipeline_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pipelines_pipeline_order_by!]
-
-    """filter the rows returned"""
-    where: pipelines_pipeline_bool_exp
-  ): [pipelines_pipeline!]!
-
-  """
-  fetch aggregated fields from the table: "pipelines_pipeline"
-  """
-  pipelines_pipeline_aggregate(
-    """distinct select on columns"""
-    distinct_on: [pipelines_pipeline_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pipelines_pipeline_order_by!]
-
-    """filter the rows returned"""
-    where: pipelines_pipeline_bool_exp
-  ): pipelines_pipeline_aggregate!
-
-  """
-  fetch data from the table: "pipelines_pipeline" using primary key columns
-  """
-  pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
-
-  """
-  fetch data from the table: "plugininstances_plugininstance"
-  """
-  plugininstances_plugininstance(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
-
-  """
-  fetch aggregated fields from the table: "plugininstances_plugininstance"
-  """
-  plugininstances_plugininstance_aggregate(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
-
-  """
-  fetch data from the table: "plugininstances_plugininstance" using primary key columns
-  """
-  plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
+  feed_by_pk(id: bigint!): feed
 
   """
   fetch data from the table: "plugininstances_plugininstancefile"
   """
-  plugininstances_plugininstancefile(
+  file(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
+    distinct_on: [file_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -4954,18 +4775,18 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
+    order_by: [file_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): [plugininstances_plugininstancefile!]!
+    where: file_bool_exp
+  ): [file!]!
 
   """
   fetch aggregated fields from the table: "plugininstances_plugininstancefile"
   """
-  plugininstances_plugininstancefile_aggregate(
+  file_aggregate(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
+    distinct_on: [file_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -4974,16 +4795,194 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
+    order_by: [file_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): plugininstances_plugininstancefile_aggregate!
+    where: file_bool_exp
+  ): file_aggregate!
 
   """
   fetch data from the table: "plugininstances_plugininstancefile" using primary key columns
   """
-  plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+  file_by_pk(id: bigint!): file
+
+  """
+  fetch data from the table: "feeds_note"
+  """
+  note(
+    """distinct select on columns"""
+    distinct_on: [note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [note_order_by!]
+
+    """filter the rows returned"""
+    where: note_bool_exp
+  ): [note!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_note"
+  """
+  note_aggregate(
+    """distinct select on columns"""
+    distinct_on: [note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [note_order_by!]
+
+    """filter the rows returned"""
+    where: note_bool_exp
+  ): note_aggregate!
+
+  """fetch data from the table: "feeds_note" using primary key columns"""
+  note_by_pk(id: bigint!): note
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile"
+  """
+  pacsfile(
+    """distinct select on columns"""
+    distinct_on: [pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfile_bool_exp
+  ): [pacsfile!]!
+
+  """
+  fetch aggregated fields from the table: "pacsfiles_pacsfile"
+  """
+  pacsfile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfile_bool_exp
+  ): pacsfile_aggregate!
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
+  """
+  pacsfile_by_pk(id: bigint!): pacsfile
+
+  """
+  fetch data from the table: "pipelines_pipeline"
+  """
+  pipeline(
+    """distinct select on columns"""
+    distinct_on: [pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipeline_bool_exp
+  ): [pipeline!]!
+
+  """
+  fetch aggregated fields from the table: "pipelines_pipeline"
+  """
+  pipeline_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipeline_bool_exp
+  ): pipeline_aggregate!
+
+  """
+  fetch data from the table: "pipelines_pipeline" using primary key columns
+  """
+  pipeline_by_pk(id: bigint!): pipeline
+
+  """
+  fetch data from the table: "plugininstances_plugininstance"
+  """
+  plugin_instance(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstance"
+  """
+  plugin_instance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance" using primary key columns
+  """
+  plugin_instance_by_pk(id: bigint!): plugin_instance
 
   """
   fetch data from the table: "plugins_plugin"
@@ -5076,9 +5075,9 @@ type query_root {
   """
   fetch data from the table: "workflows_workflow"
   """
-  workflows_workflow(
+  workflow(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5087,18 +5086,18 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): [workflows_workflow!]!
+    where: workflow_bool_exp
+  ): [workflow!]!
 
   """
   fetch aggregated fields from the table: "workflows_workflow"
   """
-  workflows_workflow_aggregate(
+  workflow_aggregate(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5107,25 +5106,25 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): workflows_workflow_aggregate!
+    where: workflow_bool_exp
+  ): workflow_aggregate!
 
   """
   fetch data from the table: "workflows_workflow" using primary key columns
   """
-  workflows_workflow_by_pk(id: bigint!): workflows_workflow
+  workflow_by_pk(id: bigint!): workflow
 }
 
 type subscription_root {
   """
   fetch data from the table: "feeds_feed"
   """
-  feeds_feed(
+  feed(
     """distinct select on columns"""
-    distinct_on: [feeds_feed_select_column!]
+    distinct_on: [feed_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5134,18 +5133,18 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [feeds_feed_order_by!]
+    order_by: [feed_order_by!]
 
     """filter the rows returned"""
-    where: feeds_feed_bool_exp
-  ): [feeds_feed!]!
+    where: feed_bool_exp
+  ): [feed!]!
 
   """
   fetch aggregated fields from the table: "feeds_feed"
   """
-  feeds_feed_aggregate(
+  feed_aggregate(
     """distinct select on columns"""
-    distinct_on: [feeds_feed_select_column!]
+    distinct_on: [feed_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5154,269 +5153,35 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [feeds_feed_order_by!]
+    order_by: [feed_order_by!]
 
     """filter the rows returned"""
-    where: feeds_feed_bool_exp
-  ): feeds_feed_aggregate!
+    where: feed_bool_exp
+  ): feed_aggregate!
 
   """fetch data from the table: "feeds_feed" using primary key columns"""
-  feeds_feed_by_pk(id: bigint!): feeds_feed
+  feed_by_pk(id: bigint!): feed
 
   """
   fetch data from the table in a streaming manner: "feeds_feed"
   """
-  feeds_feed_stream(
+  feed_stream(
     """maximum number of rows returned in a single batch"""
     batch_size: Int!
 
     """cursor to stream the results returned by the query"""
-    cursor: [feeds_feed_stream_cursor_input]!
+    cursor: [feed_stream_cursor_input]!
 
     """filter the rows returned"""
-    where: feeds_feed_bool_exp
-  ): [feeds_feed!]!
-
-  """
-  fetch data from the table: "feeds_note"
-  """
-  feeds_note(
-    """distinct select on columns"""
-    distinct_on: [feeds_note_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [feeds_note_order_by!]
-
-    """filter the rows returned"""
-    where: feeds_note_bool_exp
-  ): [feeds_note!]!
-
-  """
-  fetch aggregated fields from the table: "feeds_note"
-  """
-  feeds_note_aggregate(
-    """distinct select on columns"""
-    distinct_on: [feeds_note_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [feeds_note_order_by!]
-
-    """filter the rows returned"""
-    where: feeds_note_bool_exp
-  ): feeds_note_aggregate!
-
-  """fetch data from the table: "feeds_note" using primary key columns"""
-  feeds_note_by_pk(id: bigint!): feeds_note
-
-  """
-  fetch data from the table in a streaming manner: "feeds_note"
-  """
-  feeds_note_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [feeds_note_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: feeds_note_bool_exp
-  ): [feeds_note!]!
-
-  """
-  fetch data from the table: "pacsfiles_pacsfile"
-  """
-  pacsfiles_pacsfile(
-    """distinct select on columns"""
-    distinct_on: [pacsfiles_pacsfile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pacsfiles_pacsfile_order_by!]
-
-    """filter the rows returned"""
-    where: pacsfiles_pacsfile_bool_exp
-  ): [pacsfiles_pacsfile!]!
-
-  """
-  fetch aggregated fields from the table: "pacsfiles_pacsfile"
-  """
-  pacsfiles_pacsfile_aggregate(
-    """distinct select on columns"""
-    distinct_on: [pacsfiles_pacsfile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pacsfiles_pacsfile_order_by!]
-
-    """filter the rows returned"""
-    where: pacsfiles_pacsfile_bool_exp
-  ): pacsfiles_pacsfile_aggregate!
-
-  """
-  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
-  """
-  pacsfiles_pacsfile_by_pk(id: bigint!): pacsfiles_pacsfile
-
-  """
-  fetch data from the table in a streaming manner: "pacsfiles_pacsfile"
-  """
-  pacsfiles_pacsfile_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [pacsfiles_pacsfile_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: pacsfiles_pacsfile_bool_exp
-  ): [pacsfiles_pacsfile!]!
-
-  """
-  fetch data from the table: "pipelines_pipeline"
-  """
-  pipelines_pipeline(
-    """distinct select on columns"""
-    distinct_on: [pipelines_pipeline_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pipelines_pipeline_order_by!]
-
-    """filter the rows returned"""
-    where: pipelines_pipeline_bool_exp
-  ): [pipelines_pipeline!]!
-
-  """
-  fetch aggregated fields from the table: "pipelines_pipeline"
-  """
-  pipelines_pipeline_aggregate(
-    """distinct select on columns"""
-    distinct_on: [pipelines_pipeline_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [pipelines_pipeline_order_by!]
-
-    """filter the rows returned"""
-    where: pipelines_pipeline_bool_exp
-  ): pipelines_pipeline_aggregate!
-
-  """
-  fetch data from the table: "pipelines_pipeline" using primary key columns
-  """
-  pipelines_pipeline_by_pk(id: bigint!): pipelines_pipeline
-
-  """
-  fetch data from the table in a streaming manner: "pipelines_pipeline"
-  """
-  pipelines_pipeline_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [pipelines_pipeline_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: pipelines_pipeline_bool_exp
-  ): [pipelines_pipeline!]!
-
-  """
-  fetch data from the table: "plugininstances_plugininstance"
-  """
-  plugininstances_plugininstance(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
-
-  """
-  fetch aggregated fields from the table: "plugininstances_plugininstance"
-  """
-  plugininstances_plugininstance_aggregate(
-    """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
-
-  """
-  fetch data from the table: "plugininstances_plugininstance" using primary key columns
-  """
-  plugininstances_plugininstance_by_pk(id: bigint!): plugininstances_plugininstance
-
-  """
-  fetch data from the table in a streaming manner: "plugininstances_plugininstance"
-  """
-  plugininstances_plugininstance_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [plugininstances_plugininstance_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
+    where: feed_bool_exp
+  ): [feed!]!
 
   """
   fetch data from the table: "plugininstances_plugininstancefile"
   """
-  plugininstances_plugininstancefile(
+  file(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
+    distinct_on: [file_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5425,18 +5190,18 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
+    order_by: [file_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): [plugininstances_plugininstancefile!]!
+    where: file_bool_exp
+  ): [file!]!
 
   """
   fetch aggregated fields from the table: "plugininstances_plugininstancefile"
   """
-  plugininstances_plugininstancefile_aggregate(
+  file_aggregate(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstancefile_select_column!]
+    distinct_on: [file_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5445,30 +5210,264 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstancefile_order_by!]
+    order_by: [file_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): plugininstances_plugininstancefile_aggregate!
+    where: file_bool_exp
+  ): file_aggregate!
 
   """
   fetch data from the table: "plugininstances_plugininstancefile" using primary key columns
   """
-  plugininstances_plugininstancefile_by_pk(id: bigint!): plugininstances_plugininstancefile
+  file_by_pk(id: bigint!): file
 
   """
   fetch data from the table in a streaming manner: "plugininstances_plugininstancefile"
   """
-  plugininstances_plugininstancefile_stream(
+  file_stream(
     """maximum number of rows returned in a single batch"""
     batch_size: Int!
 
     """cursor to stream the results returned by the query"""
-    cursor: [plugininstances_plugininstancefile_stream_cursor_input]!
+    cursor: [file_stream_cursor_input]!
 
     """filter the rows returned"""
-    where: plugininstances_plugininstancefile_bool_exp
-  ): [plugininstances_plugininstancefile!]!
+    where: file_bool_exp
+  ): [file!]!
+
+  """
+  fetch data from the table: "feeds_note"
+  """
+  note(
+    """distinct select on columns"""
+    distinct_on: [note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [note_order_by!]
+
+    """filter the rows returned"""
+    where: note_bool_exp
+  ): [note!]!
+
+  """
+  fetch aggregated fields from the table: "feeds_note"
+  """
+  note_aggregate(
+    """distinct select on columns"""
+    distinct_on: [note_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [note_order_by!]
+
+    """filter the rows returned"""
+    where: note_bool_exp
+  ): note_aggregate!
+
+  """fetch data from the table: "feeds_note" using primary key columns"""
+  note_by_pk(id: bigint!): note
+
+  """
+  fetch data from the table in a streaming manner: "feeds_note"
+  """
+  note_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [note_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: note_bool_exp
+  ): [note!]!
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile"
+  """
+  pacsfile(
+    """distinct select on columns"""
+    distinct_on: [pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfile_bool_exp
+  ): [pacsfile!]!
+
+  """
+  fetch aggregated fields from the table: "pacsfiles_pacsfile"
+  """
+  pacsfile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pacsfile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pacsfile_order_by!]
+
+    """filter the rows returned"""
+    where: pacsfile_bool_exp
+  ): pacsfile_aggregate!
+
+  """
+  fetch data from the table: "pacsfiles_pacsfile" using primary key columns
+  """
+  pacsfile_by_pk(id: bigint!): pacsfile
+
+  """
+  fetch data from the table in a streaming manner: "pacsfiles_pacsfile"
+  """
+  pacsfile_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [pacsfile_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: pacsfile_bool_exp
+  ): [pacsfile!]!
+
+  """
+  fetch data from the table: "pipelines_pipeline"
+  """
+  pipeline(
+    """distinct select on columns"""
+    distinct_on: [pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipeline_bool_exp
+  ): [pipeline!]!
+
+  """
+  fetch aggregated fields from the table: "pipelines_pipeline"
+  """
+  pipeline_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pipeline_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pipeline_order_by!]
+
+    """filter the rows returned"""
+    where: pipeline_bool_exp
+  ): pipeline_aggregate!
+
+  """
+  fetch data from the table: "pipelines_pipeline" using primary key columns
+  """
+  pipeline_by_pk(id: bigint!): pipeline
+
+  """
+  fetch data from the table in a streaming manner: "pipelines_pipeline"
+  """
+  pipeline_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [pipeline_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: pipeline_bool_exp
+  ): [pipeline!]!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance"
+  """
+  plugin_instance(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
+
+  """
+  fetch aggregated fields from the table: "plugininstances_plugininstance"
+  """
+  plugin_instance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [plugin_instance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [plugin_instance_order_by!]
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
+
+  """
+  fetch data from the table: "plugininstances_plugininstance" using primary key columns
+  """
+  plugin_instance_by_pk(id: bigint!): plugin_instance
+
+  """
+  fetch data from the table in a streaming manner: "plugininstances_plugininstance"
+  """
+  plugin_instance_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [plugin_instance_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
 
   """
   fetch data from the table: "plugins_plugin"
@@ -5589,9 +5588,9 @@ type subscription_root {
   """
   fetch data from the table: "workflows_workflow"
   """
-  workflows_workflow(
+  workflow(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5600,18 +5599,18 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): [workflows_workflow!]!
+    where: workflow_bool_exp
+  ): [workflow!]!
 
   """
   fetch aggregated fields from the table: "workflows_workflow"
   """
-  workflows_workflow_aggregate(
+  workflow_aggregate(
     """distinct select on columns"""
-    distinct_on: [workflows_workflow_select_column!]
+    distinct_on: [workflow_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5620,30 +5619,30 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [workflows_workflow_order_by!]
+    order_by: [workflow_order_by!]
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): workflows_workflow_aggregate!
+    where: workflow_bool_exp
+  ): workflow_aggregate!
 
   """
   fetch data from the table: "workflows_workflow" using primary key columns
   """
-  workflows_workflow_by_pk(id: bigint!): workflows_workflow
+  workflow_by_pk(id: bigint!): workflow
 
   """
   fetch data from the table in a streaming manner: "workflows_workflow"
   """
-  workflows_workflow_stream(
+  workflow_stream(
     """maximum number of rows returned in a single batch"""
     batch_size: Int!
 
     """cursor to stream the results returned by the query"""
-    cursor: [workflows_workflow_stream_cursor_input]!
+    cursor: [workflow_stream_cursor_input]!
 
     """filter the rows returned"""
-    where: workflows_workflow_bool_exp
-  ): [workflows_workflow!]!
+    where: workflow_bool_exp
+  ): [workflow!]!
 }
 
 scalar timestamptz
@@ -5666,19 +5665,19 @@ input timestamptz_comparison_exp {
 """
 columns and relationships of "workflows_workflow"
 """
-type workflows_workflow {
+type workflow {
   creation_date: timestamptz!
   id: bigint!
   owner_id: Int!
-  pipeline_id: bigint!
 
   """An object relationship"""
-  pipelines_pipeline: pipelines_pipeline!
+  pipeline: pipeline!
+  pipeline_id: bigint!
 
   """An array relationship"""
-  plugininstances_plugininstances(
+  plugin_instances(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5687,16 +5686,16 @@ type workflows_workflow {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): [plugininstances_plugininstance!]!
+    where: plugin_instance_bool_exp
+  ): [plugin_instance!]!
 
   """An aggregate relationship"""
-  plugininstances_plugininstances_aggregate(
+  plugin_instances_aggregate(
     """distinct select on columns"""
-    distinct_on: [plugininstances_plugininstance_select_column!]
+    distinct_on: [plugin_instance_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -5705,79 +5704,79 @@ type workflows_workflow {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [plugininstances_plugininstance_order_by!]
+    order_by: [plugin_instance_order_by!]
 
     """filter the rows returned"""
-    where: plugininstances_plugininstance_bool_exp
-  ): plugininstances_plugininstance_aggregate!
+    where: plugin_instance_bool_exp
+  ): plugin_instance_aggregate!
   title: String!
 }
 
 """
 aggregated selection of "workflows_workflow"
 """
-type workflows_workflow_aggregate {
-  aggregate: workflows_workflow_aggregate_fields
-  nodes: [workflows_workflow!]!
+type workflow_aggregate {
+  aggregate: workflow_aggregate_fields
+  nodes: [workflow!]!
 }
 
-input workflows_workflow_aggregate_bool_exp {
-  count: workflows_workflow_aggregate_bool_exp_count
+input workflow_aggregate_bool_exp {
+  count: workflow_aggregate_bool_exp_count
 }
 
-input workflows_workflow_aggregate_bool_exp_count {
-  arguments: [workflows_workflow_select_column!]
+input workflow_aggregate_bool_exp_count {
+  arguments: [workflow_select_column!]
   distinct: Boolean
-  filter: workflows_workflow_bool_exp
+  filter: workflow_bool_exp
   predicate: Int_comparison_exp!
 }
 
 """
 aggregate fields of "workflows_workflow"
 """
-type workflows_workflow_aggregate_fields {
-  avg: workflows_workflow_avg_fields
-  count(columns: [workflows_workflow_select_column!], distinct: Boolean): Int!
-  max: workflows_workflow_max_fields
-  min: workflows_workflow_min_fields
-  stddev: workflows_workflow_stddev_fields
-  stddev_pop: workflows_workflow_stddev_pop_fields
-  stddev_samp: workflows_workflow_stddev_samp_fields
-  sum: workflows_workflow_sum_fields
-  var_pop: workflows_workflow_var_pop_fields
-  var_samp: workflows_workflow_var_samp_fields
-  variance: workflows_workflow_variance_fields
+type workflow_aggregate_fields {
+  avg: workflow_avg_fields
+  count(columns: [workflow_select_column!], distinct: Boolean): Int!
+  max: workflow_max_fields
+  min: workflow_min_fields
+  stddev: workflow_stddev_fields
+  stddev_pop: workflow_stddev_pop_fields
+  stddev_samp: workflow_stddev_samp_fields
+  sum: workflow_sum_fields
+  var_pop: workflow_var_pop_fields
+  var_samp: workflow_var_samp_fields
+  variance: workflow_variance_fields
 }
 
 """
 order by aggregate values of table "workflows_workflow"
 """
-input workflows_workflow_aggregate_order_by {
-  avg: workflows_workflow_avg_order_by
+input workflow_aggregate_order_by {
+  avg: workflow_avg_order_by
   count: order_by
-  max: workflows_workflow_max_order_by
-  min: workflows_workflow_min_order_by
-  stddev: workflows_workflow_stddev_order_by
-  stddev_pop: workflows_workflow_stddev_pop_order_by
-  stddev_samp: workflows_workflow_stddev_samp_order_by
-  sum: workflows_workflow_sum_order_by
-  var_pop: workflows_workflow_var_pop_order_by
-  var_samp: workflows_workflow_var_samp_order_by
-  variance: workflows_workflow_variance_order_by
+  max: workflow_max_order_by
+  min: workflow_min_order_by
+  stddev: workflow_stddev_order_by
+  stddev_pop: workflow_stddev_pop_order_by
+  stddev_samp: workflow_stddev_samp_order_by
+  sum: workflow_sum_order_by
+  var_pop: workflow_var_pop_order_by
+  var_samp: workflow_var_samp_order_by
+  variance: workflow_variance_order_by
 }
 
 """
 input type for inserting array relation for remote table "workflows_workflow"
 """
-input workflows_workflow_arr_rel_insert_input {
-  data: [workflows_workflow_insert_input!]!
+input workflow_arr_rel_insert_input {
+  data: [workflow_insert_input!]!
 
   """upsert condition"""
-  on_conflict: workflows_workflow_on_conflict
+  on_conflict: workflow_on_conflict
 }
 
 """aggregate avg on columns"""
-type workflows_workflow_avg_fields {
+type workflow_avg_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -5786,7 +5785,7 @@ type workflows_workflow_avg_fields {
 """
 order by avg() on columns of table "workflows_workflow"
 """
-input workflows_workflow_avg_order_by {
+input workflow_avg_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
@@ -5795,24 +5794,24 @@ input workflows_workflow_avg_order_by {
 """
 Boolean expression to filter rows from the table "workflows_workflow". All fields are combined with a logical 'AND'.
 """
-input workflows_workflow_bool_exp {
-  _and: [workflows_workflow_bool_exp!]
-  _not: workflows_workflow_bool_exp
-  _or: [workflows_workflow_bool_exp!]
+input workflow_bool_exp {
+  _and: [workflow_bool_exp!]
+  _not: workflow_bool_exp
+  _or: [workflow_bool_exp!]
   creation_date: timestamptz_comparison_exp
   id: bigint_comparison_exp
   owner_id: Int_comparison_exp
+  pipeline: pipeline_bool_exp
   pipeline_id: bigint_comparison_exp
-  pipelines_pipeline: pipelines_pipeline_bool_exp
-  plugininstances_plugininstances: plugininstances_plugininstance_bool_exp
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_bool_exp
+  plugin_instances: plugin_instance_bool_exp
+  plugin_instances_aggregate: plugin_instance_aggregate_bool_exp
   title: String_comparison_exp
 }
 
 """
 unique or primary key constraints on table "workflows_workflow"
 """
-enum workflows_workflow_constraint {
+enum workflow_constraint {
   """
   unique or primary key constraint on columns "id"
   """
@@ -5822,7 +5821,7 @@ enum workflows_workflow_constraint {
 """
 input type for incrementing numeric columns in table "workflows_workflow"
 """
-input workflows_workflow_inc_input {
+input workflow_inc_input {
   id: bigint
   owner_id: Int
   pipeline_id: bigint
@@ -5831,18 +5830,18 @@ input workflows_workflow_inc_input {
 """
 input type for inserting data into table "workflows_workflow"
 """
-input workflows_workflow_insert_input {
+input workflow_insert_input {
   creation_date: timestamptz
   id: bigint
   owner_id: Int
+  pipeline: pipeline_obj_rel_insert_input
   pipeline_id: bigint
-  pipelines_pipeline: pipelines_pipeline_obj_rel_insert_input
-  plugininstances_plugininstances: plugininstances_plugininstance_arr_rel_insert_input
+  plugin_instances: plugin_instance_arr_rel_insert_input
   title: String
 }
 
 """aggregate max on columns"""
-type workflows_workflow_max_fields {
+type workflow_max_fields {
   creation_date: timestamptz
   id: bigint
   owner_id: Int
@@ -5853,7 +5852,7 @@ type workflows_workflow_max_fields {
 """
 order by max() on columns of table "workflows_workflow"
 """
-input workflows_workflow_max_order_by {
+input workflow_max_order_by {
   creation_date: order_by
   id: order_by
   owner_id: order_by
@@ -5862,7 +5861,7 @@ input workflows_workflow_max_order_by {
 }
 
 """aggregate min on columns"""
-type workflows_workflow_min_fields {
+type workflow_min_fields {
   creation_date: timestamptz
   id: bigint
   owner_id: Int
@@ -5873,7 +5872,7 @@ type workflows_workflow_min_fields {
 """
 order by min() on columns of table "workflows_workflow"
 """
-input workflows_workflow_min_order_by {
+input workflow_min_order_by {
   creation_date: order_by
   id: order_by
   owner_id: order_by
@@ -5884,53 +5883,53 @@ input workflows_workflow_min_order_by {
 """
 response of any mutation on the table "workflows_workflow"
 """
-type workflows_workflow_mutation_response {
+type workflow_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [workflows_workflow!]!
+  returning: [workflow!]!
 }
 
 """
 input type for inserting object relation for remote table "workflows_workflow"
 """
-input workflows_workflow_obj_rel_insert_input {
-  data: workflows_workflow_insert_input!
+input workflow_obj_rel_insert_input {
+  data: workflow_insert_input!
 
   """upsert condition"""
-  on_conflict: workflows_workflow_on_conflict
+  on_conflict: workflow_on_conflict
 }
 
 """
 on_conflict condition type for table "workflows_workflow"
 """
-input workflows_workflow_on_conflict {
-  constraint: workflows_workflow_constraint!
-  update_columns: [workflows_workflow_update_column!]! = []
-  where: workflows_workflow_bool_exp
+input workflow_on_conflict {
+  constraint: workflow_constraint!
+  update_columns: [workflow_update_column!]! = []
+  where: workflow_bool_exp
 }
 
 """Ordering options when selecting data from "workflows_workflow"."""
-input workflows_workflow_order_by {
+input workflow_order_by {
   creation_date: order_by
   id: order_by
   owner_id: order_by
+  pipeline: pipeline_order_by
   pipeline_id: order_by
-  pipelines_pipeline: pipelines_pipeline_order_by
-  plugininstances_plugininstances_aggregate: plugininstances_plugininstance_aggregate_order_by
+  plugin_instances_aggregate: plugin_instance_aggregate_order_by
   title: order_by
 }
 
 """primary key columns input for table: workflows_workflow"""
-input workflows_workflow_pk_columns_input {
+input workflow_pk_columns_input {
   id: bigint!
 }
 
 """
 select columns of table "workflows_workflow"
 """
-enum workflows_workflow_select_column {
+enum workflow_select_column {
   """column name"""
   creation_date
 
@@ -5950,7 +5949,7 @@ enum workflows_workflow_select_column {
 """
 input type for updating data in table "workflows_workflow"
 """
-input workflows_workflow_set_input {
+input workflow_set_input {
   creation_date: timestamptz
   id: bigint
   owner_id: Int
@@ -5959,7 +5958,7 @@ input workflows_workflow_set_input {
 }
 
 """aggregate stddev on columns"""
-type workflows_workflow_stddev_fields {
+type workflow_stddev_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -5968,14 +5967,14 @@ type workflows_workflow_stddev_fields {
 """
 order by stddev() on columns of table "workflows_workflow"
 """
-input workflows_workflow_stddev_order_by {
+input workflow_stddev_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
 }
 
 """aggregate stddev_pop on columns"""
-type workflows_workflow_stddev_pop_fields {
+type workflow_stddev_pop_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -5984,14 +5983,14 @@ type workflows_workflow_stddev_pop_fields {
 """
 order by stddev_pop() on columns of table "workflows_workflow"
 """
-input workflows_workflow_stddev_pop_order_by {
+input workflow_stddev_pop_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
 }
 
 """aggregate stddev_samp on columns"""
-type workflows_workflow_stddev_samp_fields {
+type workflow_stddev_samp_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -6000,25 +5999,25 @@ type workflows_workflow_stddev_samp_fields {
 """
 order by stddev_samp() on columns of table "workflows_workflow"
 """
-input workflows_workflow_stddev_samp_order_by {
+input workflow_stddev_samp_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
 }
 
 """
-Streaming cursor of the table "workflows_workflow"
+Streaming cursor of the table "workflow"
 """
-input workflows_workflow_stream_cursor_input {
+input workflow_stream_cursor_input {
   """Stream column input with initial value"""
-  initial_value: workflows_workflow_stream_cursor_value_input!
+  initial_value: workflow_stream_cursor_value_input!
 
   """cursor ordering"""
   ordering: cursor_ordering
 }
 
 """Initial value of the column from where the streaming should start"""
-input workflows_workflow_stream_cursor_value_input {
+input workflow_stream_cursor_value_input {
   creation_date: timestamptz
   id: bigint
   owner_id: Int
@@ -6027,7 +6026,7 @@ input workflows_workflow_stream_cursor_value_input {
 }
 
 """aggregate sum on columns"""
-type workflows_workflow_sum_fields {
+type workflow_sum_fields {
   id: bigint
   owner_id: Int
   pipeline_id: bigint
@@ -6036,7 +6035,7 @@ type workflows_workflow_sum_fields {
 """
 order by sum() on columns of table "workflows_workflow"
 """
-input workflows_workflow_sum_order_by {
+input workflow_sum_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
@@ -6045,7 +6044,7 @@ input workflows_workflow_sum_order_by {
 """
 update columns of table "workflows_workflow"
 """
-enum workflows_workflow_update_column {
+enum workflow_update_column {
   """column name"""
   creation_date
 
@@ -6062,19 +6061,19 @@ enum workflows_workflow_update_column {
   title
 }
 
-input workflows_workflow_updates {
+input workflow_updates {
   """increments the numeric columns with given value of the filtered values"""
-  _inc: workflows_workflow_inc_input
+  _inc: workflow_inc_input
 
   """sets the columns of the filtered rows to the given values"""
-  _set: workflows_workflow_set_input
+  _set: workflow_set_input
 
   """filter the rows which have to be updated"""
-  where: workflows_workflow_bool_exp!
+  where: workflow_bool_exp!
 }
 
 """aggregate var_pop on columns"""
-type workflows_workflow_var_pop_fields {
+type workflow_var_pop_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -6083,14 +6082,14 @@ type workflows_workflow_var_pop_fields {
 """
 order by var_pop() on columns of table "workflows_workflow"
 """
-input workflows_workflow_var_pop_order_by {
+input workflow_var_pop_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
 }
 
 """aggregate var_samp on columns"""
-type workflows_workflow_var_samp_fields {
+type workflow_var_samp_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -6099,14 +6098,14 @@ type workflows_workflow_var_samp_fields {
 """
 order by var_samp() on columns of table "workflows_workflow"
 """
-input workflows_workflow_var_samp_order_by {
+input workflow_var_samp_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
 }
 
 """aggregate variance on columns"""
-type workflows_workflow_variance_fields {
+type workflow_variance_fields {
   id: Float
   owner_id: Float
   pipeline_id: Float
@@ -6115,7 +6114,7 @@ type workflows_workflow_variance_fields {
 """
 order by variance() on columns of table "workflows_workflow"
 """
-input workflows_workflow_variance_order_by {
+input workflow_variance_order_by {
   id: order_by
   owner_id: order_by
   pipeline_id: order_by
