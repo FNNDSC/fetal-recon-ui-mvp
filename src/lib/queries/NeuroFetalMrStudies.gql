@@ -6,7 +6,7 @@ query NeuroFetalMrStudies {
       _and: [
         { Modality: { _eq: "MR" } }
         { SeriesDescription: { _ilike: "%T2%" } }
-        { SeriesDescription: { _iregex: "(cervix)|(uterus)" } }
+        { SeriesDescription: { _iregex: "(cervix)|(uterus)|(HASTE)" } }
         { StudyDescription: { _ilike: "%Neuro%" } }
       ]
     }

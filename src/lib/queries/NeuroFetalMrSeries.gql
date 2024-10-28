@@ -5,7 +5,7 @@ query NeuroFetalMrSeries($StudyInstanceUID: String!, $pacs_id: bigint!) {
       _and: [
         { Modality: { _eq: "MR" } }
         { SeriesDescription: { _ilike: "%T2%" } }
-        { SeriesDescription: { _iregex: "(cervix)|(uterus)" } }
+        { SeriesDescription: { _iregex: "(cervix)|(uterus)|(HASTE)" } }
         { StudyInstanceUID: { _eq: $StudyInstanceUID } }
         { pacs_id: { _eq: $pacs_id } }
       ]
