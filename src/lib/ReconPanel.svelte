@@ -13,6 +13,8 @@ import Scaffold from "$lib/Scaffold.svelte";
 import { CHRIS_URL, PIPELINE_NAME } from "$lib/config";
 import { format } from "date-fns";
 import { feed } from "$lib/feedState.svelte";
+import NiiVue from "$lib/NiiVue.svelte";
+import {browser} from "$app/environment";
 
 const study = $derived(selected.study);
 
@@ -160,7 +162,9 @@ async function startPipeline(study: Study, series: ReadonlyArray<Series>) {
         {:else if $workflowStore.fetching}
           <div>Searching for feed in <em>ChRIS</em>&hellip;</div>
         {:else if reconNiiUrl}
-          <pre>{reconNiiUrl}</pre>
+          {#if browser}
+            <NiiVue url={reconNiiUrl} />
+          {/if}
         {:else if currentStatuses}
           <p>
             {#if (currentStatuses.find((s) => s.status === "error")?.count ?? 0) > 0}
