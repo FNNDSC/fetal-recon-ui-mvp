@@ -5,6 +5,7 @@ import Scaffold from "$lib/Scaffold.svelte";
 import TopBar from "$lib/TopBar.svelte";
 import DataPanel from "$lib/DataPanel.svelte";
 import ReconPanel from "$lib/ReconPanel.svelte";
+import StacksView from "$lib/StacksView.svelte";
 
 let bigTile: "niivue" | "datatable" = $state("datatable");
 
@@ -28,7 +29,7 @@ function toggleBigTile() {
           <ReconPanel />
         {/snippet}
         {#snippet b()}
-          Stacks NiiVue
+          <StacksView />
         {/snippet}
         {#snippet c()}
           <DataPanel />

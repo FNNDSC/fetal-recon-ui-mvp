@@ -1,55 +1,55 @@
 <script lang="ts">
-  import SizedNiivue from "$lib/SizedNiivue";
-  import PlusOutline from "flowbite-svelte-icons/PlusOutline.svelte";
-  import { Tooltip } from 'flowbite-svelte';
+import SizedNiivue from "$lib/SizedNiivue";
+import PlusOutline from "flowbite-svelte-icons/PlusOutline.svelte";
+import { Tooltip } from "flowbite-svelte";
 
-  type Props = {
-    url: string;
-  };
+type Props = {
+  url: string;
+};
 
-  const { url }: Props = $props();
+const { url }: Props = $props();
 
-  let canvas: HTMLCanvasElement;
-  const nv = new SizedNiivue({sagittalNoseLeft: true});
-  nv.setRadiologicalConvention(true);
+let canvas: HTMLCanvasElement;
+const nv = new SizedNiivue({ sagittalNoseLeft: true });
+nv.setRadiologicalConvention(true);
 
-  $effect(() => {
-    if (!canvas) {
-      return;
-    }
-    nv.opts.dragMode = nv.dragModes.measurement;
-
-    (async () => {
-      await nv.attachToCanvas(canvas);
-      await nv.loadVolumes([{ url }]);
-    })();
-  });
-
-  const SLICE_TYPES = [
-    {name: 'Multi', value: nv.sliceTypeMultiplanar},
-    {name: 'Axial', value: nv.sliceTypeAxial},
-    {name: 'Coronal', value: nv.sliceTypeCoronal},
-    {name: 'Sagittal', value: nv.sliceTypeSagittal},
-  ];
-
-  let sliceTypeIndex = $state(0);
-
-  function nextSliceType() {
-    if (sliceTypeIndex === SLICE_TYPES.length - 1) {
-      sliceTypeIndex = 0;
-    } else {
-      sliceTypeIndex += 1;
-    }
+$effect(() => {
+  if (!canvas) {
+    return;
   }
+  nv.opts.dragMode = nv.dragModes.measurement;
 
-  $effect(() => {
-    nv.setSliceType(SLICE_TYPES[sliceTypeIndex].value);
-  });
+  (async () => {
+    await nv.attachToCanvas(canvas);
+    await nv.loadVolumes([{ url }]);
+  })();
+});
 
-  let hideCrosshair = $state(false);
-  $effect(() => {
-    nv.setCrosshairHidden(hideCrosshair);
-  });
+const SLICE_TYPES = [
+  { name: "Multi", value: nv.sliceTypeMultiplanar },
+  { name: "Axial", value: nv.sliceTypeAxial },
+  { name: "Coronal", value: nv.sliceTypeCoronal },
+  { name: "Sagittal", value: nv.sliceTypeSagittal },
+];
+
+let sliceTypeIndex = $state(0);
+
+function nextSliceType() {
+  if (sliceTypeIndex === SLICE_TYPES.length - 1) {
+    sliceTypeIndex = 0;
+  } else {
+    sliceTypeIndex += 1;
+  }
+}
+
+$effect(() => {
+  nv.setSliceType(SLICE_TYPES[sliceTypeIndex].value);
+});
+
+let hideCrosshair = $state(false);
+$effect(() => {
+  nv.setCrosshairHidden(hideCrosshair);
+});
 </script>
 
 <div class="relative size-full">

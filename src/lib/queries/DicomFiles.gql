@@ -1,0 +1,13 @@
+query DicomFiles($pacs_id: bigint!, $SeriesInstanceUID: String!) {
+  pacsfile(
+    where: {
+      _and: {
+        SeriesInstanceUID: { _eq: $SeriesInstanceUID }
+        pacs_id: { _eq: $pacs_id }
+      }
+    }
+  ) {
+    id
+    fname
+  }
+}

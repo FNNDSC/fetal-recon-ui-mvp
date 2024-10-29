@@ -12,6 +12,7 @@ query NeuroFetalMrSeries($StudyInstanceUID: String!, $pacs_id: bigint!) {
     }
   ) {
     SeriesDescription
+    SeriesInstanceUID
     fname
   }
 }

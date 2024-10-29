@@ -14,7 +14,7 @@ import { CHRIS_URL, PIPELINE_NAME } from "$lib/config";
 import { format } from "date-fns";
 import { feed } from "$lib/feedState.svelte";
 import NiiVue from "$lib/NiiVue.svelte";
-import {browser} from "$app/environment";
+import { basenameOf, seriesFolderOf } from "$lib/helpers";
 
 const study = $derived(selected.study);
 
@@ -40,7 +40,7 @@ const reconNiiUrl = $derived.by(() => {
   }
   const { id, fname } = reconNii;
   const basename = basenameOf(fname);
-  return `${CHRIS_URL}files/${id}${basename}`;
+  return `${CHRIS_URL}files/${id}/${basename}`;
 });
 
 $effect(() => {
@@ -78,7 +78,11 @@ function fetchSeries(study: Study) {
     StudyInstanceUID: study.StudyInstanceUID,
     pacs_id: study.pacs_id,
   };
-  return seriesStore.fetch({ variables });
+  return seriesStore.fetch({
+    variables,
+    // we expect the series to be fetched already in SeriesRows.svelte
+    policy: "CacheOnly",
+  });
 }
 
 const series = $derived.by(() => {
@@ -91,16 +95,6 @@ const series = $derived.by(() => {
     folder: seriesFolderOf(fname),
   }));
 });
-
-function seriesFolderOf(fname: string) {
-  const i = fname.lastIndexOf("/");
-  return fname.substring(0, i);
-}
-
-function basenameOf(fname: string) {
-  const i = fname.lastIndexOf("/");
-  return fname.substring(i);
-}
 
 const STATUSES = {
   waiting: new Set(["created", "waiting", "scheduled"]),
@@ -162,9 +156,7 @@ async function startPipeline(study: Study, series: ReadonlyArray<Series>) {
         {:else if $workflowStore.fetching}
           <div>Searching for feed in <em>ChRIS</em>&hellip;</div>
         {:else if reconNiiUrl}
-          {#if browser}
-            <NiiVue url={reconNiiUrl} />
-          {/if}
+          <NiiVue url={reconNiiUrl} />
         {:else if currentStatuses}
           <p>
             {#if (currentStatuses.find((s) => s.status === "error")?.count ?? 0) > 0}

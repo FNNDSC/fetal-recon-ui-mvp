@@ -50,7 +50,7 @@ onMount(() => {
         {@render studyInfo("AccessionNumber", study.AccessionNumber || "unknown")}
         {@render studyInfo("Study Date", study.StudyDate ? format(study.StudyDate, "yyyy MMM dd") : "unknown")}
       </div>
-      <SeriesRows />
+      <SeriesRows pacs_id={study.pacs_id} StudyInstanceUID={study.StudyInstanceUID} />
     </AccordionItem>
   {/each}
 </Accordion>
