@@ -13,7 +13,9 @@ export async function GET(event): Response {
   }
 
   const niivueManifest = data.pacsfile
-    .map(({ id, fname }) => `../../file/${id}/${basenameOf(fname)}`)
+    .map(parseSeries)
+    .toSorted(compareSeries)
+    .map(toUrl)
     .join("\n");
 
   return new Response(niivueManifest, {
@@ -21,4 +23,24 @@ export async function GET(event): Response {
       "Content-Type": "text/plain",
     },
   });
+}
+
+type ParsedSeries = {
+  id: number;
+  basename: string;
+  num: number;
+};
+
+function parseSeries({id, fname}: {id: number, fname: string}): ParsedSeries {
+  const basename = basenameOf(fname);
+  const num = parseInt(basename.substring(0, 4));
+  return { id, basename, num };
+}
+
+function compareSeries(a: ParsedSeries, b: ParsedSeries): boolean {
+  return a.num - b.num;
+}
+
+function toUrl({id, basename}: ParsedSeries): string {
+  return `../../file/${id}/${basename}`;
 }

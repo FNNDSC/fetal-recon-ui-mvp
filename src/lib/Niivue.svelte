@@ -2,27 +2,39 @@
 import SizedNiivue from "$lib/SizedNiivue";
 import PlusOutline from "flowbite-svelte-icons/PlusOutline.svelte";
 import { Tooltip } from "flowbite-svelte";
+import {onMount} from "svelte";
+import {SLICE_TYPE} from "@niivue/niivue";
 
 type Props = {
   url: string;
+  isManifest?: boolean;
+  initialSlice?: SLICE_TYPE;
+  initialCrosshairsShown?: boolean;
 };
 
-const { url }: Props = $props();
+const { url, isManifest, initialSlice = SLICE_TYPE.MULTIPLANAR, initialCrosshairsShown = true }: Props = $props();
 
 let canvas: HTMLCanvasElement;
 const nv = new SizedNiivue({ sagittalNoseLeft: true });
 nv.setRadiologicalConvention(true);
+nv.opts.dragMode = nv.dragModes.measurement;
+let notLoadedYet = true;
 
-$effect(() => {
-  if (!canvas) {
-    return;
-  }
-  nv.opts.dragMode = nv.dragModes.measurement;
-
+onMount(() => {
   (async () => {
     await nv.attachToCanvas(canvas);
-    await nv.loadVolumes([{ url }]);
+    if (url && notLoadedYet) {
+      notLoadedYet = false;
+      await nv.loadVolumes([{ url, isManifest }]);
+    }
   })();
+});
+
+$effect(() => {
+  if (url && nv.canvas) {
+    notLoadedYet = false;
+    nv.loadVolumes([{ url, isManifest }]);
+  }
 });
 
 const SLICE_TYPES = [
@@ -32,7 +44,13 @@ const SLICE_TYPES = [
   { name: "Sagittal", value: nv.sliceTypeSagittal },
 ];
 
-let sliceTypeIndex = $state(0);
+let sliceTypeIndex = $state((() => {
+  const i = SLICE_TYPES.findIndex(({value}) => value === initialSlice);
+  if (i === -1) {
+    throw new Error(`Invalid prop value initialSlice=${initialSlice}`);
+  }
+  return i;
+})());
 
 function nextSliceType() {
   if (sliceTypeIndex === SLICE_TYPES.length - 1) {
@@ -46,7 +64,7 @@ $effect(() => {
   nv.setSliceType(SLICE_TYPES[sliceTypeIndex].value);
 });
 
-let hideCrosshair = $state(false);
+let hideCrosshair = $state(!initialCrosshairsShown);
 $effect(() => {
   nv.setCrosshairHidden(hideCrosshair);
 });
