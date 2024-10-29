@@ -10,7 +10,8 @@
   const { url }: Props = $props();
 
   let canvas: HTMLCanvasElement;
-  const nv = new SizedNiivue();
+  const nv = new SizedNiivue({sagittalNoseLeft: true});
+  nv.setRadiologicalConvention(true);
 
   $effect(() => {
     if (!canvas) {
