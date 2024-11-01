@@ -13,7 +13,7 @@ const store = new NeuroFetalMrSeriesStore();
 onMount(() => {
   const variables = { pacs_id, StudyInstanceUID };
   (async () => {
-    const {data} = await store.fetch({ variables, policy: "CacheOrNetwork" });
+    const { data } = await store.fetch({ variables, policy: "CacheOrNetwork" });
     if (data && data.pacsfile.length > 0) {
       seriesState.SeriesInstanceUID = data.pacsfile[0].SeriesInstanceUID;
     }

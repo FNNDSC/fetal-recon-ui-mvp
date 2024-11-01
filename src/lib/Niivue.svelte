@@ -2,8 +2,8 @@
 import SizedNiivue from "$lib/SizedNiivue";
 import PlusOutline from "flowbite-svelte-icons/PlusOutline.svelte";
 import { Tooltip } from "flowbite-svelte";
-import {onMount} from "svelte";
-import {SLICE_TYPE} from "@niivue/niivue";
+import { onMount } from "svelte";
+import { SLICE_TYPE } from "@niivue/niivue";
 
 type Props = {
   url: string;
@@ -12,7 +12,12 @@ type Props = {
   initialCrosshairsShown?: boolean;
 };
 
-const { url, isManifest, initialSlice = SLICE_TYPE.MULTIPLANAR, initialCrosshairsShown = true }: Props = $props();
+const {
+  url,
+  isManifest,
+  initialSlice = SLICE_TYPE.MULTIPLANAR,
+  initialCrosshairsShown = true,
+}: Props = $props();
 
 let canvas: HTMLCanvasElement;
 const nv = new SizedNiivue({ sagittalNoseLeft: true });
@@ -44,13 +49,15 @@ const SLICE_TYPES = [
   { name: "Sagittal", value: nv.sliceTypeSagittal },
 ];
 
-let sliceTypeIndex = $state((() => {
-  const i = SLICE_TYPES.findIndex(({value}) => value === initialSlice);
-  if (i === -1) {
-    throw new Error(`Invalid prop value initialSlice=${initialSlice}`);
-  }
-  return i;
-})());
+let sliceTypeIndex = $state(
+  (() => {
+    const i = SLICE_TYPES.findIndex(({ value }) => value === initialSlice);
+    if (i === -1) {
+      throw new Error(`Invalid prop value initialSlice=${initialSlice}`);
+    }
+    return i;
+  })(),
+);
 
 function nextSliceType() {
   if (sliceTypeIndex === SLICE_TYPES.length - 1) {

@@ -7,7 +7,13 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["testing/miniChRIS", "$houdini", "schema.graphql"]
+    "ignore": [
+      "testing/miniChRIS",
+      "$houdini",
+      "schema.graphql",
+      ".svelte-kit",
+      "build"
+    ]
   },
   "formatter": {
     "enabled": true,

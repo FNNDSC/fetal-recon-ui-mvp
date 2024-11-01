@@ -31,7 +31,10 @@ type ParsedSeries = {
   num: number;
 };
 
-function parseSeries({id, fname}: {id: number, fname: string}): ParsedSeries {
+function parseSeries({
+  id,
+  fname,
+}: { id: number; fname: string }): ParsedSeries {
   const basename = basenameOf(fname);
   const num = parseInt(basename.substring(0, 4));
   return { id, basename, num };
@@ -41,6 +44,6 @@ function compareSeries(a: ParsedSeries, b: ParsedSeries): boolean {
   return a.num - b.num;
 }
 
-function toUrl({id, basename}: ParsedSeries): string {
+function toUrl({ id, basename }: ParsedSeries): string {
   return `../../file/${id}/${basename}`;
 }
