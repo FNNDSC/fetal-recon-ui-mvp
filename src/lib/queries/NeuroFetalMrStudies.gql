@@ -1,7 +1,8 @@
 query NeuroFetalMrStudies {
   pacsfile(
     limit: 100
-    distinct_on: StudyInstanceUID
+    distinct_on: [StudyInstanceUID, StudyDate]
+    order_by: { StudyDate: desc_nulls_last, StudyInstanceUID: desc_nulls_last }
     where: {
       _and: [
         { Modality: { _eq: "MR" } }
