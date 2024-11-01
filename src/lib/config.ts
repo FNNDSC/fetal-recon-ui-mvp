@@ -17,7 +17,7 @@ const CHRIS_URL = getRequired("CHRIS_URL");
 const CHRIS_USERNAME = getRequired("CHRIS_USERNAME");
 const CHRIS_PASSWORD = getRequired("CHRIS_PASSWORD");
 const CHRIS_GRAPHQL = getRequired("CHRIS_GRAPHQL");
-const HASURA_AUTH: string | null = dev
+const HASURA_AUTH: string | null = (dev && !("CHRIS_HASURA_AUTH" in env))
   ? null
   : getRequired("CHRIS_HASURA_AUTH");
 

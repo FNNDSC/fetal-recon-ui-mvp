@@ -11,7 +11,7 @@ export default new HoudiniClient({
     if (HASURA_AUTH) {
       return {
         headers: {
-          Authentication: HASURA_AUTH,
+          Authorization: HASURA_AUTH,
         },
       };
     }
