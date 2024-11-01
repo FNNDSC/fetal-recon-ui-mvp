@@ -1791,11 +1791,6 @@ type pacsfile {
   fname: String!
   id: bigint!
   pacs_id: bigint!
-
-  """
-  A computed field, executes function "relative_download_path"
-  """
-  relative_download_path: String
 }
 
 """
@@ -1854,7 +1849,6 @@ input pacsfile_bool_exp {
   fname: String_comparison_exp
   id: bigint_comparison_exp
   pacs_id: bigint_comparison_exp
-  relative_download_path: String_comparison_exp
 }
 
 """
@@ -1923,11 +1917,6 @@ type pacsfile_max_fields {
   fname: String
   id: bigint
   pacs_id: bigint
-
-  """
-  A computed field, executes function "relative_download_path"
-  """
-  relative_download_path: String
 }
 
 """aggregate min on columns"""
@@ -1949,11 +1938,6 @@ type pacsfile_min_fields {
   fname: String
   id: bigint
   pacs_id: bigint
-
-  """
-  A computed field, executes function "relative_download_path"
-  """
-  relative_download_path: String
 }
 
 """
@@ -1995,7 +1979,6 @@ input pacsfile_order_by {
   fname: order_by
   id: order_by
   pacs_id: order_by
-  relative_download_path: order_by
 }
 
 """primary key columns input for table: pacsfiles_pacsfile"""
