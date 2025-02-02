@@ -3,6 +3,8 @@
 An experimental GUI for the
 [DSC fetal brain MRI reconstruction pipeline](https://github.com/FNNDSC/Fetal_Brain_MRI_Reconstruction_Pipeline).
 
+Video demo: https://chrisproject.org/blog/2024/10/31/fetal-recon-ui-mvp
+
 ## Development
 
 ### Prerequisites
